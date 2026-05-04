@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>极简无限便当主页 Demo</title>
+    <style>
+        /* CSS 变量与全局重置 */
+        :root {
+            --bg-color: #f4f4f5;
+            --dot-color: #d4d4d8;
+            --card-bg: #ffffff;
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --radius: 28px;
+            --gap: 20px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden; /* 禁用系统自带滚动条 */
+            user-select: none;
+        }
+
+        /* 视口：全屏容器 */
+        #viewport {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            cursor: grab;
+        }
+        
+        #viewport:active {
+            cursor: grabbing;
+        }
+
+        /* 无限画布：所有内容的承载者 */
+        #canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0;
+            will-change: transform;
+        }
+
+        /* 无限点阵背景 */
+        .bg-dots {
+            position: absolute;
+            /* 创建一个极大的背景层 */
+            top: -50000px;
+            left: -50000px;
+            width: 100000px;
+            height: 100000px;
+            background-image: radial-gradient(var(--dot-color) 1.5px, transparent 0);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        /* --- 便当布局 (Bento UI) --- */
+        .bento-cluster {
+            position: absolute;
+            /* 将聚落原点居中 */
+            transform: translate(-50%, -50%);
+            display: grid;
+            grid-template-columns: repeat(4, 160px);
+            grid-auto-rows: 160px;
+            gap: var(--gap);
+        }
+
+        .bento-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        /* 便当卡片尺寸分配 */
+        .card-profile { grid-column: span 2; grid-row: span 2; justify-content: flex-end; }
+        .card-about { grid-column: span 2; grid-row: span 1; }
+        .card-social { grid-column: span 1; grid-row: span 1; justify-content: center; align-items: center; }
+        .card-projects { grid-column: span 4; grid-row: span 2; }
+        
+        /* 极简排版 */
+        h1 { font-size: 32px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 8px; }
+        h2 { font-size: 20px; font-weight: 500; margin-bottom: 12px; }
+        p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+        
+        .avatar { width: 80px; height: 80px; background: #000; border-radius: 50%; margin-bottom: auto; }
+        .icon { font-size: 32px; font-weight: bold; }
+
+        /* UI 覆盖层（固定在屏幕上的控件） */
+        .ui-overlay {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 12px 24px;
+            border-radius: 100px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--text-muted);
+            pointer-events: none; /* 让鼠标事件穿透到画布 */
+        }
+
+        .reset-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            background: #000;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 100px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: opacity 0.2s;
+        }
+        .reset-btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <!-- 视口 -->
+    <div id="viewport">
+        <!-- 无限画布 -->
+        <div id="canvas">
+            <div class="bg-dots"></div>
+
+            <!-- 主便当聚落 (位于坐标 0,0) -->
+            <div class="bento-cluster" style="left: 0; top: 0;">
+                
+                <div class="bento-card card-profile">
+                    <div class="avatar"></div>
+                    <h1>Your Name</h1>
+                    <p>Creative Developer & Designer</p>
+                </div>
+
+                <div class="bento-card card-about">
+                    <h2>About</h2>
+                    <p>Minimalist at heart. Building infinite experiences.</p>
+                </div>
+
+                <div class="bento-card card-social">
+                    <span class="icon">𝕏</span>
+                </div>
+                
+                <div class="bento-card card-social">
+                    <span class="icon">GH</span>
+                </div>
+
+                <div class="bento-card card-projects">
+                    <h2>Selected Work</h2>
+                    <p style="margin-top: 16px;">+ Project Alpha</p>
+                    <p>+ Project Beta</p>
+                    <p>+ Project Gamma</p>
+                </div>
+            </div>
+
+            <!-- 岛屿/彩蛋 (分散在无限画布的其他坐标，引导用户探索) -->
+            <div class="bento-cluster" style="left: 1200px; top: -400px; grid-template-columns: repeat(2, 160px);">
+                <div class="bento-card" style="grid-column: span 2; grid-row: span 2;">
+                    <h2>Thoughts</h2>
+                    <p>You panned all the way here! This is an off-grid bento block.</p>
+                </div>
+            </div>
+
+            <div class="bento-cluster" style="left: -800px; top: 800px; grid-template-columns: 200px;">
+                <div class="bento-card" style="grid-column: span 1; grid-row: span 1; background: #000; color: #fff;">
+                    <h2>Secret</h2>
+                    <p style="color: #ccc;">Keep exploring.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- UI 控件 -->
+    <div class="ui-overlay">
+        <span>🖱️ 拖拽以漫游画布</span>
+        <span>↕️ 滚轮以缩放视图</span>
+    </div>
+    <button class="reset-btn" onclick="resetView()">回到中心</button>
+
+    <script>
+        const viewport = document.getElementById('viewport');
+        const canvas = document.getElementById('canvas');
+
+        // 画布状态
+        let isDragging = false;
+        let startX, startY;
+        
+        // 初始状态：将原点 (0,0) 置于屏幕中心
+        let translateX = window.innerWidth / 2;
+        let translateY = window.innerHeight / 2;
+        let scale = 1;
+
+        // 更新画布的 CSS Transform
+        function updateTransform() {
+            canvas.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+        }
+
+        // 初始化位置
+        updateTransform();
+
+        // 窗口调整大小自适应
+        window.addEventListener('resize', () => {
+            // 如果不希望调整大小时画布跳动，可以稍微复杂点计算。这里做简单处理。
+            // translateX = window.innerWidth / 2;
+            // translateY = window.innerHeight / 2;
+            // updateTransform();
+        });
+
+        // --- 拖拽平移逻辑 ---
+        viewport.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            // 记录鼠标初始按下时，距离已有位移量的差值
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            // 更新当前的位移量
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+        
+        window.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        // --- 触屏支持 (手机端拖拽) ---
+        viewport.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startX = e.touches[0].clientX - translateX;
+            startY = e.touches[0].clientY - translateY;
+        });
+
+        viewport.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            updateTransform();
+        });
+
+        viewport.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // --- 滚轮缩放逻辑 ---
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault(); // 阻止浏览器默认的滚动行为
+
+            // 缩放灵敏度
+            const zoomSensitivity = 0.0015;
+            const delta = -e.deltaY * zoomSensitivity;
+            let newScale = scale * Math.exp(delta);
+
+            // 限制缩放比例 (最小 0.3 倍，最大 3 倍)
+            newScale = Math.max(0.3, Math.min(newScale, 3));
+
+            // 以鼠标位置为中心进行缩放的数学计算
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            translateX = mouseX - (mouseX - translateX) * (newScale / scale);
+            translateY = mouseY - (mouseY - translateY) * (newScale / scale);
+
+            scale = newScale;
+            updateTransform();
+        }, { passive: false });
+
+        // --- 回到中心按钮 ---
+        function resetView() {
+            translateX = window.innerWidth / 2;
+            translateY = window.innerHeight / 2;
+            scale = 1;
+            // 添加过渡动画
+            canvas.style.transition = 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            updateTransform();
+            
+            // 动画结束后移除 transition，避免影响后续的实时拖拽
+            setTimeout(() => {
+                canvas.style.transition = 'none';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

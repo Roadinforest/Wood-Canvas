@@ -1,0 +1,61 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        'canvas-bg': '#f4f4f5',
+        'dot-color': '#d4d4d8',
+        'card-bg': '#ffffff',
+        'text-main': '#18181b',
+        'text-muted': '#71717a',
+        border: 'oklch(0.922 0 0)',
+        input: 'oklch(0.922 0 0)',
+        ring: 'oklch(0.708 0 0)',
+        background: 'oklch(1 0 0)',
+        foreground: 'oklch(0.145 0 0)',
+        card: 'oklch(1 0 0)',
+        'card-foreground': 'oklch(0.145 0 0)',
+        popover: 'oklch(1 0 0)',
+        'popover-foreground': 'oklch(0.145 0 0)',
+        primary: 'oklch(0.205 0 0)',
+        'primary-foreground': 'oklch(0.985 0 0)',
+        secondary: 'oklch(0.97 0 0)',
+        'secondary-foreground': 'oklch(0.205 0 0)',
+        muted: 'oklch(0.97 0 0)',
+        'muted-foreground': 'oklch(0.556 0 0)',
+        accent: 'oklch(0.97 0 0)',
+        'accent-foreground': 'oklch(0.205 0 0)',
+        destructive: 'oklch(0.577 0.245 27.325)',
+        chart: {
+          1: 'oklch(0.87 0 0)',
+          2: 'oklch(0.556 0 0)',
+          3: 'oklch(0.439 0 0)',
+          4: 'oklch(0.371 0 0)',
+          5: 'oklch(0.269 0 0)',
+        },
+        sidebar: {
+          DEFAULT: 'oklch(0.985 0 0)',
+          foreground: 'oklch(0.145 0 0)',
+          primary: 'oklch(0.205 0 0)',
+          'primary-foreground': 'oklch(0.985 0 0)',
+          accent: 'oklch(0.97 0 0)',
+          'accent-foreground': 'oklch(0.205 0 0)',
+          border: 'oklch(0.922 0 0)',
+          ring: 'oklch(0.708 0 0)',
+        },
+      },
+      borderRadius: {
+        'bento': '28px',
+      },
+      boxShadow: {
+        'bento': '0 10px 40px -10px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)',
+        'bento-hover': '0 20px 40px -10px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.02)',
+      },
+    },
+  },
+  plugins: [],
+}
