@@ -14,7 +14,7 @@ export function BentoCard({ className, colSpan = 1, rowSpan = 1, onClick, childr
       className={cn(
         'bg-card-bg rounded-bento p-8 shadow-bento transition-all duration-300 ease-out',
         'hover:-translate-y-1 hover:shadow-bento-hover',
-        onClick && 'cursor-pointer',
+        onClick ? 'cursor-pointer' : 'cursor-default',
         className
       )}
       style={{
