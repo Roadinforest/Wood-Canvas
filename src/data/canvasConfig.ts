@@ -1,6 +1,10 @@
+import { Node } from 'reactflow'
+
+export type CardType = 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship'
+
 export interface CardItem {
   id: string
-  type: 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship'
+  type: CardType
   colSpan: number
   rowSpan: number
   data: Record<string, unknown>
@@ -13,6 +17,46 @@ export interface BentoCluster {
   columns?: number
   columnsTemplate?: string
   items: CardItem[]
+}
+
+export interface BentoNodeData {
+  colSpan: number
+  rowSpan: number
+  cardType: CardType
+  [key: string]: unknown
+}
+
+export const CELL_SIZE = 160
+export const GAP = 20
+
+export function convertToReactFlowNodes(clusters: BentoCluster[]): Node<BentoNodeData>[] {
+  const nodes: Node<BentoNodeData>[] = []
+
+  for (const cluster of clusters) {
+    let colIndex = 0
+    const rowIndex = 0
+
+    for (const item of cluster.items) {
+      const x = cluster.x + colIndex * (CELL_SIZE + GAP)
+      const y = cluster.y + rowIndex * (CELL_SIZE + GAP)
+
+      nodes.push({
+        id: item.id,
+        type: 'bento',
+        position: { x, y },
+        data: {
+          colSpan: item.colSpan,
+          rowSpan: item.rowSpan,
+          cardType: item.type,
+          ...item.data,
+        },
+      })
+
+      colIndex += item.colSpan
+    }
+  }
+
+  return nodes
 }
 
 export const canvasData: BentoCluster[] = [
