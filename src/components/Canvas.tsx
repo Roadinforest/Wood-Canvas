@@ -1,31 +1,30 @@
-import { createContext, useContext, useRef } from 'react'
+import { useRef } from 'react'
 import { useMotionValue, animate, motion } from 'framer-motion'
 import { useGesture } from '@use-gesture/react'
 import { Home } from 'lucide-react'
 import { BentoCluster } from './BentoCluster'
 import { Modal } from './Modal'
 import { canvasData } from '@/data/canvasConfig'
+import { useCanvasStore } from '@/store/modalStore'
 
 const initialX = window.innerWidth / 2
 const initialY = window.innerHeight / 2
 
-const CanvasContext = createContext<{
-  resetView: () => void
-}>({ resetView: () => { console.log('resetView called'); } })
-
 export function Canvas() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const setResetView = useCanvasStore((state) => state.setResetView)
 
   const x = useMotionValue(initialX)
   const y = useMotionValue(initialY)
   const scale = useMotionValue(1)
 
   const resetView = () => {
-    console.log('resetView triggered', { x: x.get(), y: y.get(), scale: scale.get() })
     animate(x, initialX, { type: 'spring', stiffness: 300, damping: 30 })
     animate(y, initialY, { type: 'spring', stiffness: 300, damping: 30 })
     animate(scale, 1, { type: 'spring', stiffness: 300, damping: 30 })
   }
+
+  setResetView(resetView)
 
   useGesture(
     {
@@ -48,7 +47,7 @@ export function Canvas() {
   )
 
   return (
-    <CanvasContext.Provider value={{ resetView }}>
+    <>
       <div
         ref={containerRef}
         className="w-screen h-screen relative overflow-hidden cursor-grab active:cursor-grabbing"
@@ -86,6 +85,6 @@ export function Canvas() {
         </button>
       </div>
       <Modal />
-    </CanvasContext.Provider>
+    </>
   )
 }
