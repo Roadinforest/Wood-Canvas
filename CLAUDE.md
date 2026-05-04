@@ -72,6 +72,12 @@ Modal is 80vw × 80vh, rounded-3xl, closes on Esc or X click.
 - Wheel to zoom (0.3 - 3x range, sensitivity 0.002)
 - Wheel event requires `passive: false` for preventDefault
 
+## State Management
+
+**禁止使用 React Context，全部使用 Zustand**
+
+所有全局状态（modal、canvas view 等）必须通过 Zustand 管理，不得使用 React Context。
+
 ## Known Issues
 
 - `outline-ring/50` class requires custom color definition in tailwind.config
