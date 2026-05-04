@@ -1,6 +1,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,6 +17,9 @@
   --text-muted: #71717a;
   --radius: 28px;
   --gap: 20px;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
 * {
@@ -22,7 +29,7 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--bg-color);
   color: var(--text-main);
   overflow: hidden;
@@ -36,8 +43,8 @@ body {
 
 @layer base {
   .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-heading: var(--font-serif);
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   }
   :root {
     --background: oklch(1 0 0);
@@ -115,5 +122,11 @@ body {
   }
   html {
     @apply font-sans;
+  }
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+  }
+  code, pre {
+    font-family: var(--font-mono);
   }
 }
