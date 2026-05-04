@@ -1,6 +1,6 @@
 export interface CardItem {
   id: string
-  type: 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret'
+  type: 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship'
   colSpan: number
   rowSpan: number
   data: Record<string, unknown>
@@ -17,11 +17,11 @@ export interface BentoCluster {
 
 export const canvasData: BentoCluster[] = [
   {
-    id: 'main-cluster',
+    id: 'profile-cluster',
     x: 0,
     y: 0,
-    columns: 4,
-    columnsTemplate: 'repeat(4, 160px)',
+    columns: 2,
+    columnsTemplate: 'repeat(2, 160px)',
     items: [
       {
         id: 'profile',
@@ -33,7 +33,49 @@ export const canvasData: BentoCluster[] = [
           title: "Full Stack Developer \n Agent Developer",
           avatar: ''
         }
+      }
+    ]
+  },
+  {
+    id: 'internship-cluster',
+    x: 400,
+    y: -80,
+    columns: 2,
+    columnsTemplate: 'repeat(2, 160px)',
+    items: [
+      {
+        id: 'internship-1',
+        type: 'Internship',
+        colSpan: 1,
+        rowSpan: 1,
+        data: {
+          company: 'Company A',
+          period: '2024.06 - 2024.09',
+          role: 'Frontend Developer',
+          description: 'Developed web applications using React and TypeScript.'
+        }
       },
+      {
+        id: 'internship-2',
+        type: 'Internship',
+        colSpan: 1,
+        rowSpan: 1,
+        data: {
+          company: 'Company B',
+          period: '2024.01 - 2024.05',
+          role: 'Backend Developer',
+          description: 'Built REST APIs with Node.js and PostgreSQL.'
+        }
+      }
+    ]
+  },
+  {
+    id: 'about-social-cluster',
+    x: 840,
+    y: 180,
+    columns: 2,
+    columnsTemplate: 'repeat(2, 160px)',
+    items: [
       {
         id: 'about',
         type: 'About',
@@ -63,7 +105,16 @@ export const canvasData: BentoCluster[] = [
           platform: 'GitHub',
           icon: 'GH'
         }
-      },
+      }
+    ]
+  },
+  {
+    id: 'projects-cluster',
+    x: 0,
+    y: 400,
+    columns: 4,
+    columnsTemplate: 'repeat(4, 160px)',
+    items: [
       {
         id: 'projects',
         type: 'Projects',

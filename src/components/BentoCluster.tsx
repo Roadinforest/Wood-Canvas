@@ -5,6 +5,7 @@ import { SocialCard } from './cards/SocialCard'
 import { ProjectsCard } from './cards/ProjectsCard'
 import { ThoughtsCard } from './cards/ThoughtsCard'
 import { SecretCard } from './cards/SecretCard'
+import { InternshipCard } from './cards/InternshipCard'
 
 interface BentoClusterProps {
   cluster: ClusterType
@@ -24,6 +25,8 @@ function renderCard(item: CardItem) {
       return <ThoughtsCard data={item.data as { title: string; content: string }} />
     case 'Secret':
       return <SecretCard data={item.data as { title: string; content: string }} />
+    case 'Internship':
+      return <InternshipCard data={item.data as { company: string; period: string; role: string; description: string }} />
     default:
       return null
   }
