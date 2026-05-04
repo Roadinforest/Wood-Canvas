@@ -29,8 +29,8 @@ export const canvasData: BentoCluster[] = [
         colSpan: 2,
         rowSpan: 2,
         data: {
-          name: 'Your Name',
-          title: 'Creative Developer & Designer',
+          name: 'Roadinforest',
+          title: "Full Stack Developer \n Agent Developer",
           avatar: ''
         }
       },
@@ -41,7 +41,7 @@ export const canvasData: BentoCluster[] = [
         rowSpan: 1,
         data: {
           title: 'About',
-          content: 'Minimalist at heart. Building infinite experiences.'
+          content: 'Everyone will find its own way to explore the world.'
         }
       },
       {
