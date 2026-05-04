@@ -36,7 +36,7 @@ export function Modal() {
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
             }}
-            className="relative rounded-[32px] shadow-2xl border border-white/20 w-full max-w-[80vw] max-h-[80vh] flex flex-col"
+            className="relative rounded-[32px] shadow-2xl border border-white/20 w-[80vw] h-[80vh] flex flex-col"
           >
             <button
               onClick={closeModal}
