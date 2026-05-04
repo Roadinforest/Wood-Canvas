@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { useMotionValue, animate, motion } from 'framer-motion'
 import { useGesture } from '@use-gesture/react'
 import { Home } from 'lucide-react'
@@ -17,6 +17,12 @@ export function Canvas() {
   const x = useMotionValue(initialX)
   const y = useMotionValue(initialY)
   const scale = useMotionValue(1)
+  const [scaleDisplay, setScaleDisplay] = useState(100)
+
+  useEffect(() => {
+    const unsubscribe = scale.onChange((v) => setScaleDisplay(Math.round(v * 100)))
+    return unsubscribe
+  }, [scale])
 
   const resetView = () => {
     animate(x, initialX, { type: 'spring', stiffness: 300, damping: 30 })
@@ -35,7 +41,17 @@ export function Canvas() {
       onWheel: ({ delta: [, dy], event }) => {
         event.preventDefault()
         const zoomSensitivity = 0.002
-        const newScale = Math.max(0.3, Math.min(3, scale.get() * (1 - dy * zoomSensitivity)))
+        const oldScale = scale.get()
+        const newScale = Math.max(0.5, Math.min(1.5, oldScale * (1 - dy * zoomSensitivity)))
+
+        const mouseX = event.clientX
+        const mouseY = event.clientY
+
+        const newX = mouseX - (mouseX - x.get()) * (newScale / oldScale)
+        const newY = mouseY - (mouseY - y.get()) * (newScale / oldScale)
+
+        x.set(newX)
+        y.set(newY)
         scale.set(newScale)
       },
     },
@@ -83,6 +99,12 @@ export function Canvas() {
         >
           <Home size={20} />
         </button>
+
+        <motion.div
+          className="fixed bottom-8 left-8 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg text-sm text-neutral-600 pointer-events-none font-mono"
+        >
+          {scaleDisplay}%
+        </motion.div>
       </div>
       <Modal />
     </>
