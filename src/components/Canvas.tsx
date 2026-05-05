@@ -80,7 +80,7 @@ export function Canvas() {
           nodesDraggable={modifyMode}
           nodesConnectable={false}
           elementsSelectable={false}
-          panOnDrag={!modifyMode}
+          panOnDrag={true}
           zoomOnScroll={true}
           zoomOnPinch={true}
           fitView={false}

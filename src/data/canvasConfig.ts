@@ -110,8 +110,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'thoughts',
     type: 'Thoughts',
-    x: 814,
-    y: -71,
+    x: 848,
+    y: -81,
     data: {
       title: 'Thoughts',
       content: 'You panned all the way here! This is an off-grid bento block.'
