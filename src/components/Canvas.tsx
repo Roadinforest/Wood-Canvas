@@ -89,6 +89,14 @@ export function Canvas() {
           onMove={(_, viewport) => {
             setScaleDisplay(Math.round(viewport.zoom * 100))
           }}
+          onNodeMouseEnter={(_, node) => {
+            const el = document.querySelector(`[data-id="${node.id}"]`)
+            if (el) el.classList.add('hovered')
+          }}
+          onNodeMouseLeave={(_, node) => {
+            const el = document.querySelector(`[data-id="${node.id}"]`)
+            if (el) el.classList.remove('hovered')
+          }}
         >
           <Background
             variant={BackgroundVariant.Dots}
