@@ -10,16 +10,24 @@
 @tailwind utilities;
 
 :root {
-  --bg-color: #f4f4f5;
+  --bg-color: #faf9f5;
   --dot-color: #d4d4d8;
   --card-bg: #ffffff;
-  --text-main: #18181b;
-  --text-muted: #71717a;
-  --radius: 28px;
-  --gap: 20px;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --radius: 24px;
+  --gap: 16px;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  --color-yellow: #fef08a;
+  --color-yellow-light: #fefce8;
+  --color-blue: #93c5fd;
+  --color-blue-light: #dbeafe;
+  --color-coral: #fda4af;
+  --color-lavender: #e9d5ff;
+  --color-lavender-light: #f5f3ff;
 }
 
 * {

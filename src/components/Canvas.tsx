@@ -48,8 +48,8 @@ export function Canvas() {
         >
           <Background
             variant={BackgroundVariant.Dots}
-            gap={40}
-            size={1.5}
+            gap={60}
+            size={5}
             color="var(--dot-color)"
           />
           <Controls showInteractive={false} />

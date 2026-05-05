@@ -87,7 +87,7 @@ export function BentoNode({ data }: NodeProps<BentoNodeData>) {
 
   return (
     <div
-      className="bg-white/20 border-2 border-dashed border-neutral-300 rounded-bento transition-all duration-300 ease-out"
+      className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm transition-all duration-300 ease-out"
       style={{ width, height }}
     >
       {renderCard()}

@@ -7,11 +7,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        'canvas-bg': '#f4f4f5',
+        'canvas-bg': '#faf9f5',
         'dot-color': '#d4d4d8',
         'card-bg': '#ffffff',
-        'text-main': '#18181b',
-        'text-muted': '#71717a',
+        'text-main': '#1e293b',
+        'text-muted': '#64748b',
+        'warm-yellow': '#fef08a',
+        'warm-yellow-light': '#fefce8',
+        'cool-blue': '#93c5fd',
+        'cool-blue-light': '#dbeafe',
+        'coral': '#fda4af',
+        'lavender': '#e9d5ff',
+        'lavender-light': '#f5f3ff',
         border: 'oklch(0.922 0 0)',
         input: 'oklch(0.922 0 0)',
         ring: 'oklch(0.708 0 0)',
@@ -49,11 +56,11 @@ export default {
         },
       },
       borderRadius: {
-        'bento': '28px',
+        'bento': '24px',
       },
       boxShadow: {
-        'bento': '0 10px 40px -10px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02)',
-        'bento-hover': '0 20px 40px -10px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.02)',
+        'bento': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0,0,0,0.04)',
+        'bento-hover': '0 8px 24px -8px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0,0,0,0.05)',
       },
     },
   },
