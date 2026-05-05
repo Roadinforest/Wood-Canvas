@@ -2,7 +2,6 @@ import { NodeProps } from 'reactflow'
 import { BentoNodeData } from '@/data/canvasConfig'
 import { ProfileCard } from '@/components/cards/ProfileCard'
 import { AboutCard } from '@/components/cards/AboutCard'
-import { SocialCard } from '@/components/cards/SocialCard'
 import { ProjectsCard } from '@/components/cards/ProjectsCard'
 import { ThoughtsCard } from '@/components/cards/ThoughtsCard'
 import { SecretCard } from '@/components/cards/SecretCard'
@@ -21,8 +20,6 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         return <ProfileCard />
       case 'About':
         return <AboutCard />
-      case 'Social':
-        return <SocialCard icon={id.includes('social-1') ? '𝕏' : 'GH'} />
       case 'Projects':
         return <ProjectsCard />
       case 'Thoughts':

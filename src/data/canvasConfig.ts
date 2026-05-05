@@ -1,6 +1,6 @@
 import { Node } from 'reactflow'
 
-export type CardType = 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills'
+export type CardType = 'Profile' | 'About' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills'
 
 export interface CardItem {
   id: string
@@ -29,61 +29,49 @@ export const canvasData: CardItem[] = [
   {
     id: 'profile',
     type: 'Profile',
-    x: -54,
-    y: -103,
+    x: -37,
+    y: -139,
   },
   {
     id: 'internship-1',
     type: 'Internship',
-    x: 427,
-    y: -113,
+    x: 385,
+    y: -145,
   },
   {
     id: 'internship-2',
     type: 'Internship',
-    x: 432,
-    y: 75,
+    x: 388,
+    y: 56,
   },
   {
     id: 'about',
     type: 'About',
-    x: -72,
-    y: 208,
-  },
-  {
-    id: 'social-1',
-    type: 'Social',
-    x: 408,
-    y: 363,
-  },
-  {
-    id: 'social-2',
-    type: 'Social',
-    x: 341,
-    y: 545,
+    x: -47,
+    y: 163,
   },
   {
     id: 'projects',
     type: 'Projects',
-    x: 856,
-    y: 80,
+    x: 155,
+    y: -374,
   },
   {
     id: 'thoughts',
     type: 'Thoughts',
-    x: 883,
-    y: -98,
+    x: -273,
+    y: -311,
   },
   {
     id: 'secret',
     type: 'Secret',
-    x: 1053,
-    y: 483,
+    x: -354,
+    y: -123,
   },
   {
     id: 'skills',
     type: 'Skills',
-    x: -289,
-    y: 419,
+    x: -644,
+    y: 35,
   },
 ]

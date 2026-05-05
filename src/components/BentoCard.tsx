@@ -22,7 +22,7 @@ export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom'
   return (
     <div
       className={cn(
-        'bg-card-bg rounded-bento p-8 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover',
+        'bg-card-bg rounded-bento p-7 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover',
         sizeClasses[size],
         onClick ? 'cursor-pointer' : 'cursor-default',
         className
