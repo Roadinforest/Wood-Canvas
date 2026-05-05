@@ -8,75 +8,30 @@ import { ThoughtsCard } from '@/components/cards/ThoughtsCard'
 import { SecretCard } from '@/components/cards/SecretCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
 
-export function BentoNode({ data }: NodeProps<BentoNodeData>) {
+const internshipData = [
+  { company: 'Company A', period: '2024.06 - 2024.09', role: 'Frontend Developer', description: 'Developed web applications using React and TypeScript.' },
+  { company: 'Company B', period: '2024.01 - 2024.05', role: 'Backend Developer', description: 'Built REST APIs with Node.js and PostgreSQL.' },
+]
+
+export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
   const renderCard = () => {
     switch (data.cardType) {
       case 'Profile':
-        return (
-          <ProfileCard
-            data={{
-              name: data.name as string,
-              title: data.title as string,
-              avatar: data.avatar as string | undefined,
-            }}
-          />
-        )
+        return <ProfileCard />
       case 'About':
-        return (
-          <AboutCard
-            data={{
-              title: data.title as string,
-              content: data.content as string,
-            }}
-          />
-        )
+        return <AboutCard />
       case 'Social':
-        return (
-          <SocialCard
-            data={{
-              platform: data.platform as string,
-              icon: data.icon as string,
-            }}
-          />
-        )
+        return <SocialCard icon={id.includes('social-1') ? '𝕏' : 'GH'} />
       case 'Projects':
-        return (
-          <ProjectsCard
-            data={{
-              title: data.title as string,
-              projects: data.projects as { name: string; description: string }[],
-            }}
-          />
-        )
+        return <ProjectsCard />
       case 'Thoughts':
-        return (
-          <ThoughtsCard
-            data={{
-              title: data.title as string,
-              content: data.content as string,
-            }}
-          />
-        )
+        return <ThoughtsCard />
       case 'Secret':
-        return (
-          <SecretCard
-            data={{
-              title: data.title as string,
-              content: data.content as string,
-            }}
-          />
-        )
+        return <SecretCard />
       case 'Internship':
-        return (
-          <InternshipCard
-            data={{
-              company: data.company as string,
-              period: data.period as string,
-              role: data.role as string,
-              description: data.description as string,
-            }}
-          />
-        )
+        const index = id === 'internship-1' ? 0 : 1
+        const internship = internshipData[index]
+        return <InternshipCard {...internship} />
       default:
         return null
     }
