@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import ReactFlow, {
   useNodesState,
   Background,
@@ -25,6 +25,50 @@ export function Canvas() {
   const toggleModifyMode = useCanvasStore((state) => state.toggleModifyMode)
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
   const [scaleDisplay, setScaleDisplay] = useState(100)
+
+  const prevModifyModeRef = useRef(modifyMode)
+  const isSavingRef = useRef(false)
+  const saveTimeoutRef = useRef<number | null>(null)
+
+  useEffect(() => {
+    if (prevModifyModeRef.current === true && modifyMode === false) {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current)
+      }
+
+      saveTimeoutRef.current = window.setTimeout(() => {
+        if (isSavingRef.current) return
+        isSavingRef.current = true
+
+        const positions = nodes.map((node) => ({
+          id: node.id,
+          x: Math.round(node.position.x),
+          y: Math.round(node.position.y),
+        }))
+
+        fetch('/api/update-positions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(positions),
+        })
+          .then((res) => {
+            if (!res.ok) console.error('Failed to save positions')
+          })
+          .finally(() => {
+            isSavingRef.current = false
+          })
+      }, 500)
+    }
+    prevModifyModeRef.current = modifyMode
+  }, [modifyMode, nodes])
+
+  useEffect(() => {
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current)
+      }
+    }
+  }, [])
 
   return (
     <>

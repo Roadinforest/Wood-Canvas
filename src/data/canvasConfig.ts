@@ -31,8 +31,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'profile',
     type: 'Profile',
-    x: 0,
-    y: 0,
+    x: 84,
+    y: -73,
     data: {
       name: 'Roadinforest',
       title: "Full Stack Developer \n Agent Developer",
@@ -54,8 +54,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'internship-2',
     type: 'Internship',
-    x: 600,
-    y: -80,
+    x: 397,
+    y: 116,
     data: {
       company: 'Company B',
       period: '2024.01 - 2024.05',
@@ -66,8 +66,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'about',
     type: 'About',
-    x: 840,
-    y: 180,
+    x: -72,
+    y: 208,
     data: {
       title: 'About',
       content: 'Everyone will find its own way to explore the world.'
@@ -76,8 +76,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'social-1',
     type: 'Social',
-    x: 840,
-    y: 320,
+    x: 408,
+    y: 363,
     data: {
       platform: 'X',
       icon: '𝕏'
@@ -86,8 +86,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'social-2',
     type: 'Social',
-    x: 1000,
-    y: 320,
+    x: 518,
+    y: 363,
     data: {
       platform: 'GitHub',
       icon: 'GH'
@@ -96,8 +96,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'projects',
     type: 'Projects',
-    x: 0,
-    y: 400,
+    x: 744,
+    y: 111,
     data: {
       title: 'Selected Work',
       projects: [
@@ -110,8 +110,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'thoughts',
     type: 'Thoughts',
-    x: 1200,
-    y: -400,
+    x: 814,
+    y: -71,
     data: {
       title: 'Thoughts',
       content: 'You panned all the way here! This is an off-grid bento block.'
@@ -120,8 +120,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'secret',
     type: 'Secret',
-    x: -800,
-    y: 800,
+    x: 652,
+    y: 345,
     data: {
       title: 'Secret',
       content: 'Keep exploring.'
