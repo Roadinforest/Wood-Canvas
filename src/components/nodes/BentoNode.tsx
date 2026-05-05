@@ -9,8 +9,8 @@ import { SecretCard } from '@/components/cards/SecretCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
 
 const internshipData = [
-  { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Developer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.' },
-  { company: 'Company B', period: '2024.01 - 2024.05', role: 'Backend Developer', description: 'Built REST APIs with Node.js and PostgreSQL.' },
+  { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Engineer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.', icon: 'rednote' as const },
+  { company: 'Capcut ByteDance', period: '2026.04 - Present', role: 'AI Cross-platform Engineer', description: 'Help building Capcut Visual Studio', icon: 'capcut' as const },
 ]
 
 export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
