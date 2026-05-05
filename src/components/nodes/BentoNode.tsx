@@ -1,5 +1,5 @@
 import { NodeProps } from 'reactflow'
-import { BentoNodeData, CELL_SIZE, GAP } from '@/data/canvasConfig'
+import { BentoNodeData } from '@/data/canvasConfig'
 import { ProfileCard } from '@/components/cards/ProfileCard'
 import { AboutCard } from '@/components/cards/AboutCard'
 import { SocialCard } from '@/components/cards/SocialCard'
@@ -9,9 +9,6 @@ import { SecretCard } from '@/components/cards/SecretCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
 
 export function BentoNode({ data }: NodeProps<BentoNodeData>) {
-  const width = data.colSpan * CELL_SIZE + (data.colSpan - 1) * GAP
-  const height = data.rowSpan * CELL_SIZE + (data.rowSpan - 1) * GAP
-
   const renderCard = () => {
     switch (data.cardType) {
       case 'Profile':
@@ -86,10 +83,7 @@ export function BentoNode({ data }: NodeProps<BentoNodeData>) {
   }
 
   return (
-    <div
-      className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm transition-all duration-300 ease-out"
-      style={{ width, height }}
-    >
+    <div className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm transition-all duration-300 ease-out">
       {renderCard()}
     </div>
   )
