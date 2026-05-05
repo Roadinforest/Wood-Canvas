@@ -1,6 +1,6 @@
 import { Node } from 'reactflow'
 
-export type CardType = 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship'
+export type CardType = 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills'
 
 export interface CardItem {
   id: string
@@ -79,5 +79,11 @@ export const canvasData: CardItem[] = [
     type: 'Secret',
     x: 1053,
     y: 483,
+  },
+  {
+    id: 'skills',
+    type: 'Skills',
+    x: -289,
+    y: 419,
   },
 ]

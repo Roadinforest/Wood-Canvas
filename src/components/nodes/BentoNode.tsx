@@ -7,6 +7,7 @@ import { ProjectsCard } from '@/components/cards/ProjectsCard'
 import { ThoughtsCard } from '@/components/cards/ThoughtsCard'
 import { SecretCard } from '@/components/cards/SecretCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
+import { SkillsCard } from '@/components/cards/SkillsCard'
 
 const internshipData = [
   { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Engineer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.', icon: 'rednote' as const },
@@ -32,6 +33,8 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         const index = id === 'internship-1' ? 0 : 1
         const internship = internshipData[index]
         return <InternshipCard {...internship} />
+      case 'Skills':
+        return <SkillsCard />
       default:
         return null
     }
