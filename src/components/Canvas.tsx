@@ -115,20 +115,24 @@ export function Canvas() {
           {scaleDisplay}%
         </div>
 
-        <button
-          onClick={toggleModifyMode}
-          className={`fixed top-8 right-8 px-4 py-2 rounded-full shadow-lg transition-opacity flex items-center gap-2 ${
-            modifyMode ? 'bg-blue-500 text-white' : 'bg-black text-white hover:opacity-80'
-          }`}
-        >
-          <Move size={16} />
-          <span className="text-sm">{modifyMode ? 'Edit Mode' : 'Edit'}</span>
-        </button>
+        {import.meta.env.DEV && (
+          <>
+            <button
+              onClick={toggleModifyMode}
+              className={`fixed top-8 right-8 px-4 py-2 rounded-full shadow-lg transition-opacity flex items-center gap-2 ${
+                modifyMode ? 'bg-blue-500 text-white' : 'bg-black text-white hover:opacity-80'
+              }`}
+            >
+              <Move size={16} />
+              <span className="text-sm">{modifyMode ? 'Edit Mode' : 'Edit'}</span>
+            </button>
 
-        {modifyMode && (
-          <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full text-sm shadow-lg">
-            Modify Mode - Drag cards to reposition | Click outside to deselect
-          </div>
+            {modifyMode && (
+              <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full text-sm shadow-lg">
+                Modify Mode - Drag cards to reposition | Click outside to deselect
+              </div>
+            )}
+          </>
         )}
       </div>
       <Modal />

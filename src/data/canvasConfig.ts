@@ -96,8 +96,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'projects',
     type: 'Projects',
-    x: 744,
-    y: 111,
+    x: 771,
+    y: 106,
     data: {
       title: 'Selected Work',
       projects: [
@@ -120,8 +120,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'secret',
     type: 'Secret',
-    x: 652,
-    y: 345,
+    x: 662,
+    y: 382,
     data: {
       title: 'Secret',
       content: 'Keep exploring.'
