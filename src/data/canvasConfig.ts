@@ -5,212 +5,126 @@ export type CardType = 'Profile' | 'About' | 'Social' | 'Projects' | 'Thoughts' 
 export interface CardItem {
   id: string
   type: CardType
-  colSpan: number
-  rowSpan: number
+  x: number
+  y: number
   data: Record<string, unknown>
 }
 
-export interface BentoCluster {
-  id: string
-  x: number
-  y: number
-  columns?: number
-  columnsTemplate?: string
-  items: CardItem[]
-}
-
 export interface BentoNodeData {
-  colSpan: number
-  rowSpan: number
   cardType: CardType
   [key: string]: unknown
 }
 
-export const CELL_SIZE = 160
-export const GAP = 20
-
-export function convertToReactFlowNodes(clusters: BentoCluster[]): Node<BentoNodeData>[] {
-  const nodes: Node<BentoNodeData>[] = []
-
-  for (const cluster of clusters) {
-    let colIndex = 0
-    const rowIndex = 0
-
-    for (const item of cluster.items) {
-      const x = cluster.x + colIndex * (CELL_SIZE + GAP)
-      const y = cluster.y + rowIndex * (CELL_SIZE + GAP)
-
-      nodes.push({
-        id: item.id,
-        type: 'bento',
-        position: { x, y },
-        data: {
-          colSpan: item.colSpan,
-          rowSpan: item.rowSpan,
-          cardType: item.type,
-          ...item.data,
-        },
-      })
-
-      colIndex += item.colSpan
-    }
-  }
-
-  return nodes
+export function convertToReactFlowNodes(cards: CardItem[]): Node<BentoNodeData>[] {
+  return cards.map((card) => ({
+    id: card.id,
+    type: 'bento',
+    position: { x: card.x, y: card.y },
+    data: {
+      cardType: card.type,
+      ...card.data,
+    },
+  }))
 }
 
-export const canvasData: BentoCluster[] = [
+export const canvasData: CardItem[] = [
   {
-    id: 'profile-cluster',
+    id: 'profile',
+    type: 'Profile',
     x: 0,
     y: 0,
-    columns: 2,
-    columnsTemplate: 'repeat(2, 160px)',
-    items: [
-      {
-        id: 'profile',
-        type: 'Profile',
-        colSpan: 2,
-        rowSpan: 2,
-        data: {
-          name: 'Roadinforest',
-          title: "Full Stack Developer \n Agent Developer",
-          avatar: ''
-        }
-      }
-    ]
+    data: {
+      name: 'Roadinforest',
+      title: "Full Stack Developer \n Agent Developer",
+      avatar: ''
+    }
   },
   {
-    id: 'internship-cluster',
+    id: 'internship-1',
+    type: 'Internship',
     x: 400,
     y: -80,
-    columns: 2,
-    columnsTemplate: 'repeat(2, 160px)',
-    items: [
-      {
-        id: 'internship-1',
-        type: 'Internship',
-        colSpan: 1,
-        rowSpan: 1,
-        data: {
-          company: 'Company A',
-          period: '2024.06 - 2024.09',
-          role: 'Frontend Developer',
-          description: 'Developed web applications using React and TypeScript.'
-        }
-      },
-      {
-        id: 'internship-2',
-        type: 'Internship',
-        colSpan: 1,
-        rowSpan: 1,
-        data: {
-          company: 'Company B',
-          period: '2024.01 - 2024.05',
-          role: 'Backend Developer',
-          description: 'Built REST APIs with Node.js and PostgreSQL.'
-        }
-      }
-    ]
+    data: {
+      company: 'Company A',
+      period: '2024.06 - 2024.09',
+      role: 'Frontend Developer',
+      description: 'Developed web applications using React and TypeScript.'
+    }
   },
   {
-    id: 'about-social-cluster',
+    id: 'internship-2',
+    type: 'Internship',
+    x: 600,
+    y: -80,
+    data: {
+      company: 'Company B',
+      period: '2024.01 - 2024.05',
+      role: 'Backend Developer',
+      description: 'Built REST APIs with Node.js and PostgreSQL.'
+    }
+  },
+  {
+    id: 'about',
+    type: 'About',
     x: 840,
     y: 180,
-    columns: 2,
-    columnsTemplate: 'repeat(2, 160px)',
-    items: [
-      {
-        id: 'about',
-        type: 'About',
-        colSpan: 2,
-        rowSpan: 1,
-        data: {
-          title: 'About',
-          content: 'Everyone will find its own way to explore the world.'
-        }
-      },
-      {
-        id: 'social-1',
-        type: 'Social',
-        colSpan: 1,
-        rowSpan: 1,
-        data: {
-          platform: 'X',
-          icon: '𝕏'
-        }
-      },
-      {
-        id: 'social-2',
-        type: 'Social',
-        colSpan: 1,
-        rowSpan: 1,
-        data: {
-          platform: 'GitHub',
-          icon: 'GH'
-        }
-      }
-    ]
+    data: {
+      title: 'About',
+      content: 'Everyone will find its own way to explore the world.'
+    }
   },
   {
-    id: 'projects-cluster',
+    id: 'social-1',
+    type: 'Social',
+    x: 840,
+    y: 320,
+    data: {
+      platform: 'X',
+      icon: '𝕏'
+    }
+  },
+  {
+    id: 'social-2',
+    type: 'Social',
+    x: 1000,
+    y: 320,
+    data: {
+      platform: 'GitHub',
+      icon: 'GH'
+    }
+  },
+  {
+    id: 'projects',
+    type: 'Projects',
     x: 0,
     y: 400,
-    columns: 4,
-    columnsTemplate: 'repeat(4, 160px)',
-    items: [
-      {
-        id: 'projects',
-        type: 'Projects',
-        colSpan: 4,
-        rowSpan: 2,
-        data: {
-          title: 'Selected Work',
-          projects: [
-            { name: 'Project Alpha', description: 'A cutting-edge web application built with React and TypeScript, featuring real-time collaboration and advanced state management.' },
-            { name: 'Project Beta', description: 'An innovative mobile-first platform focusing on accessibility and performance optimization.' },
-            { name: 'Project Gamma', description: 'A creative tool for designers that enables rapid prototyping and iteration.' }
-          ]
-        }
-      }
-    ]
+    data: {
+      title: 'Selected Work',
+      projects: [
+        { name: 'Project Alpha', description: 'A cutting-edge web application built with React and TypeScript, featuring real-time collaboration and advanced state management.' },
+        { name: 'Project Beta', description: 'An innovative mobile-first platform focusing on accessibility and performance optimization.' },
+        { name: 'Project Gamma', description: 'A creative tool for designers that enables rapid prototyping and iteration.' }
+      ]
+    }
   },
   {
-    id: 'thoughts-cluster',
+    id: 'thoughts',
+    type: 'Thoughts',
     x: 1200,
     y: -400,
-    columns: 2,
-    columnsTemplate: 'repeat(2, 160px)',
-    items: [
-      {
-        id: 'thoughts',
-        type: 'Thoughts',
-        colSpan: 2,
-        rowSpan: 2,
-        data: {
-          title: 'Thoughts',
-          content: 'You panned all the way here! This is an off-grid bento block.'
-        }
-      }
-    ]
+    data: {
+      title: 'Thoughts',
+      content: 'You panned all the way here! This is an off-grid bento block.'
+    }
   },
   {
-    id: 'secret-cluster',
+    id: 'secret',
+    type: 'Secret',
     x: -800,
     y: 800,
-    columns: 1,
-    columnsTemplate: '200px',
-    items: [
-      {
-        id: 'secret',
-        type: 'Secret',
-        colSpan: 1,
-        rowSpan: 1,
-        data: {
-          title: 'Secret',
-          content: 'Keep exploring.'
-        }
-      }
-    ]
+    data: {
+      title: 'Secret',
+      content: 'Keep exploring.'
+    }
   }
 ]
