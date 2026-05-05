@@ -62,6 +62,11 @@ export default {
         'bento': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0,0,0,0.04)',
         'bento-hover': '0 8px 24px -8px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0,0,0,0.05)',
       },
+      spacing: {
+        'card-sm': '280px',
+        'card-md': '400px',
+        'card-lg': '560px',
+      },
     },
   },
   plugins: [],

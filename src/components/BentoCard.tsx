@@ -1,19 +1,29 @@
 import { cn } from '@/lib/utils'
 
+type CardSize = 'sm' | 'md' | 'lg' | 'custom'
+
 interface BentoCardProps {
   className?: string
   colSpan?: number
   rowSpan?: number
+  size?: CardSize
   onClick?: () => void
   children: React.ReactNode
 }
 
-export function BentoCard({ className, colSpan = 1, rowSpan = 1, onClick, children }: BentoCardProps) {
+const sizeClasses: Record<CardSize, string> = {
+  sm: 'w-[280px]',
+  md: 'w-[400px]',
+  lg: 'w-[560px]',
+  custom: '',
+}
+
+export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', onClick, children }: BentoCardProps) {
   return (
     <div
       className={cn(
-        'bg-card-bg rounded-bento p-8 shadow-bento transition-all duration-300 ease-out',
-        'hover:-translate-y-1 hover:shadow-bento-hover',
+        'bg-card-bg rounded-bento p-8 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover',
+        sizeClasses[size],
         onClick ? 'cursor-pointer' : 'cursor-default',
         className
       )}

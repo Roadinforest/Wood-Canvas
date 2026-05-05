@@ -12,7 +12,7 @@ export function ProjectsCard() {
 
   return (
     <BentoCard
-      className="col-span-4 row-span-2"
+      size="lg" rowSpan={2}
       onClick={() => {
         const projectList = projects.map((p) => `${p.name}: ${p.description}`).join('\n\n')
         openModal({ title: 'Selected Work', content: projectList, type: 'projects' })

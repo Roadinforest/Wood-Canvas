@@ -9,7 +9,7 @@ import { SecretCard } from '@/components/cards/SecretCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
 
 const internshipData = [
-  { company: 'Company A', period: '2024.06 - 2024.09', role: 'Frontend Developer', description: 'Developed web applications using React and TypeScript.' },
+  { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Developer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.' },
   { company: 'Company B', period: '2024.01 - 2024.05', role: 'Backend Developer', description: 'Built REST APIs with Node.js and PostgreSQL.' },
 ]
 
