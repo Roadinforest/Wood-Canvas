@@ -5,6 +5,7 @@ import { AboutCard } from '@/components/cards/AboutCard'
 import { ProjectsCard } from '@/components/cards/ProjectsCard'
 import { ThoughtsCard } from '@/components/cards/ThoughtsCard'
 import { SecretCard } from '@/components/cards/SecretCard'
+import { ToolCard } from '@/components/cards/ToolCard'
 import { InternshipCard } from '@/components/cards/InternshipCard'
 import { SkillsCard } from '@/components/cards/SkillsCard'
 
@@ -32,6 +33,8 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         return <InternshipCard {...internship} />
       case 'Skills':
         return <SkillsCard />
+      case 'Tool':
+        return <ToolCard />
       default:
         return null
     }

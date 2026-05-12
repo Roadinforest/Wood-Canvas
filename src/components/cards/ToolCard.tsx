@@ -1,14 +1,14 @@
 import { BentoCard } from '../BentoCard'
 
 const links = [
-  { label: 'Capcut Visual Studio', url: 'https://www.capcut.com/ai-creator/start' },
-  { label: 'Mini Store (Vercel)', url: 'https://mini-store-ten-hazel.vercel.app/' },
+  { label: 'Md Previewer', url: 'https://md-preview.example.com/' },
+  { label: 'Mermaid Previewer', url: 'https://mermaid.example.com/' },
 ]
 
-export function SecretCard() {
+export function ToolCard() {
   return (
     <BentoCard size="sm" rowSpan={1} className="bg-black text-white">
-      <h2 className="text-[20px] font-medium mb-3">Secret</h2>
+      <h2 className="text-[20px] font-medium mb-3">Tools</h2>
       <div className="space-y-2">
         {links.map((link) => (
           <a
