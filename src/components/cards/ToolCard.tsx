@@ -1,8 +1,8 @@
 import { BentoCard } from '../BentoCard'
 
 const links = [
-  { label: 'Md Previewer', url: 'https://md-preview.example.com/' },
-  { label: 'Mermaid Previewer', url: 'https://mermaid.example.com/' },
+  { label: 'Md Previewer', url: '/preview/md' },
+  { label: 'Mermaid Previewer', url: '/preview/mermaid' },
 ]
 
 export function ToolCard() {

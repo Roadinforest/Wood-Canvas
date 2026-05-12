@@ -2,7 +2,7 @@ import { Canvas } from './components/Canvas'
 import { Home } from 'lucide-react'
 import { useCanvasStore } from './store/modalStore'
 
-function App() {
+function CanvasApp() {
   const resetView = useCanvasStore((state) => state.resetView)
 
   return (
@@ -19,4 +19,4 @@ function App() {
   )
 }
 
-export default App
+export default CanvasApp

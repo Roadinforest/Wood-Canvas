@@ -86,6 +86,6 @@ Modal is 80vw × 80vh, rounded-3xl, closes on Esc or X click.
 ## Commands
 
 ```bash
-npm run dev     # Start dev server
-npm run build   # Production build
+pnpm dev     # Start dev server
+pnpm build   # Production build
 ```
