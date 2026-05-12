@@ -3,7 +3,7 @@ import ReactFlow, {
   useNodesState,
   Background,
   BackgroundVariant,
-  Controls,
+  // Controls,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 
@@ -13,6 +13,7 @@ import { canvasData, convertToReactFlowNodes } from '@/data/canvasConfig'
 
 import { BentoNode } from './nodes/BentoNode'
 import { Modal } from './Modal'
+import useCenterOnNode from '@/hooks/useCenterOnNode'
 
 const nodeTypes = {
   bento: BentoNode,
@@ -30,6 +31,10 @@ export function Canvas() {
   const isSavingRef = useRef(false)
   const saveTimeoutRef = useRef<number | null>(null)
   const rfInstanceRef = useRef<any | null>(null)
+  const [rfiInstance, setRfiInstance] = useState<any | null>(null)
+  const hasInitializedRef = useRef(false)
+
+  const centerOnNode = useCenterOnNode(nodes, rfiInstance)
 
   useEffect(() => {
     if (prevModifyModeRef.current === true && modifyMode === false) {
@@ -71,6 +76,25 @@ export function Canvas() {
     }
   }, [])
 
+  // 页面加载时飞转到 profile 卡片，与 Home 按钮逻辑一致
+  useEffect(() => {
+    if (hasInitializedRef.current) return
+    if (!rfiInstance) return
+
+    let canceled = false
+
+    const init = async () => {
+      await centerOnNode('profile', { zoom: 0.77, duration: 0 })
+      if (!canceled) hasInitializedRef.current = true
+    }
+
+    init()
+
+    return () => {
+      canceled = true
+    }
+  }, [nodes, rfiInstance])
+
   return (
     <>
       <div className="w-screen h-screen relative overflow-hidden">
@@ -100,6 +124,7 @@ export function Canvas() {
           }}
           onInit={(rfi) => {
             rfInstanceRef.current = rfi
+            setRfiInstance(rfi)
           }}
         >
           <Background
@@ -113,49 +138,7 @@ export function Canvas() {
 
         <button
           onClick={() => {
-            const profileNode = nodes.find((n) => n.id === 'profile')
-            const instance = rfInstanceRef.current
-            const desiredZoom = 0.88
-
-            // Compute node center (position is top-left)
-            const nodeWidth = profileNode?.width ?? 400
-            const nodeHeight = profileNode?.height ?? 200
-            const nodeCenterX = (profileNode ? profileNode.position.x : 0) + nodeWidth / 2
-            const nodeCenterY = (profileNode ? profileNode.position.y : 0) + nodeHeight / 2
-
-            // Get container size to center the node on screen
-            const container = document.querySelector('.react-flow') as HTMLElement | null
-            const containerRect = container ? container.getBoundingClientRect() : { width: window.innerWidth, height: window.innerHeight }
-
-            // Calculate viewport translation so node center maps to container center:
-            // screenX = nodeCenterX * zoom + translateX => translateX = containerWidth/2 - nodeCenterX * zoom
-            const targetX = containerRect.width / 2 - nodeCenterX * desiredZoom
-            const targetY = containerRect.height / 2 - nodeCenterY * desiredZoom
-
-            if (instance) {
-              try {
-                if (typeof instance.setViewport === 'function') {
-                  instance.setViewport({ x: targetX, y: targetY, zoom: desiredZoom }, { duration: 1000 })
-                  return
-                }
-                if (typeof instance.setCenter === 'function') {
-                  // setCenter expects graph coords; pass node center and let options control zoom
-                  instance.setCenter(nodeCenterX, nodeCenterY, { zoom: desiredZoom, duration: 1000 })
-                  return
-                }
-              } catch (err) {
-                console.warn('[Canvas] instance API call failed', err)
-              }
-            }
-
-            // Fallback to DOM flyTo which expects translate x/y in px (same as targetX/targetY)
-            const flow = document.querySelector('.react-flow') as any
-            if (flow?.flyTo) {
-              const payload = { x: targetX, y: targetY, zoom: desiredZoom, duration: 1000 }
-              flow.flyTo(payload)
-            } else {
-              console.error('[Canvas] No programmatic API available to move viewport')
-            }
+            centerOnNode('profile', { zoom: 0.77, duration: 1000 })
           }}
           aria-label="Go to profile"
           className="fixed bottom-8 right-8 z-50 bg-black text-white w-12 h-12 rounded-full shadow-lg hover:opacity-80 transition-opacity flex items-center justify-center pointer-events-auto"
