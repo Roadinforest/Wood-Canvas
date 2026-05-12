@@ -29,6 +29,7 @@ export function Canvas() {
   const prevModifyModeRef = useRef(modifyMode)
   const isSavingRef = useRef(false)
   const saveTimeoutRef = useRef<number | null>(null)
+  const rfInstanceRef = useRef<any | null>(null)
 
   useEffect(() => {
     if (prevModifyModeRef.current === true && modifyMode === false) {
@@ -97,6 +98,9 @@ export function Canvas() {
             const el = document.querySelector(`[data-id="${node.id}"]`)
             if (el) el.classList.remove('hovered')
           }}
+          onInit={(rfi) => {
+            rfInstanceRef.current = rfi
+          }}
         >
           <Background
             variant={BackgroundVariant.Dots}
@@ -109,12 +113,56 @@ export function Canvas() {
 
         <button
           onClick={() => {
+            const profileNode = nodes.find((n) => n.id === 'profile')
+            const instance = rfInstanceRef.current
+            const desiredZoom = 0.88
+
+            // Compute node center (position is top-left)
+            const nodeWidth = profileNode?.width ?? 400
+            const nodeHeight = profileNode?.height ?? 200
+            const nodeCenterX = (profileNode ? profileNode.position.x : 0) + nodeWidth / 2
+            const nodeCenterY = (profileNode ? profileNode.position.y : 0) + nodeHeight / 2
+
+            // Get container size to center the node on screen
+            const container = document.querySelector('.react-flow') as HTMLElement | null
+            const containerRect = container ? container.getBoundingClientRect() : { width: window.innerWidth, height: window.innerHeight }
+
+            // Calculate viewport translation so node center maps to container center:
+            // screenX = nodeCenterX * zoom + translateX => translateX = containerWidth/2 - nodeCenterX * zoom
+            const targetX = containerRect.width / 2 - nodeCenterX * desiredZoom
+            const targetY = containerRect.height / 2 - nodeCenterY * desiredZoom
+
+            if (instance) {
+              try {
+                if (typeof instance.setViewport === 'function') {
+                  instance.setViewport({ x: targetX, y: targetY, zoom: desiredZoom }, { duration: 1000 })
+                  return
+                }
+                if (typeof instance.setCenter === 'function') {
+                  // setCenter expects graph coords; pass node center and let options control zoom
+                  instance.setCenter(nodeCenterX, nodeCenterY, { zoom: desiredZoom, duration: 1000 })
+                  return
+                }
+              } catch (err) {
+                console.warn('[Canvas] instance API call failed', err)
+              }
+            }
+
+            // Fallback to DOM flyTo which expects translate x/y in px (same as targetX/targetY)
             const flow = document.querySelector('.react-flow') as any
             if (flow?.flyTo) {
-              flow.flyTo({ x: 0, y: 0, zoom: 1 })
+              const payload = { x: targetX, y: targetY, zoom: desiredZoom, duration: 1000 }
+              flow.flyTo(payload)
+            } else {
+              console.error('[Canvas] No programmatic API available to move viewport')
             }
           }}
-          className="fixed bottom-8 right-8 bg-black text-white w-12 h-12 rounded-full shadow-lg hover:opacity-80 transition-opacity flex items-center justify-center"
+          onMouseDown={(e) => {
+          }}
+          onPointerDown={(e) => {
+          }}
+          aria-label="Go to profile"
+          className="fixed bottom-8 right-8 z-50 bg-black text-white w-12 h-12 rounded-full shadow-lg hover:opacity-80 transition-opacity flex items-center justify-center pointer-events-auto"
         >
           <Home size={20} />
         </button>
