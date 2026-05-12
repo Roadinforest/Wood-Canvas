@@ -12,6 +12,26 @@ export function MermaidPreviewPage() {
   const [svg, setSvg] = useState('')
   const [error, setError] = useState('')
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key !== 'Tab') {
+      return
+    }
+
+    event.preventDefault()
+
+    const target = event.currentTarget
+    const { selectionStart, selectionEnd, value } = target
+    const indent = '  '
+    const nextValue = `${value.slice(0, selectionStart)}${indent}${value.slice(selectionEnd)}`
+
+    setDiagram(nextValue)
+
+    window.requestAnimationFrame(() => {
+      target.selectionStart = selectionStart + indent.length
+      target.selectionEnd = selectionStart + indent.length
+    })
+  }
+
   useEffect(() => {
     const renderDiagram = async () => {
       try {
@@ -49,6 +69,7 @@ export function MermaidPreviewPage() {
           <textarea
             value={diagram}
             onChange={(e) => setDiagram(e.target.value)}
+            onKeyDown={handleKeyDown}
             className="w-full h-full p-6 bg-transparent resize-none focus:outline-none font-mono text-sm text-zinc-800 leading-relaxed"
             placeholder="Enter mermaid diagram code..."
             spellCheck={false}
