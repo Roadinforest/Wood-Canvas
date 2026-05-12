@@ -15,6 +15,9 @@
   --card-bg: #ffffff;
   --text-main: #1e293b;
   --text-muted: #64748b;
+  --scrollbar-thumb: rgba(100, 116, 139, 0.38);
+  --scrollbar-thumb-hover: rgba(100, 116, 139, 0.62);
+  --scrollbar-track: transparent;
   --radius: 24px;
   --gap: 16px;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -124,7 +127,31 @@ body {
   * {
     @apply border-border;
     outline-color: var(--ring);
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-gutter: stable;
   }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -136,5 +163,15 @@ body {
   }
   code, pre {
     font-family: var(--font-mono);
+  }
+
+  .md-preview-shell .w-md-editor,
+  .md-preview-shell .w-md-editor-content,
+  .md-preview-shell .w-md-editor-preview {
+    border-radius: 0;
+  }
+
+  .md-preview-shell .w-md-editor-preview {
+    padding: 0;
   }
 }
