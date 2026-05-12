@@ -108,7 +108,7 @@ export function Canvas() {
             size={5}
             color="var(--dot-color)"
           />
-          <Controls showInteractive={false} />
+          {/* <Controls showInteractive={false} /> */}
         </ReactFlow>
 
         <button
@@ -157,17 +157,13 @@ export function Canvas() {
               console.error('[Canvas] No programmatic API available to move viewport')
             }
           }}
-          onMouseDown={(e) => {
-          }}
-          onPointerDown={(e) => {
-          }}
           aria-label="Go to profile"
           className="fixed bottom-8 right-8 z-50 bg-black text-white w-12 h-12 rounded-full shadow-lg hover:opacity-80 transition-opacity flex items-center justify-center pointer-events-auto"
         >
           <Home size={20} />
         </button>
 
-        <div className="fixed bottom-8 left-8 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg text-sm text-neutral-600 pointer-events-none font-mono">
+        <div className="fixed bottom-8 left-8 w-[4.5rem] rounded-full bg-white/80 px-4 py-2 text-center font-mono text-sm text-neutral-600 shadow-lg backdrop-blur-sm pointer-events-none tabular-nums">
           {scaleDisplay}%
         </div>
 

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import MDEditor from '@uiw/react-md-editor'
 import { PreviewLayout } from './PreviewLayout'
 
-const defaultMarkdown = `# Welcome to Md Previewer
+const defaultMarkdown = `# Welcome to Markdown Previewer
 
 A simple markdown previewer with live editing.
 
@@ -39,7 +39,7 @@ export function MdPreviewPage() {
   const [markdown, setMarkdown] = useState(defaultMarkdown)
 
   return (
-    <PreviewLayout title="Md Previewer">
+    <PreviewLayout title="Markdown Previewer">
       <div className="md-preview-shell h-full" data-color-mode="light">
         <MDEditor
           value={markdown}

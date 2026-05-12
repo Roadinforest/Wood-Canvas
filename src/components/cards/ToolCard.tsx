@@ -1,7 +1,7 @@
 import { BentoCard } from '../BentoCard'
 
 const links = [
-  { label: 'Md Previewer', url: '/preview/md' },
+  { label: 'Markdown Previewer', url: '/preview/md' },
   { label: 'Mermaid Previewer', url: '/preview/mermaid' },
 ]
 
