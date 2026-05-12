@@ -32,7 +32,7 @@ export function Modal() {
             exit={{ opacity: 0, scale: 0.96, y: 8 }}
             transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
             style={{
-              background: 'rgba(255, 255, 255, 0.2)',
+              background: 'rgba(255, 255, 255, 0.6)',
               backdropFilter: 'blur(10px)',
               WebkitBackdropFilter: 'blur(10px)',
             }}
@@ -48,6 +48,16 @@ export function Modal() {
             <div className="p-10 overflow-y-auto flex-1">
               <h2 className="text-[26px] font-semibold text-neutral-900 mb-4">{data.title}</h2>
               <p className="text-[16px] text-neutral-600 leading-relaxed whitespace-pre-wrap">{data.content}</p>
+              {data.link && (
+                <a
+                  href={data.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mt-4 text-[15px] text-blue-600 hover:text-blue-700 underline underline-offset-2"
+                >
+                  {data.linkLabel || data.link}
+                </a>
+              )}
             </div>
           </motion.div>
         </div>

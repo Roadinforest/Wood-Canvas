@@ -5,6 +5,8 @@ interface ModalData {
   title: string
   content: string
   type: string
+  link?: string
+  linkLabel?: string
 }
 
 interface CanvasPosition {
