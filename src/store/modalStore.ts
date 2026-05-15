@@ -42,7 +42,7 @@ let resetViewFn: () => void = () => {}
 
 export const useCanvasStore = create<CanvasState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       resetView: () => resetViewFn(),
       setResetView: (fn) => { resetViewFn = fn },
       modifyMode: false,
@@ -56,6 +56,10 @@ export const useCanvasStore = create<CanvasState>()(
       },
       edges: [],
       updateEdges: (edges) => set({ edges }),
+      saveEdgesToStorage: () => {
+        const { edges } = get()
+        localStorage.setItem('canvas-edges', JSON.stringify(edges))
+      },
     }),
     { name: 'canvas-store' }
   )

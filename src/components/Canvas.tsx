@@ -60,7 +60,9 @@ export function Canvas() {
         const edgeData = edges.map((e) => ({
           id: e.id,
           source: e.source,
+          sourceHandle: e.sourceHandle,
           target: e.target,
+          targetHandle: e.targetHandle,
         }))
 
         fetch('/api/update-positions', {
