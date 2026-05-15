@@ -1,5 +1,6 @@
-import { NodeProps } from 'reactflow'
+import { NodeProps, Handle, Position } from 'reactflow'
 import { BentoNodeData } from '@/data/canvasConfig'
+import { useCanvasStore } from '@/store/modalStore'
 import { ProfileCard } from '@/components/cards/ProfileCard'
 import { ProjectsCard } from '@/components/cards/ProjectsCard'
 import { ThoughtsCard } from '@/components/cards/ThoughtsCard'
@@ -17,6 +18,7 @@ const internshipData = [
 ]
 
 export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
+  const modifyMode = useCanvasStore((s) => s.modifyMode)
   const renderCard = () => {
     switch (data.cardType) {
       case 'Profile':
@@ -47,7 +49,9 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
   }
 
   return (
-    <div className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm cursor-grab active:cursor-grabbing transition-all duration-200 ease-out [&.hovered]:scale-[1.03] [&.hovered]:shadow-bento-hover">
+    <div className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm cursor-grab active:cursor-grabbing transition-all duration-200 ease-out [&.hovered]:scale-[1.03] [&.hovered]:shadow-bento-hover relative">
+      <Handle type="target" position={Position.Left} className={modifyMode ? '!w-3 !h-3 !bg-blue-400 !border-2 !border-white' : '!w-0 !h-0 !bg-transparent !border-0'} />
+      <Handle type="source" position={Position.Right} className={modifyMode ? '!w-3 !h-3 !bg-blue-400 !border-2 !border-white' : '!w-0 !h-0 !bg-transparent !border-0'} />
       {renderCard()}
     </div>
   )

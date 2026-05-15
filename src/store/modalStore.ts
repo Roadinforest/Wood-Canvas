@@ -21,6 +21,14 @@ interface CanvasState {
   toggleModifyMode: () => void
   cardPositions: Record<string, CanvasPosition>
   updateCardPosition: (cardId: string, x: number, y: number) => void
+  edges: CanvasEdge[]
+  updateEdges: (edges: CanvasEdge[]) => void
+}
+
+interface CanvasEdge {
+  id: string
+  source: string
+  target: string
 }
 
 interface ModalStore {
@@ -46,6 +54,8 @@ export const useCanvasStore = create<CanvasState>()(
           cardPositions: { ...state.cardPositions, [cardId]: { x, y } }
         }))
       },
+      edges: [],
+      updateEdges: (edges) => set({ edges }),
     }),
     { name: 'canvas-store' }
   )

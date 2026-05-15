@@ -1,15 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import ReactFlow, {
   useNodesState,
+  useEdgesState,
+  addEdge,
   Background,
   BackgroundVariant,
-  // Controls,
+  Connection,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 
 import { Home, Move } from 'lucide-react'
 import { useCanvasStore } from '@/store/modalStore'
-import { canvasData, convertToReactFlowNodes } from '@/data/canvasConfig'
+import { canvasData, canvasEdges, convertToReactFlowNodes, convertToReactFlowEdges } from '@/data/canvasConfig'
 
 import { BentoNode } from './nodes/BentoNode'
 import { Modal } from './Modal'
@@ -21,11 +23,13 @@ const nodeTypes = {
 }
 
 const initialNodes = convertToReactFlowNodes(canvasData)
+const initialEdges = convertToReactFlowEdges(canvasEdges)
 
 export function Canvas() {
   const modifyMode = useCanvasStore((state) => state.modifyMode)
   const toggleModifyMode = useCanvasStore((state) => state.toggleModifyMode)
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [scaleDisplay, setScaleDisplay] = useState(100)
 
   const prevModifyModeRef = useRef(modifyMode)
@@ -53,13 +57,19 @@ export function Canvas() {
           y: Math.round(node.position.y),
         }))
 
+        const edgeData = edges.map((e) => ({
+          id: e.id,
+          source: e.source,
+          target: e.target,
+        }))
+
         fetch('/api/update-positions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(positions),
+          body: JSON.stringify({ positions, edges: edgeData }),
         })
           .then((res) => {
-            if (!res.ok) console.error('Failed to save positions')
+            if (!res.ok) console.error('Failed to save')
           })
           .finally(() => {
             isSavingRef.current = false
@@ -67,7 +77,7 @@ export function Canvas() {
       }, 500)
     }
     prevModifyModeRef.current = modifyMode
-  }, [modifyMode, nodes])
+  }, [modifyMode, nodes, edges])
 
   useEffect(() => {
     return () => {
@@ -101,10 +111,15 @@ export function Canvas() {
       <div className="w-screen h-screen relative overflow-hidden">
         <ReactFlow
           nodes={nodes}
+          edges={edges}
           onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={useCallback((params: Connection) => {
+            setEdges((eds) => addEdge({ ...params, animated: true }, eds))
+          }, [setEdges])}
           nodeTypes={nodeTypes}
           nodesDraggable={modifyMode}
-          nodesConnectable={false}
+          nodesConnectable={modifyMode}
           elementsSelectable={false}
           panOnDrag={true}
           zoomOnScroll={true}
@@ -118,10 +133,6 @@ export function Canvas() {
           onNodeMouseEnter={(_, node) => {
             const el = document.querySelector(`[data-id="${node.id}"]`)
             if (el) el.classList.add('hovered')
-          }}
-          onNodeMouseLeave={(_, node) => {
-            const el = document.querySelector(`[data-id="${node.id}"]`)
-            if (el) el.classList.remove('hovered')
           }}
           onInit={(rfi) => {
             rfInstanceRef.current = rfi
@@ -165,7 +176,7 @@ export function Canvas() {
 
             {modifyMode && (
               <div className="fixed top-8 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full text-sm shadow-lg">
-                Modify Mode - Drag cards to reposition | Click outside to deselect
+                Modify Mode - Drag cards to reposition | Drag from edge to connect cards
               </div>
             )}
           </>

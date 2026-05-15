@@ -1,4 +1,4 @@
-import { Node } from 'reactflow'
+import { Node, Edge } from 'reactflow'
 
 export type CardType = 'Profile' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills' | 'Tool' | 'Creation' | 'Todo' | 'Films'
 
@@ -25,6 +25,21 @@ export function convertToReactFlowNodes(cards: CardItem[]): Node<BentoNodeData>[
   }))
 }
 
+export interface CanvasEdge {
+  id: string
+  source: string
+  target: string
+}
+
+export function convertToReactFlowEdges(edges: CanvasEdge[]): Edge[] {
+  return edges.map((edge) => ({
+    id: edge.id,
+    source: edge.source,
+    target: edge.target,
+    animated: true,
+  }))
+}
+
 export const canvasData: CardItem[] = [
   {
     id: 'profile',
@@ -41,8 +56,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'internship-1',
     type: 'Internship',
-    x: 389,
-    y: -198,
+    x: 508,
+    y: -227,
   },
   {
     id: 'internship-2',
@@ -71,8 +86,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'skills',
     type: 'Skills',
-    x: -653,
-    y: 38,
+    x: -637,
+    y: 37,
   },
   {
     id: 'tool',
@@ -92,4 +107,9 @@ export const canvasData: CardItem[] = [
     x: -313,
     y: 312,
   },
+]
+
+export const canvasEdges: CanvasEdge[] = [
+  { id: 'profile-to-internship-1', source: 'profile', target: 'internship-1' },
+  { id: 'profile-to-internship-2', source: 'profile', target: 'internship-2' },
 ]
