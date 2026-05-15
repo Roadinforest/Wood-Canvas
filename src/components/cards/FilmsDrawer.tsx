@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface MediaItem {
   id: string;
@@ -40,6 +40,42 @@ const filmsList: MediaItem[] = [
     image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
     rating: 8,
   },
+  {
+    id: "matrix",
+    title: "The Matrix",
+    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    rating: 8,
+  },
+  {
+    id: "bladerunner",
+    title: "Blade Runner 2049",
+    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
+    rating: 8,
+  },
+  {
+    id: "matrix",
+    title: "The Matrix",
+    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    rating: 8,
+  },
+  {
+    id: "bladerunner",
+    title: "Blade Runner 2049",
+    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
+    rating: 8,
+  },
+  {
+    id: "matrix",
+    title: "The Matrix",
+    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    rating: 8,
+  },
+  {
+    id: "bladerunner",
+    title: "Blade Runner 2049",
+    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
+    rating: 8,
+  },
 ];
 
 export default function FilmsDrawer() {
@@ -49,6 +85,16 @@ export default function FilmsDrawer() {
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const peek = isHovered && !isOpen;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const handler = (e: WheelEvent) => e.stopPropagation();
+    el.addEventListener("wheel", handler, { capture: true });
+    return () => el.removeEventListener("wheel", handler, { capture: true });
+  }, []);
 
   return (
     <AnimatePresence>
@@ -64,6 +110,7 @@ export default function FilmsDrawer() {
             />
           )}
           <motion.div
+            data-films-drawer
             className="fixed left-1/2 -translate-x-1/2 w-[500px] max-w-[90vw] z-50"
             style={{ bottom: 0, height: peek ? "5vh" : "auto" }}
             initial={{ y: "100%" }}
@@ -84,7 +131,10 @@ export default function FilmsDrawer() {
                 </button>
               </div>
               {isOpen && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto">
+                <div
+                  ref={scrollRef}
+                  className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto"
+                >
                   {filmsList.map((film) => (
                     <motion.div
                       key={film.id}

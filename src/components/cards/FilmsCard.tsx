@@ -10,6 +10,10 @@ export default function FilmsCard() {
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
+      // 忽略 FilmsDrawer 内部的滚动，让 Drawer 自己处理
+      const drawer = document.querySelector('[data-films-drawer]');
+      if (drawer && drawer.contains(e.target as Node)) return;
+
       const isUpScroll = e.deltaY > 0;
       const isPhysicsHovered = cardRef.current?.matches(":hover");
       if (!isPhysicsHovered && !isOpen) {
@@ -24,11 +28,9 @@ export default function FilmsCard() {
       else if (!isUpScroll && isOpen) {
         useFilmsDrawerStore.setState({ isOpen: false });
         if (isPhysicsHovered) {
-          setIsHovered(true); // 保持悬停状态，防止抽屉关闭后鼠标离开卡片导致悬停状态丢失
-          console.log("close drawer");
+          setIsHovered(true);
         }
       }
-      // 阻止默认滚动行为，避免canvas放大缩小
       e.stopPropagation();
       e.preventDefault();
     };
@@ -37,7 +39,6 @@ export default function FilmsCard() {
       "wheel",
       handleWheel as EventListener,
       {
-        passive: false,
         capture: true,
       } as AddEventListenerOptions,
     );
@@ -47,11 +48,10 @@ export default function FilmsCard() {
         "wheel",
         handleWheel as EventListener,
         {
-          passive: false,
           capture: true,
         } as AddEventListenerOptions,
       );
-  }, [isOpen]);
+  }, [isOpen, isHovered]);
 
 
   return (
@@ -62,7 +62,7 @@ export default function FilmsCard() {
     >
       <FlipCard
         rotate="y"
-        className="h-72 w-56"
+        className="h-24 w-56"
         flipped={isOpen || isHovered}
         back={
           <div className="flex flex-col items-center justify-center h-full gap-4">
