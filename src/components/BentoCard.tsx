@@ -8,6 +8,8 @@ interface BentoCardProps {
   rowSpan?: number
   size?: CardSize
   onClick?: () => void
+  onMouseEnter?: () => void
+  onMouseLeave?: () => void
   children: React.ReactNode
 }
 
@@ -18,7 +20,7 @@ const sizeClasses: Record<CardSize, string> = {
   custom: '',
 }
 
-export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', onClick, children }: BentoCardProps) {
+export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', onClick, onMouseEnter, onMouseLeave, children }: BentoCardProps) {
   return (
     <div
       className={cn(
@@ -32,6 +34,8 @@ export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom'
         gridRow: `span ${rowSpan}`,
       }}
       onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </div>
