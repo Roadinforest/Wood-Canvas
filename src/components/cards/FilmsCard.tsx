@@ -62,7 +62,7 @@ export default function FilmsCard() {
     >
       <FlipCard
         rotate="y"
-        className="h-24 w-56"
+        className="h-16 w-56"
         flipped={isOpen || isHovered}
         back={
           <div className="flex flex-col items-center justify-center h-full gap-4">

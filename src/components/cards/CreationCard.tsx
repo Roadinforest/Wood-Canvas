@@ -1,5 +1,5 @@
 import { ListCard } from '../ListCard'
-import checkedIcon from '../../../public/checkbox.svg'
+import checkedIcon from '@/assets/checkbox.svg'
 
 const creationIdeas = [
   { id: '1', name: 'PDF Headings Builder', description: 'Help build the headings for your PDF documents', done: false },

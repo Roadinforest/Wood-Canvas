@@ -1,5 +1,5 @@
 import { ListCard } from '../ListCard'
-import checkedIcon from '../../../public/checkbox.svg'
+import checkedIcon from '@/assets/checkbox.svg'
 
 const todos = [
   { id: '1', text: 'Pick up a strangely shaped stone on a riverside walk', done: false },

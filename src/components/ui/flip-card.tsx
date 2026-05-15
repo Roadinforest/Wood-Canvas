@@ -26,7 +26,7 @@ export default function FlipCard({
 
   return (
     <div
-      className={`group h-72 w-56 [perspective:1000px] ${className}`}
+      className={`group [perspective:1000px] ${className}`}
     >
       <div
         className={`relative h-full w-full rounded-2xl transition-all duration-500 [transform-style:preserve-3d] ${rotationClass[rotate]}`}

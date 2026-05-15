@@ -1,6 +1,6 @@
 import { BentoCard } from '../BentoCard'
-import REDNoteSvg from '/public/REDNote.svg'
-import CapcutSvg from '/public/Capcut.svg'
+import REDNoteSvg from '/REDNote.svg'
+import CapcutSvg from '/Capcut.svg'
 
 interface InternshipCardProps {
   company: string

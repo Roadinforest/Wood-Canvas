@@ -1,8 +1,8 @@
 import { BentoCard } from '../BentoCard'
 import { useState } from 'react'
-import GitHubSvg from '/public/GitHub.svg'
-import EmailSvg from '/public/email.svg'
-import PhoneSvg from '/public/phone.svg'
+import GitHubSvg from '/GitHub.svg'
+import EmailSvg from '/email.svg'
+import PhoneSvg from '/phone.svg'
 
 const socials = [
   { id: 'github', icon: GitHubSvg, label: 'Github', link: 'https://github.com/Roadinforest' },
