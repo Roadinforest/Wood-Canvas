@@ -1,6 +1,6 @@
 import { Node } from 'reactflow'
 
-export type CardType = 'Profile' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills' | 'Tool' | 'Creation' | 'Todo' | 'Lifestyle'
+export type CardType = 'Profile' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills' | 'Tool' | 'Creation' | 'Todo' | 'Films'
 
 export interface CardItem {
   id: string
@@ -35,8 +35,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'creation',
     type: 'Creation',
-    x: -354,
-    y: 210,
+    x: -359,
+    y: 207,
   },
   {
     id: 'internship-1',
@@ -53,14 +53,14 @@ export const canvasData: CardItem[] = [
   {
     id: 'projects',
     type: 'Projects',
-    x: -36,
+    x: 397,
     y: 213,
   },
   {
     id: 'thoughts',
     type: 'Thoughts',
-    x: -297,
-    y: -302,
+    x: -41,
+    y: 206,
   },
   {
     id: 'secret',
@@ -71,8 +71,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'skills',
     type: 'Skills',
-    x: -644,
-    y: 35,
+    x: -653,
+    y: 38,
   },
   {
     id: 'tool',
@@ -83,13 +83,13 @@ export const canvasData: CardItem[] = [
   {
     id: 'todo',
     type: 'Todo',
-    x: -649,
-    y: 207,
+    x: -661,
+    y: 202,
   },
   {
-    id: 'lifestyle',
-    type: 'Lifestyle',
-    x: 571,
-    y: 225,
+    id: 'films',
+    type: 'Films',
+    x: -865,
+    y: -130,
   },
 ]

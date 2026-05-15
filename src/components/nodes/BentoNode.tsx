@@ -9,7 +9,7 @@ import { InternshipCard } from '@/components/cards/InternshipCard'
 import { SkillsCard } from '@/components/cards/SkillsCard'
 import { CreationCard } from '@/components/cards/CreationCard'
 import { TodoCard } from '@/components/cards/TodoCard'
-import LifestyleCard from '@/components/cards/LifestyleCard'
+import FilmsCard from '@/components/cards/FilmsCard'
 
 const internshipData = [
   { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Engineer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.', icon: 'rednote' as const },
@@ -39,8 +39,8 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         return <CreationCard />
       case 'Todo':
         return <TodoCard />
-      case 'Lifestyle':
-        return <LifestyleCard />
+      case 'Films':
+        return <FilmsCard />
       default:
         return null
     }

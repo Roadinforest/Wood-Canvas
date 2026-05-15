@@ -13,6 +13,7 @@ import { canvasData, convertToReactFlowNodes } from '@/data/canvasConfig'
 
 import { BentoNode } from './nodes/BentoNode'
 import { Modal } from './Modal'
+import FilmsDrawer from './cards/FilmsDrawer'
 import useCenterOnNode from '@/hooks/useCenterOnNode'
 
 const nodeTypes = {
@@ -171,6 +172,7 @@ export function Canvas() {
         )}
       </div>
       <Modal />
+      <FilmsDrawer />
     </>
   )
 }
