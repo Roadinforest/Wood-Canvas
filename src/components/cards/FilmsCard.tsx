@@ -4,9 +4,6 @@ import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
 
 export default function FilmsCard() {
   const [isHovered, setIsHovered] = useState(false);
-  const openDrawer = useFilmsDrawerStore((s) => s.openDrawer);
-  const closeDrawer = useFilmsDrawerStore((s) => s.closeDrawer);
-  const isDrawerOpen = useFilmsDrawerStore((s) => s.isOpen);
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,24 +11,24 @@ export default function FilmsCard() {
     if (!card) return;
 
     const handleWheel = (e: WheelEvent) => {
-      if (!isHovered) return;
+      const isUpScroll = e.deltaY < 0;
+      const currentState = useFilmsDrawerStore.getState();
+
+      if (currentState.isOpen) {
+        if (isUpScroll) {
+          useFilmsDrawerStore.setState({ isOpen: false });
+        }
+      } else if (isHovered && !isUpScroll) {
+        useFilmsDrawerStore.setState({ isOpen: true });
+      }
 
       e.stopPropagation();
       e.preventDefault();
-
-      if (isDrawerOpen && e.deltaY > 0) {
-        closeDrawer();
-        return;
-      }
-
-      if (!isDrawerOpen && e.deltaY < 0) {
-        openDrawer();
-      }
     };
 
-    card.addEventListener("wheel", handleWheel, { passive: false });
-    return () => card.removeEventListener("wheel", handleWheel);
-  }, [isHovered, openDrawer, closeDrawer, isDrawerOpen]);
+    document.addEventListener("wheel", handleWheel as EventListener, { passive: false, capture: true } as AddEventListenerOptions);
+    return () => document.removeEventListener("wheel", handleWheel as EventListener, { passive: false, capture: true } as AddEventListenerOptions);
+  }, [isHovered]);
 
   return (
     <div
