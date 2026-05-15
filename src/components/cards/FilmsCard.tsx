@@ -1,22 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import FlipCard from "@/components/ui/flip-card";
 import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
 
 export default function FilmsCard() {
-  const [isHovered, setIsHovered] = useState(false);
-  const isOpen = useFilmsDrawerStore((s) => s.isOpen);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const setIsHovered = useFilmsDrawerStore((s) => s.setHovered);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
-      const isUpScroll = e.deltaY < 0;
-      const currentState = useFilmsDrawerStore.getState();
+      const isUpScroll = e.deltaY > 0;
+      const isPhysicsHovered = cardRef.current?.matches(":hover");
+      const isOpen = useFilmsDrawerStore.getState().isOpen;
 
-      if (currentState.isOpen && isUpScroll) {
-        useFilmsDrawerStore.setState({ isOpen: false });
-      } else if (!currentState.isOpen && !isUpScroll) {
+      // 上滑打开抽屉，只有当鼠标悬停在卡片上且抽屉未打开时才触发
+      if (isPhysicsHovered && isUpScroll && !isOpen) {
         useFilmsDrawerStore.setState({ isOpen: true });
       }
-
+      // 下滑关闭抽屉，只有当抽屉打开时才触发
+      else if (!isUpScroll && isOpen) {
+        useFilmsDrawerStore.setState({ isOpen: false });
+        if(isPhysicsHovered) {
+          setIsHovered(true); // 保持悬停状态，防止抽屉关闭后鼠标离开卡片导致悬停状态丢失
+        }
+      }
+      // 阻止默认滚动行为，避免canvas放大缩小
       e.stopPropagation();
       e.preventDefault();
     };
@@ -25,6 +32,7 @@ export default function FilmsCard() {
       passive: false,
       capture: true,
     } as AddEventListenerOptions);
+
     return () =>
       document.removeEventListener("wheel", handleWheel as EventListener, {
         passive: false,
@@ -32,10 +40,13 @@ export default function FilmsCard() {
       } as AddEventListenerOptions);
   }, []);
 
-  const flipped = isHovered || isOpen;
+  const isOpen = useFilmsDrawerStore((s) => s.isOpen);
+  const isHovered = useFilmsDrawerStore((s) => s.isHovered);
+  const flipped = isOpen || isHovered;
 
   return (
     <div
+      ref={cardRef}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
