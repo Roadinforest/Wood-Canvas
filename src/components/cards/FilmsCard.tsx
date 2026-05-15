@@ -81,7 +81,7 @@ export default function FilmsCard() {
                 />
               </svg>
             </div>
-            <span className="text-sm text-zinc-400">scroll to open</span>
+            {/* <span className="text-sm text-zinc-400">scroll to open</span> */}
           </div>
         }
       >
