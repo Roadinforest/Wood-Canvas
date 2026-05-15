@@ -89,7 +89,7 @@ export const canvasData: CardItem[] = [
   {
     id: 'films',
     type: 'Films',
-    x: -865,
-    y: -130,
+    x: 107,
+    y: -462,
   },
 ]

@@ -110,8 +110,8 @@ export function Canvas() {
           zoomOnScroll={true}
           zoomOnPinch={true}
           fitView={false}
-          minZoom={0.3}
-          maxZoom={3}
+          minZoom={0.5}
+          maxZoom={1.5}
           onMove={(_, viewport) => {
             setScaleDisplay(Math.round(viewport.zoom * 100))
           }}
