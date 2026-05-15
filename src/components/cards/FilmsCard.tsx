@@ -4,13 +4,17 @@ import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
 
 export default function FilmsCard() {
   const cardRef = useRef<HTMLDivElement>(null);
+  const isOpen = useFilmsDrawerStore((s) => s.isOpen);
+  const isHovered = useFilmsDrawerStore((s) => s.isHovered);
   const setIsHovered = useFilmsDrawerStore((s) => s.setHovered);
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       const isUpScroll = e.deltaY > 0;
       const isPhysicsHovered = cardRef.current?.matches(":hover");
-      const isOpen = useFilmsDrawerStore.getState().isOpen;
+      if (!isPhysicsHovered && !isOpen) {
+        return;
+      }
 
       // 上滑打开抽屉，只有当鼠标悬停在卡片上且抽屉未打开时才触发
       if (isPhysicsHovered && isUpScroll && !isOpen) {
@@ -19,8 +23,9 @@ export default function FilmsCard() {
       // 下滑关闭抽屉，只有当抽屉打开时才触发
       else if (!isUpScroll && isOpen) {
         useFilmsDrawerStore.setState({ isOpen: false });
-        if(isPhysicsHovered) {
+        if (isPhysicsHovered) {
           setIsHovered(true); // 保持悬停状态，防止抽屉关闭后鼠标离开卡片导致悬停状态丢失
+          console.log("close drawer");
         }
       }
       // 阻止默认滚动行为，避免canvas放大缩小
@@ -28,21 +33,26 @@ export default function FilmsCard() {
       e.preventDefault();
     };
 
-    document.addEventListener("wheel", handleWheel as EventListener, {
-      passive: false,
-      capture: true,
-    } as AddEventListenerOptions);
-
-    return () =>
-      document.removeEventListener("wheel", handleWheel as EventListener, {
+    document.addEventListener(
+      "wheel",
+      handleWheel as EventListener,
+      {
         passive: false,
         capture: true,
-      } as AddEventListenerOptions);
-  }, []);
+      } as AddEventListenerOptions,
+    );
 
-  const isOpen = useFilmsDrawerStore((s) => s.isOpen);
-  const isHovered = useFilmsDrawerStore((s) => s.isHovered);
-  const flipped = isOpen || isHovered;
+    return () =>
+      document.removeEventListener(
+        "wheel",
+        handleWheel as EventListener,
+        {
+          passive: false,
+          capture: true,
+        } as AddEventListenerOptions,
+      );
+  }, [isOpen]);
+
 
   return (
     <div
@@ -53,7 +63,7 @@ export default function FilmsCard() {
       <FlipCard
         rotate="y"
         className="h-72 w-56"
-        flipped={flipped}
+        flipped={isOpen || isHovered}
         back={
           <div className="flex flex-col items-center justify-center h-full gap-4">
             <div className="animate-bounce">
