@@ -29,16 +29,16 @@ export default function FlipCard({
       className={`group [perspective:1000px] ${className}`}
     >
       <div
-        className={`relative h-full w-full rounded-2xl transition-all duration-500 [transform-style:preserve-3d] ${rotationClass[rotate]}`}
+        className={`relative h-full w-full rounded-bento transition-all duration-500 [transform-style:preserve-3d] ${rotationClass[rotate]}`}
       >
         {/* Front */}
-        <div className="absolute size-full overflow-hidden rounded-2xl border [backface-visibility:hidden]">
+        <div className="absolute size-full overflow-hidden rounded-bento border [backface-visibility:hidden]">
           {children}
         </div>
 
         {/* Back */}
         <div
-          className={`absolute h-full w-full overflow-hidden rounded-2xl border bg-black/80 p-4 text-slate-200 [backface-visibility:hidden] ${backRotationClass[rotate]}`}
+          className={`absolute h-full w-full overflow-hidden rounded-bento border bg-black/80 p-4 text-slate-200 [backface-visibility:hidden] ${backRotationClass[rotate]}`}
         >
           {back}
         </div>

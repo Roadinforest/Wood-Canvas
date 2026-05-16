@@ -85,7 +85,7 @@ export default function FilmsCard() {
           </div>
         }
       >
-        <div className="bg-white/30 backdrop-blur-sm rounded-3xl p-5 h-full flex flex-col items-center justify-center">
+        <div className="bg-white/30 backdrop-blur-sm p-5 h-full flex flex-col items-center justify-center">
           <h3 className="text-base font-semibold text-zinc-800">Films</h3>
         </div>
       </FlipCard>

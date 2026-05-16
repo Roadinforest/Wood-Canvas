@@ -205,20 +205,20 @@ export function Canvas() {
         {import.meta.env.DEV && (
           <>
             <button
+              onClick={toggleTheme}
+              className="fixed top-8 right-8 px-4 py-2 rounded-full shadow-lg transition-opacity bg-black text-white hover:opacity-80"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+
+            <button
               onClick={toggleModifyMode}
-              className={`fixed top-8 right-8 px-4 py-2 rounded-full shadow-lg transition-opacity flex items-center gap-2 ${
+              className={`fixed top-8 right-36 px-4 py-2 rounded-full shadow-lg transition-opacity flex items-center gap-2 ${
                 modifyMode ? 'bg-blue-500 text-white' : 'bg-black text-white hover:opacity-80'
               }`}
             >
               <Move size={16} />
               <span className="text-sm">{modifyMode ? 'Edit Mode' : 'Edit'}</span>
-            </button>
-
-            <button
-              onClick={toggleTheme}
-              className="fixed top-8 right-36 px-4 py-2 rounded-full shadow-lg transition-opacity bg-black text-white hover:opacity-80"
-            >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
             {modifyMode && (
