@@ -15,7 +15,7 @@ export function LogicSkillCard() {
       <h3 className="text-[20px] font-medium mb-1" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.5px' }}>
         Business Logic
       </h3>
-      <p className="text-[13px] text-text-muted mb-4">Backend services & RESTful APIs</p>
+      <p className="text-[13px] text-text-muted dark:text-text-muted-dark mb-4">Backend services & RESTful APIs</p>
       <div className="flex flex-wrap gap-3">
         {skills.map((skill) => (
           <div

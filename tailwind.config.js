@@ -4,14 +4,18 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        'canvas-bg': '#faf9f5',
-        'dot-color': '#d4d4d8',
+        'canvas-bg': '#fbfbfd',
+        'canvas-bg-dark': '#0f0f0f',
         'card-bg': '#ffffff',
+        'card-bg-dark': '#1a1a1a',
         'text-main': '#1e293b',
-        'text-muted': '#64748b',
+        'text-main-dark': '#f4f4f5',
+        'text-muted': '#71717a',
+        'text-muted-dark': '#e4e4e7',
         'warm-yellow': '#fef08a',
         'warm-yellow-light': '#fefce8',
         'cool-blue': '#93c5fd',
@@ -61,6 +65,8 @@ export default {
       boxShadow: {
         'bento': '0 4px 16px -4px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0,0,0,0.04)',
         'bento-hover': '0 8px 24px -8px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0,0,0,0.05)',
+        'bento-dark': '0 4px 16px -4px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0,0,0,0.2)',
+        'bento-hover-dark': '0 8px 24px -8px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0,0,0,0.25)',
       },
       spacing: {
         'card-sm': '280px',

@@ -35,10 +35,10 @@ export function ProjectsCard() {
       <div className="space-y-4 mt-4">
         {projects.map((project, index) => (
           <div key={index} className="space-y-1">
-            <p className="text-[15px] text-text-muted leading-relaxed">
+            <p className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed">
               + {project.name}
             </p>
-            <p className="text-[13px] text-text-muted/70 pl-4">
+            <p className="text-[13px] text-text-muted/70 dark:text-text-muted-dark/70 pl-4">
               {project.description}
             </p>
           </div>

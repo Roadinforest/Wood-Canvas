@@ -10,7 +10,7 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 
-import { Home, Move } from 'lucide-react'
+import { Home, Move, Sun, Moon } from 'lucide-react'
 import { useCanvasStore } from '@/store/modalStore'
 import { canvasData, canvasEdges, convertToReactFlowNodes, convertToReactFlowEdges } from '@/data/canvasConfig'
 
@@ -34,6 +34,16 @@ const initialEdges = convertToReactFlowEdges(canvasEdges)
 export function Canvas() {
   const modifyMode = useCanvasStore((state) => state.modifyMode)
   const toggleModifyMode = useCanvasStore((state) => state.toggleModifyMode)
+  const theme = useCanvasStore((state) => state.theme)
+  const toggleTheme = useCanvasStore((state) => state.toggleTheme)
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [theme])
   const [nodes, , onNodesChange] = useNodesState(initialNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [scaleDisplay, setScaleDisplay] = useState(100)
@@ -133,7 +143,7 @@ export function Canvas() {
 
   return (
     <>
-      <div className="w-screen h-screen relative overflow-hidden">
+      <div className={`w-screen h-screen relative overflow-hidden ${theme === 'dark' ? 'bg-canvas-bg-dark' : 'bg-canvas-bg'}`} style={{ overflow: 'hidden' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -155,6 +165,7 @@ export function Canvas() {
           minZoom={0.5}
           maxZoom={1.5}
           translateExtent={viewportBounds}
+          proOptions={{ hideAttribution: true }}
           onMove={(_, viewport) => {
             setScaleDisplay(Math.round(viewport.zoom * 100))
           }}
@@ -170,8 +181,8 @@ export function Canvas() {
         >
           <Background
             variant={BackgroundVariant.Dots}
-            gap={60}
-            size={5}
+            gap={48}
+            size={1}
             color="var(--dot-color)"
           />
           {/* <Controls showInteractive={false} /> */}
@@ -201,6 +212,13 @@ export function Canvas() {
             >
               <Move size={16} />
               <span className="text-sm">{modifyMode ? 'Edit Mode' : 'Edit'}</span>
+            </button>
+
+            <button
+              onClick={toggleTheme}
+              className="fixed top-8 right-36 px-4 py-2 rounded-full shadow-lg transition-opacity bg-black text-white hover:opacity-80"
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
             {modifyMode && (

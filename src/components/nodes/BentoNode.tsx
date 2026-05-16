@@ -61,7 +61,7 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
   }
 
   return (
-    <div className="bg-white/60 border-2 border-dashed border-warm-yellow rounded-bento backdrop-blur-sm cursor-grab active:cursor-grabbing transition-all duration-200 ease-out [&.hovered]:scale-[1.03] [&.hovered]:shadow-bento-hover relative">
+    <div className={`bg-white/60 rounded-bento backdrop-blur-sm cursor-grab active:cursor-grabbing transition-all duration-200 ease-out [&.hovered]:scale-[1.03] [&.hovered]:shadow-bento-hover relative ${modifyMode ? 'border-2 border-dashed border-warm-yellow' : ''}`}>
       <Handle type="target" position={Position.Top} id="top" className={modifyMode ? '!w-3 !h-3 !bg-blue-400 !border-2 !border-white' : '!w-0 !h-0 !bg-transparent !border-0'} />
       <Handle type="target" position={Position.Right} id="right" className={modifyMode ? '!w-3 !h-3 !bg-blue-400 !border-2 !border-white' : '!w-0 !h-0 !bg-transparent !border-0'} />
       <Handle type="target" position={Position.Bottom} id="bottom" className={modifyMode ? '!w-3 !h-3 !bg-blue-400 !border-2 !border-white' : '!w-0 !h-0 !bg-transparent !border-0'} />

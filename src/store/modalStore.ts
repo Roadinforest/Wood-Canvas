@@ -23,6 +23,8 @@ interface CanvasState {
   updateCardPosition: (cardId: string, x: number, y: number) => void
   edges: CanvasEdge[]
   updateEdges: (edges: CanvasEdge[]) => void
+  theme: 'light' | 'dark'
+  toggleTheme: () => void
 }
 
 interface CanvasEdge {
@@ -47,6 +49,8 @@ export const useCanvasStore = create<CanvasState>()(
       setResetView: (fn) => { resetViewFn = fn },
       modifyMode: false,
       toggleModifyMode: () => set((state) => ({ modifyMode: !state.modifyMode })),
+      theme: 'light',
+      toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
       cardPositions: {},
       updateCardPosition: (cardId, x, y) => {
         console.log('[Store] updateCardPosition:', cardId, 'x:', x, 'y:', y)

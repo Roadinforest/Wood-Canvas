@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { useCanvasStore } from '@/store/modalStore'
 
 type CardSize = 'sm' | 'md' | 'lg' | 'custom'
 
@@ -22,10 +23,14 @@ const sizeClasses: Record<CardSize, string> = {
 }
 
 export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', borderColor, onClick, onMouseEnter, onMouseLeave, children }: BentoCardProps) {
+  const theme = useCanvasStore((s) => s.theme)
+  const glassBgClass = theme === 'dark' ? 'bg-black/40 backdrop-blur-md' : 'bg-card-bg'
+
   return (
     <div
       className={cn(
-        'bg-card-bg rounded-bento p-7 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover border-2 border-dashed',
+        'rounded-bento p-7 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover border-2 border-dashed',
+        glassBgClass,
         sizeClasses[size],
         onClick ? 'cursor-pointer' : 'cursor-default',
         className

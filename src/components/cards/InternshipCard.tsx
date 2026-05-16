@@ -24,9 +24,9 @@ export function InternshipCard({ company, period, role, description, icon }: Int
         {IconSrc && <img src={IconSrc} alt={company} className="w-5 h-5" />}
         <h3 className="text-[14px] font-semibold text-neutral-900">{company}</h3>
       </div>
-      <p className="text-[12px] text-text-muted mb-2">{period}</p>
+      <p className="text-[12px] text-text-muted dark:text-text-muted-dark mb-2">{period}</p>
       <p className="text-[13px] font-medium text-neutral-700 mb-2">{role}</p>
-      <p className="text-[12px] text-text-muted leading-relaxed">{description}</p>
+      <p className="text-[12px] text-text-muted dark:text-text-muted-dark leading-relaxed">{description}</p>
     </BentoCard>
   )
 }
