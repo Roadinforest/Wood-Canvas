@@ -1,8 +1,11 @@
 import { BentoCard } from '../BentoCard'
 
 const skills = [
+  { name: 'C++', svg: 'C++' },
   { name: 'Go', svg: 'Golang' },
+  { name: 'Gin', svg: 'Gin' },
   { name: 'Node.js', svg: 'Node.js' },
+  { name: 'Hono', svg: 'Hono' },
   { name: 'Express.js', svg: 'Express' },
 ]
 

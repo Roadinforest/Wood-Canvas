@@ -6,7 +6,7 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   Connection,
-  Controls,
+  // Controls,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 

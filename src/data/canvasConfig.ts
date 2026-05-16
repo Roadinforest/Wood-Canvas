@@ -114,32 +114,32 @@ export const canvasData: CardItem[] = [
   {
     id: 'films',
     type: 'Films',
-    x: 239,
-    y: 15,
+    x: 281,
+    y: -43,
   },
   {
     id: 'ui-skill',
     type: 'UISkill',
-    x: -418,
-    y: 0,
+    x: -240,
+    y: -80,
   },
   {
     id: 'logic-skill',
     type: 'LogicSkill',
-    x: -420,
-    y: 242,
+    x: -240,
+    y: 176,
   },
   {
     id: 'ai-skill',
     type: 'AISkill',
-    x: -418,
-    y: 442,
+    x: -244,
+    y: 408,
   },
   {
     id: 'infra-skill',
     type: 'InfraSkill',
-    x: -414,
-    y: 693,
+    x: -244,
+    y: 637,
   },
 ]
 
