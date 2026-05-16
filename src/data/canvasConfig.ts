@@ -90,8 +90,8 @@ export const canvasData: CardItem[] = [
   {
     id: 'secret',
     type: 'Secret',
-    x: 1686,
-    y: 338,
+    x: 1696,
+    y: 222,
   },
   {
     id: 'skills',

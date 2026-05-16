@@ -6,75 +6,58 @@ interface MediaItem {
   id: string;
   title: string;
   image: string;
-  rating?: number;
 }
 
 const filmsList: MediaItem[] = [
   {
-    id: "inception",
-    title: "Inception",
-    image: "https://image.tmdb.org/t/p/w200/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg",
-    rating: 9,
+    id: "castle-in-the-sky",
+    title: "Castle in the Sky",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/rtGDOeG9LzoerkDGZF9dnVeLppL.jpg",
   },
   {
-    id: "interstellar",
-    title: "Interstellar",
-    image: "https://image.tmdb.org/t/p/w200/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
-    rating: 9,
+    id: "my-neighbor-totoro",
+    title: "My Neighbor Totoro",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/cMYCDADoLKLbB83g4WnJegaZimC.jpg",
   },
   {
-    id: "dune",
-    title: "Dune",
-    image: "https://image.tmdb.org/t/p/w200/jYjYxPEjoeL8JAMP8wMunw7Rq5r.jpg",
-    rating: 8,
+    id: "princess-mononoke",
+    title: "Princess Mononoke",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/41XxSsJc5OrulP0m7TrrUeO2hoz.jpg",
   },
   {
-    id: "matrix",
-    title: "The Matrix",
-    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-    rating: 8,
+    id: "the-social-network",
+    title: "The Social Network",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/n0ybibhJtQ5icDqTp8eRytcIHJx.jpg",
   },
   {
-    id: "bladerunner",
-    title: "Blade Runner 2049",
-    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
-    rating: 8,
+    id: "the-great-gatsby",
+    title: "The Great Gatsby",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/tyxfCBQv6Ap74jcu3xd7aBiaa29.jpg",
   },
   {
-    id: "matrix",
-    title: "The Matrix",
-    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-    rating: 8,
+    id: "a-beautiful-mind",
+    title: "A Beautiful Mind",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/rEIg5yJdNOt9fmX4P8gU9LeNoTQ.jpg",
   },
   {
-    id: "bladerunner",
-    title: "Blade Runner 2049",
-    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
-    rating: 8,
+    id: "green-book",
+    title: "Green Book",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/7BsvSuDQuoqhWmU2fL7W2GOcZHU.jpg",
   },
   {
-    id: "matrix",
-    title: "The Matrix",
-    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-    rating: 8,
+    id: "infernal-affairs",
+    title: "Infernal Affairs",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/exbyTbrvRUDKN2mcNEuVor4VFQW.jpg",
   },
   {
-    id: "bladerunner",
-    title: "Blade Runner 2049",
-    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
-    rating: 8,
+    id: "zootopia",
+    title: "Zootopia",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/hlK0e0wAQ3VLuJcsfIYPvb4JVud.jpg",
   },
   {
-    id: "matrix",
-    title: "The Matrix",
-    image: "https://image.tmdb.org/t/p/w200/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
-    rating: 8,
-  },
-  {
-    id: "bladerunner",
-    title: "Blade Runner 2049",
-    image: "https://image.tmdb.org/t/p/w200/gajJ2bHf8JCdR5l63CEKP3p5aT.jpg",
-    rating: 8,
+    id: "kung-fu-hustle",
+    title: "Kung Fu Hustle",
+    image: "https://media.themoviedb.org/t/p/w300_and_h450_face/hjS9mH8KvRiGHgjk6VUZH7OT0Ng.jpg",
   },
 ];
 
@@ -123,7 +106,7 @@ export default function FilmsDrawer() {
                 <h3 className="text-lg font-semibold text-zinc-800">Films</h3>
                 <button
                   onClick={closeDrawer}
-                  className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-zinc-100 transition-colors"
                 >
                   <svg className="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -133,38 +116,34 @@ export default function FilmsDrawer() {
               {isOpen && (
                 <div
                   ref={scrollRef}
-                  className="grid grid-cols-2 md:grid-cols-3 gap-3 max-h-[300px] overflow-y-auto"
+                  className="max-h-[300px] overflow-y-auto"
                 >
-                  {filmsList.map((film) => (
-                    <motion.div
-                      key={film.id}
-                      className="relative h-32 rounded-xl overflow-hidden cursor-pointer bg-cover bg-center"
-                      style={{ backgroundImage: `url(${film.image})` }}
-                      onMouseEnter={() => setActiveId(film.id)}
-                      onMouseLeave={() => setActiveId(null)}
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <div
-                        className="absolute inset-0 transition-opacity duration-300"
-                        style={{
-                          backgroundImage: `url(${film.image})`,
-                          filter: activeId === film.id ? "grayscale(0%)" : "grayscale(80%)",
-                          opacity: activeId === film.id ? 0.3 : 0.6,
-                        }}
-                      />
-                      <div className="relative z-10 h-full flex flex-col justify-between p-2">
-                        <div className="flex justify-end">
-                          <span className="bg-yellow-400 text-xs font-bold px-2 py-0.5 rounded-full">
-                            {film.rating}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {filmsList.map((film) => (
+                      <motion.div
+                        key={film.id}
+                        className="relative h-32 overflow-visible cursor-pointer bg-cover bg-center rounded-md"
+                        style={{ backgroundImage: `url(${film.image})` }}
+                        onMouseEnter={() => setActiveId(film.id)}
+                        onMouseLeave={() => setActiveId(null)}
+                      >
+                        <div
+                          className="absolute inset-0 transition-opacity duration-300 rounded-md"
+                          style={{
+                            backgroundImage: `url(${film.image})`,
+                            filter: activeId === film.id ? "grayscale(0%)" : "grayscale(80%)",
+                            opacity: activeId === film.id ? 0.3 : 0.6,
+                          }}
+                        />
+                        <div className="relative z-10 h-full flex flex-col justify-between p-2 rounded-md">
+                          <div className="flex justify-end" />
+                          <span className="text-sm text-white font-medium drop-shadow-md">
+                            {film.title}
                           </span>
                         </div>
-                        <span className="text-sm text-white font-medium drop-shadow-md">
-                          {film.title}
-                        </span>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               )}
               {peek && (
