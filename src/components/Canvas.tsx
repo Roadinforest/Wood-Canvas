@@ -43,9 +43,26 @@ export function Canvas() {
   const saveTimeoutRef = useRef<number | null>(null)
   const rfInstanceRef = useRef<any | null>(null)
   const [rfiInstance, setRfiInstance] = useState<any | null>(null)
-  const hasInitializedRef = useRef(false)
 
   const centerOnNode = useCenterOnNode(nodes, rfiInstance)
+
+  // 计算节点边界，用于限制 viewport 范围
+  const getViewportBounds = useCallback(() => {
+    if (nodes.length === 0) return null
+    let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
+    nodes.forEach((node) => {
+      const w = node.width ?? 300
+      const h = node.height ?? 200
+      minX = Math.min(minX, node.position.x)
+      minY = Math.min(minY, node.position.y)
+      maxX = Math.max(maxX, node.position.x + w)
+      maxY = Math.max(maxY, node.position.y + h)
+    })
+    const padding = 200
+    return [[minX - padding, minY - padding], [maxX + padding, maxY + padding]] as [[number, number], [number, number]]
+  }, [nodes])
+
+  const viewportBounds = getViewportBounds() ?? [[-5000, -5000], [5000, 5000]]
 
   useEffect(() => {
     if (prevModifyModeRef.current === true && modifyMode === false) {
@@ -137,6 +154,7 @@ export function Canvas() {
           fitView={false}
           minZoom={0.5}
           maxZoom={1.5}
+          translateExtent={viewportBounds}
           onMove={(_, viewport) => {
             setScaleDisplay(Math.round(viewport.zoom * 100))
           }}
@@ -156,7 +174,7 @@ export function Canvas() {
             size={5}
             color="var(--dot-color)"
           />
-          <Controls showInteractive={false} />
+          {/* <Controls showInteractive={false} /> */}
         </ReactFlow>
 
         <button

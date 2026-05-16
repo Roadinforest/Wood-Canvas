@@ -66,44 +66,44 @@ export const canvasData: CardItem[] = [
   {
     id: 'internship-1',
     type: 'Internship',
-    x: 954,
-    y: 130,
+    x: 1097,
+    y: 109,
   },
   {
     id: 'internship-2',
     type: 'Internship',
-    x: 959,
-    y: 341,
+    x: 1098,
+    y: 338,
   },
   {
     id: 'projects',
     type: 'Projects',
-    x: 955,
-    y: 541,
+    x: 1094,
+    y: 544,
   },
   {
     id: 'thoughts',
     type: 'Thoughts',
-    x: 500,
-    y: -79,
+    x: 545,
+    y: -15,
   },
   {
     id: 'secret',
     type: 'Secret',
-    x: 1606,
-    y: 333,
+    x: 1686,
+    y: 338,
   },
   {
     id: 'skills',
     type: 'Skills',
-    x: -167,
-    y: 410,
+    x: -165,
+    y: 205,
   },
   {
     id: 'tool',
     type: 'Tool',
-    x: 118,
-    y: 214,
+    x: 1105,
+    y: -73,
   },
   {
     id: 'todo',
@@ -114,15 +114,14 @@ export const canvasData: CardItem[] = [
   {
     id: 'films',
     type: 'Films',
-    x: 75,
-    y: 698,
+    x: 239,
+    y: 15,
   },
 ]
 
 export const canvasEdges: CanvasEdge[] = [
   { id: 'reactflow__edge-profileright-source-internship-1left', source: 'profile', sourceHandle: 'right-source', target: 'internship-1', targetHandle: 'left' },
   { id: 'reactflow__edge-profileright-source-internship-2left', source: 'profile', sourceHandle: 'right-source', target: 'internship-2', targetHandle: 'left' },
-  { id: 'reactflow__edge-toolright-source-profileleft', source: 'tool', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
   { id: 'reactflow__edge-skillsright-source-profileleft', source: 'skills', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
   { id: 'reactflow__edge-profileright-source-projectsleft', source: 'profile', sourceHandle: 'right-source', target: 'projects', targetHandle: 'left' },
   { id: 'reactflow__edge-projectsright-source-secretleft', source: 'projects', sourceHandle: 'right-source', target: 'secret', targetHandle: 'left' },
@@ -130,5 +129,6 @@ export const canvasEdges: CanvasEdge[] = [
   { id: 'reactflow__edge-thoughtsbottom-source-profiletop', source: 'thoughts', sourceHandle: 'bottom-source', target: 'profile', targetHandle: 'top' },
   { id: 'reactflow__edge-profilebottom-source-creationtop', source: 'profile', sourceHandle: 'bottom-source', target: 'creation', targetHandle: 'top' },
   { id: 'reactflow__edge-profilebottom-source-todotop', source: 'profile', sourceHandle: 'bottom-source', target: 'todo', targetHandle: 'top' },
-  { id: 'reactflow__edge-profilebottom-source-filmstop', source: 'profile', sourceHandle: 'bottom-source', target: 'films', targetHandle: 'top' }
+  { id: 'reactflow__edge-filmsbottom-source-profiletop', source: 'films', sourceHandle: 'bottom-source', target: 'profile', targetHandle: 'top' },
+  { id: 'reactflow__edge-profileright-source-toolleft', source: 'profile', sourceHandle: 'right-source', target: 'tool', targetHandle: 'left' }
 ]
