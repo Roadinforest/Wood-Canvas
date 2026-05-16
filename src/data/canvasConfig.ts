@@ -1,6 +1,6 @@
 import { Node, Edge, MarkerType } from 'reactflow'
 
-export type CardType = 'Profile' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills' | 'Tool' | 'Creation' | 'Todo' | 'Films'
+export type CardType = 'Profile' | 'Projects' | 'Thoughts' | 'Secret' | 'Internship' | 'Skills' | 'Tool' | 'Creation' | 'Todo' | 'Films' | 'UISkill' | 'LogicSkill' | 'AISkill' | 'InfraSkill'
 
 export interface CardItem {
   id: string
@@ -93,12 +93,12 @@ export const canvasData: CardItem[] = [
     x: 1696,
     y: 222,
   },
-  {
-    id: 'skills',
-    type: 'Skills',
-    x: -165,
-    y: 205,
-  },
+  // {
+  //   id: 'skills',
+  //   type: 'Skills',
+  //   x: -165,
+  //   y: 205,
+  // },
   {
     id: 'tool',
     type: 'Tool',
@@ -117,12 +117,35 @@ export const canvasData: CardItem[] = [
     x: 239,
     y: 15,
   },
+  {
+    id: 'ui-skill',
+    type: 'UISkill',
+    x: -418,
+    y: 0,
+  },
+  {
+    id: 'logic-skill',
+    type: 'LogicSkill',
+    x: -420,
+    y: 242,
+  },
+  {
+    id: 'ai-skill',
+    type: 'AISkill',
+    x: -418,
+    y: 442,
+  },
+  {
+    id: 'infra-skill',
+    type: 'InfraSkill',
+    x: -414,
+    y: 693,
+  },
 ]
 
 export const canvasEdges: CanvasEdge[] = [
   { id: 'reactflow__edge-profileright-source-internship-1left', source: 'profile', sourceHandle: 'right-source', target: 'internship-1', targetHandle: 'left' },
   { id: 'reactflow__edge-profileright-source-internship-2left', source: 'profile', sourceHandle: 'right-source', target: 'internship-2', targetHandle: 'left' },
-  { id: 'reactflow__edge-skillsright-source-profileleft', source: 'skills', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
   { id: 'reactflow__edge-profileright-source-projectsleft', source: 'profile', sourceHandle: 'right-source', target: 'projects', targetHandle: 'left' },
   { id: 'reactflow__edge-projectsright-source-secretleft', source: 'projects', sourceHandle: 'right-source', target: 'secret', targetHandle: 'left' },
   { id: 'reactflow__edge-internship-2right-source-secretleft', source: 'internship-2', sourceHandle: 'right-source', target: 'secret', targetHandle: 'left' },
@@ -130,5 +153,9 @@ export const canvasEdges: CanvasEdge[] = [
   { id: 'reactflow__edge-profilebottom-source-creationtop', source: 'profile', sourceHandle: 'bottom-source', target: 'creation', targetHandle: 'top' },
   { id: 'reactflow__edge-profilebottom-source-todotop', source: 'profile', sourceHandle: 'bottom-source', target: 'todo', targetHandle: 'top' },
   { id: 'reactflow__edge-filmsbottom-source-profiletop', source: 'films', sourceHandle: 'bottom-source', target: 'profile', targetHandle: 'top' },
-  { id: 'reactflow__edge-profileright-source-toolleft', source: 'profile', sourceHandle: 'right-source', target: 'tool', targetHandle: 'left' }
+  { id: 'reactflow__edge-profileright-source-toolleft', source: 'profile', sourceHandle: 'right-source', target: 'tool', targetHandle: 'left' },
+  { id: 'reactflow__edge-logic-skillright-source-profileleft', source: 'logic-skill', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
+  { id: 'reactflow__edge-ai-skillright-source-profileleft', source: 'ai-skill', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
+  { id: 'reactflow__edge-infra-skillright-source-profileleft', source: 'infra-skill', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' },
+  { id: 'reactflow__edge-ui-skillright-source-profileleft', source: 'ui-skill', sourceHandle: 'right-source', target: 'profile', targetHandle: 'left' }
 ]

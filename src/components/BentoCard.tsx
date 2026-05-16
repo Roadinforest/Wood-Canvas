@@ -7,6 +7,7 @@ interface BentoCardProps {
   colSpan?: number
   rowSpan?: number
   size?: CardSize
+  borderColor?: string
   onClick?: () => void
   onMouseEnter?: () => void
   onMouseLeave?: () => void
@@ -20,11 +21,11 @@ const sizeClasses: Record<CardSize, string> = {
   custom: '',
 }
 
-export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', onClick, onMouseEnter, onMouseLeave, children }: BentoCardProps) {
+export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom', borderColor, onClick, onMouseEnter, onMouseLeave, children }: BentoCardProps) {
   return (
     <div
       className={cn(
-        'bg-card-bg rounded-bento p-7 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover',
+        'bg-card-bg rounded-bento p-7 shadow-bento transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-bento-hover border-2 border-dashed',
         sizeClasses[size],
         onClick ? 'cursor-pointer' : 'cursor-default',
         className
@@ -32,6 +33,7 @@ export function BentoCard({ className, colSpan = 1, rowSpan = 1, size = 'custom'
       style={{
         gridColumn: `span ${colSpan}`,
         gridRow: `span ${rowSpan}`,
+        borderColor: borderColor || undefined,
       }}
       onClick={onClick}
       onMouseEnter={onMouseEnter}
