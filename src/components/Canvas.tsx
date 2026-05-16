@@ -6,6 +6,7 @@ import ReactFlow, {
   Background,
   BackgroundVariant,
   Connection,
+  Controls,
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 
@@ -95,23 +96,23 @@ export function Canvas() {
   }, [])
 
   // 页面加载时飞转到 profile 卡片，与 Home 按钮逻辑一致
-  useEffect(() => {
-    if (hasInitializedRef.current) return
-    if (!rfiInstance) return
+  // useEffect(() => {
+  //   if (hasInitializedRef.current) return
+  //   if (!rfiInstance) return
 
-    let canceled = false
+  //   let canceled = false
 
-    const init = async () => {
-      await centerOnNode('profile', { zoom: 0.77, duration: 0 })
-      if (!canceled) hasInitializedRef.current = true
-    }
+  //   const init = async () => {
+  //     await centerOnNode('profile', { zoom: 0.77, duration: 0 })
+  //     if (!canceled) hasInitializedRef.current = true
+  //   }
 
-    init()
+  //   init()
 
-    return () => {
-      canceled = true
-    }
-  }, [nodes, rfiInstance])
+  //   return () => {
+  //     canceled = true
+  //   }
+  // }, [nodes, rfiInstance])
 
   return (
     <>
@@ -146,6 +147,7 @@ export function Canvas() {
           onInit={(rfi) => {
             rfInstanceRef.current = rfi
             setRfiInstance(rfi)
+            rfi.fitView({ padding: 0.2, duration: 1000 })
           }}
         >
           <Background
@@ -154,7 +156,7 @@ export function Canvas() {
             size={5}
             color="var(--dot-color)"
           />
-          {/* <Controls showInteractive={false} /> */}
+          <Controls showInteractive={false} />
         </ReactFlow>
 
         <button
