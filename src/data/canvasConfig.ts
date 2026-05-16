@@ -40,6 +40,7 @@ export function convertToReactFlowEdges(edges: CanvasEdge[]): Edge[] {
     sourceHandle: edge.sourceHandle || null,
     target: edge.target,
     targetHandle: edge.targetHandle || null,
+    type: 'default',
     animated: true,
     markerEnd: {
       type: MarkerType.ArrowClosed,

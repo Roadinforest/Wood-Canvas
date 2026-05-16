@@ -14,12 +14,17 @@ import { useCanvasStore } from '@/store/modalStore'
 import { canvasData, canvasEdges, convertToReactFlowNodes, convertToReactFlowEdges } from '@/data/canvasConfig'
 
 import { BentoNode } from './nodes/BentoNode'
+import { GradientEdge } from './edges/GradientEdge'
 import { Modal } from './Modal'
 import FilmsDrawer from './cards/FilmsDrawer'
 import useCenterOnNode from '@/hooks/useCenterOnNode'
 
 const nodeTypes = {
   bento: BentoNode,
+}
+
+const edgeTypes = {
+  default: GradientEdge,
 }
 
 const initialNodes = convertToReactFlowNodes(canvasData)
@@ -117,9 +122,11 @@ export function Canvas() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={useCallback((params: Connection) => {
-            setEdges((eds) => addEdge({ ...params, animated: true }, eds))
+            setEdges((eds) => addEdge({ ...params, type: 'default', animated: true }, eds))
           }, [setEdges])}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={{ type: 'default' }}
           nodesDraggable={modifyMode}
           nodesConnectable={modifyMode}
           elementsSelectable={false}
