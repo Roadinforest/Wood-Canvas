@@ -1,6 +1,11 @@
 import { BentoCard } from '../BentoCard'
 
-const skills = ['Next.js', 'React', 'Tailwind', 'SCSS']
+const skills = [
+  { name: 'Next.js', svg: 'Next-js' },
+  { name: 'React', svg: 'React' },
+  { name: 'Tailwind', svg: 'Tailwind' },
+  { name: 'SCSS', svg: 'Scss' },
+]
 
 export function UISkillCard() {
   return (
@@ -12,12 +17,11 @@ export function UISkillCard() {
       <div className="flex flex-wrap gap-3">
         {skills.map((skill) => (
           <div
-            key={skill}
+            key={skill.name}
             className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-[10px] text-[13px] font-medium text-[#404040] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
           >
-            {/* SVG placeholder */}
-            <div className="w-4 h-4 bg-gray-200 rounded" />
-            {skill}
+            <img src={`/skills/${skill.svg}.svg`} alt={skill.name} className="w-4 h-4 object-contain" />
+            {skill.name}
           </div>
         ))}
       </div>

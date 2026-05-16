@@ -1,6 +1,12 @@
 import { BentoCard } from '../BentoCard'
 
-const skills = ['MySQL', 'Redis', 'Docker', 'Aliyun']
+const skills = [
+  { name: 'MySQL', svg: 'MySQL' },
+  { name: 'Redis', svg: 'Redis' },
+  { name: 'Docker', svg: 'Docker' },
+  { name: 'Aliyun', svg: 'Aliyun' },
+  { name: 'Vercel', svg: 'Vercel' },
+]
 
 export function InfraSkillCard() {
   return (
@@ -12,12 +18,15 @@ export function InfraSkillCard() {
       <div className="flex flex-wrap gap-3">
         {skills.map((skill) => (
           <div
-            key={skill}
+            key={skill.name}
             className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-[10px] text-[13px] font-medium text-[#404040] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
           >
-            {/* SVG placeholder */}
-            <div className="w-4 h-4 bg-gray-200 rounded" />
-            {skill}
+            {skill.svg ? (
+              <img src={`/skills/${skill.svg}.svg`} alt={skill.name} className="w-4 h-4 object-contain" />
+            ) : (
+              <div className="w-4 h-4 bg-gray-200 rounded" />
+            )}
+            {skill.name}
           </div>
         ))}
       </div>
