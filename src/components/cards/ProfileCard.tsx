@@ -1,14 +1,6 @@
 import { BentoCard } from '../BentoCard'
 import { useState } from 'react'
-import GitHubSvg from '/GitHub.svg'
-import EmailSvg from '/email.svg'
-import PhoneSvg from '/phone.svg'
-
-const socials = [
-  { id: 'github', icon: GitHubSvg, label: 'Github', link: 'https://github.com/Roadinforest' },
-  { id: 'email', icon: EmailSvg, label: 'Email', value: 'whuforest@outlook.com' },
-  { id: 'phone', icon: PhoneSvg, label: 'Phone', value: '15019734683' },
-]
+import { profile, socials } from '@/data/siteContent'
 
 export function ProfileCard() {
   const [copied, setCopied] = useState<string | null>(null)
@@ -25,11 +17,16 @@ export function ProfileCard() {
 
   return (
     <BentoCard size="md" rowSpan={2} className="justify-end">
-      <img src="/header.png" alt="avatar" className="w-20 h-20 rounded-full mb-auto object-cover" />
-      <h1 className="text-[32px] font-semibold tracking-tight mb-2">Roadinforest</h1>
-      <p className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed whitespace-pre-line">Full Stack Developer </p>
-      <p className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed whitespace-pre-line">Agent Developer </p>
-      <p className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed whitespace-pre-line mb-4">Creator (ON the way...)</p>
+      <img src={profile.avatar} alt="avatar" className="w-20 h-20 rounded-full mb-auto object-cover" />
+      <h1 className="text-[32px] font-semibold tracking-tight mb-2">{profile.name}</h1>
+      {profile.roles.map((role) => (
+        <p key={role} className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed whitespace-pre-line">
+          {role}
+        </p>
+      ))}
+      <p className="text-[15px] text-text-muted dark:text-text-muted-dark leading-relaxed whitespace-pre-line mb-4">
+        {profile.intro}
+      </p>
       <div className="flex justify-end gap-4">
         {socials.map((social) => (
           <div key={social.id} className="relative">

@@ -1,22 +1,17 @@
 import { BentoCard } from '../BentoCard'
-
-const skills = [
-  { name: 'MySQL', svg: 'MySQL' },
-  { name: 'Redis', svg: 'Redis' },
-  { name: 'Docker', svg: 'Docker' },
-  { name: 'Aliyun', svg: 'Aliyun' },
-  { name: 'Vercel', svg: 'Vercel' },
-]
+import { skillGroups } from '@/data/siteContent'
 
 export function InfraSkillCard() {
+  const group = skillGroups[3]
+
   return (
-    <BentoCard size="md" rowSpan={1} borderColor="#BFDBFE">
+    <BentoCard size="md" rowSpan={1} borderColor={group.borderColor}>
       <h3 className="text-[20px] font-medium mb-1" style={{ fontFamily: 'Georgia, serif', letterSpacing: '0.5px' }}>
-        Infrastructure
+        {group.title}
       </h3>
-      <p className="text-[13px] text-text-muted dark:text-text-muted-dark mb-4">Databases, Containers & Cloud deployment</p>
+      <p className="text-[13px] text-text-muted dark:text-text-muted-dark mb-4">{group.description}</p>
       <div className="flex flex-wrap gap-3">
-        {skills.map((skill) => (
+        {group.skills.map((skill) => (
           <div
             key={skill.name}
             className="flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-[10px] text-[13px] font-medium text-[#404040] border border-[#F3F4F6] shadow-[0_1px_2px_rgba(0,0,0,0.02)]"

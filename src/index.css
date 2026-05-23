@@ -48,7 +48,7 @@ body {
   font-family: var(--font-sans);
   background-color: var(--bg-color);
   color: var(--text-main);
-  user-select: none;
+  user-select: auto;
 }
 
 #root {

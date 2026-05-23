@@ -1,16 +1,12 @@
 import { BentoCard } from '../BentoCard'
-
-const links = [
-  { label: 'Markdown Previewer', url: '/preview/md' },
-  { label: 'Mermaid Previewer', url: '/preview/mermaid' },
-]
+import { toolLinks } from '@/data/siteContent'
 
 export function ToolCard() {
   return (
     <BentoCard size="sm" rowSpan={1} className="bg-black text-white">
       <h2 className="text-[20px] font-medium mb-3">Tools</h2>
       <div className="space-y-2">
-        {links.map((link) => (
+        {toolLinks.map((link) => (
           <a
             key={link.url}
             href={link.url}

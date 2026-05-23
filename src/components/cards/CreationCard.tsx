@@ -1,10 +1,6 @@
 import { ListCard } from '../ListCard'
 import checkedIcon from '@/assets/checkbox.svg'
-
-const creationIdeas = [
-  { id: '1', name: 'PDF Headings Builder', description: 'Help build the headings for your PDF documents', done: false },
-  { id: '2', name: 'SketchSnap', description: 'Take a photo, highlight the objects you want, and instantly turn them into clean illustrated artwork ready for social sharing.', done: false },
-]
+import { creationIdeas } from '@/data/siteContent'
 
 function CreationItem({ text, description, done }: { text: string; description?: string; done?: boolean }) {
   return (

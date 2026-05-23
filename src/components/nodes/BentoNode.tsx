@@ -15,11 +15,7 @@ import { UISkillCard } from '@/components/cards/UISkillCard'
 import { LogicSkillCard } from '@/components/cards/LogicSkillCard'
 import { AISkillCard } from '@/components/cards/AISkillCard'
 import { InfraSkillCard } from '@/components/cards/InfraSkillCard'
-
-const internshipData = [
-  { company: 'REDNote', period: '2025.10 - 2026.04', role: 'AI Engineer', description: 'Developing an AI troubleshooting system to streamline the resolution of live UI bugs.', icon: 'rednote' as const },
-  { company: 'Capcut ByteDance', period: '2026.04 - Present', role: 'AI Cross-platform Engineer', description: 'Help building Capcut Visual Studio', icon: 'capcut' as const },
-]
+import { internships } from '@/data/siteContent'
 
 export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
   const modifyMode = useCanvasStore((s) => s.modifyMode)
@@ -35,7 +31,7 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         return <SecretCard />
       case 'Internship':
         const index = id === 'internship-1' ? 0 : 1
-        const internship = internshipData[index]
+        const internship = internships[index]
         return <InternshipCard {...internship} />
       case 'Skills':
         return <SkillsCard />
