@@ -1,19 +1,15 @@
 <claude-mem-context>
 # Memory Context
 
-# [my-canvas] recent context, 2026-05-23 11:14pm GMT+8
+# [my-canvas] recent context, 2026-05-23 11:27pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (11,162t read) | 4,151,116t work | 100% savings
+Stats: 50 obs (11,140t read) | 4,136,566t work | 100% savings
 
 ### May 16, 2026
-753 12:14p 🔵 BentoNode.tsx contains card type routing switch statement
-756 " ✅ Added new skill cards to canvasData with positioning coordinates
-757 " ✅ Removed temporary HTML demo files
-758 " ⚖️ Restoring category-specific border colors from original HTML
 759 12:19p 🟣 Extended BentoCard component with borderColor prop
 760 " ✅ Added dashed border style to BentoCard
 761 " 🟣 Applied category-specific border colors to all skill cards
@@ -69,8 +65,12 @@ S863 Scroll-driven flower doodle animation - 2D flowers extending from screen ed
 921 11:11p ✅ Font optimization via CDN delegation
 922 11:12p ✅ Configuring font CDN loading instead of local bundling
 924 " 🔵 Vite project uses @fontsource for local font bundling
+929 " ✅ Removed @fontsource packages to externalize fonts to Google Fonts CDN
 923 " ✅ Migrated Inter font from local bundling to Google Fonts CDN
 925 " ✅ Font CDN migration successful - no font files in build output
+926 11:13p ✅ Font migration completed - all @fontsource references removed
+927 11:15p ✅ Added JetBrains Mono and Noto Serif fonts to CDN load
+930 11:24p ✅ Uninstalled @fontsource packages from npm dependencies
 
-Access 4151k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 4137k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

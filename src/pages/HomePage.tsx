@@ -67,11 +67,9 @@ export function HomePage() {
                     Full Stack x Agent x Creation
                   </div>
                   <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                    用几何秩序、
+                    Welcome
                     <br />
-                    代码和想法，
-                    <br />
-                    组织一张个人网页。
+                    to my website
                   </h1>
                   <p className="max-w-xl text-base leading-7 text-stone-700 sm:text-lg">
                     {profile.intro}
@@ -146,7 +144,7 @@ export function HomePage() {
               <div className="min-h-[8rem] border-r-2 border-stone-950 bg-[#E63946]" />
               <div className="flex items-end p-5">
                 <p className="max-w-[14rem] text-sm leading-6 text-stone-700">
-                  极客感之外，想保留一点海报式秩序和实验气味。
+                  极客开源<br/>海报式秩序<br/>实验气味<br/>
                 </p>
               </div>
             </div>
@@ -280,6 +278,17 @@ export function HomePage() {
                         <div className="text-lg font-semibold">{internship.company}</div>
                         <div className="mt-1 text-sm text-stone-500">{internship.role}</div>
                         <p className="mt-3 text-sm leading-6 text-stone-700">{internship.description}</p>
+                        {internship.company === 'Capcut ByteDance' && (
+                          <a
+                            href="https://www.capcut.com/ai-creator/studio"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-4 inline-flex items-center gap-2 border-2 border-stone-950 bg-[#f8f5ee] px-3 py-2 text-sm font-medium text-stone-950 transition-transform hover:-translate-y-0.5"
+                          >
+                            Visit website
+                            <ArrowRight className="h-4 w-4" />
+                          </a>
+                        )}
                       </div>
                       <div className="text-sm text-stone-500">{internship.period}</div>
                     </div>
