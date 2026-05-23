@@ -49,7 +49,7 @@ export interface ToolLink {
 }
 
 export const profile = {
-  name: 'Roadinforest',
+  name: 'Rif',
   avatar: '/header.png',
   roles: ['Full Stack Developer', 'Agent Developer', 'Creator (ON the way...)'],
   intro:
