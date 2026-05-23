@@ -1,10 +1,5 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,8 +15,8 @@
   --radius: 24px;
   --gap: 16px;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --font-serif: 'Noto Serif', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: 'JetBrains Mono', "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 
   --color-yellow: #fef08a;
   --color-yellow-light: #fefce8;

@@ -1,28 +1,16 @@
 <claude-mem-context>
 # Memory Context
 
-# [my-canvas] recent context, 2026-05-23 10:00pm GMT+8
+# [my-canvas] recent context, 2026-05-23 11:14pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (11,084t read) | 4,169,543t work | 100% savings
+Stats: 50 obs (11,162t read) | 4,151,116t work | 100% savings
 
 ### May 16, 2026
-743 11:32a 🔄 FilmsDrawer simplified grid container
-745 " 🔄 FilmsDrawer simplified grid - scrollRef removed, zIndex on hover
-744 11:33a 🔄 FilmsDrawer final overflow fix - scrollRef restored with z-index
-746 11:34a 🔴 FilmsDrawer overflow fix with nested scroll container
-747 11:38a ✅ Removed hover scale animation from FilmsDrawer
-748 12:11p 🔄 Splitting skillCard into multiple separate card components
-749 " 🟣 Created skill-ui-card.html as first split card component
-750 " 🔄 Created three additional skill card components
-751 12:13p 🟣 Created UISkillCard.tsx and LogicSkillCard.tsx React components
-752 " 🟣 Created AISkillCard.tsx and InfraSkillCard.tsx React components
 753 12:14p 🔵 BentoNode.tsx contains card type routing switch statement
-754 " ✅ Extended CardType enum with new skill category types
-755 " ✅ Registered new skill card components in BentoNode switch statement
 756 " ✅ Added new skill cards to canvasData with positioning coordinates
 757 " ✅ Removed temporary HTML demo files
 758 " ⚖️ Restoring category-specific border colors from original HTML
@@ -71,6 +59,18 @@ S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16
 912 9:57p 🔴 Fixed p5.js TypeScript errors - bezierVertex replaced with ellipse
 S863 Scroll-driven flower doodle animation - 2D flowers extending from screen edges as page scrolls down (May 23, 9:58 PM)
 913 9:59p 🟣 Added background-only preview mode for P5ScrollBackdrop testing
+914 " 🔄 Changed scroll ref from useRef to useState for React 18 StrictMode compatibility
+915 10:01p 🟣 User approved next animation enhancement steps
+916 " 🟣 Exploring Rough.js for hand-drawn SVG flower animation
+917 " 🟣 Flower vines to respond to mouse movement
+918 10:12p 🟣 ScrollBloomBackdrop now uses Rough.js for hand-drawn SVG effect
+919 10:18p 🟣 Flower vines now animate with transform-based growth
+920 " 🟣 Vine transform animation feature deployed
+921 11:11p ✅ Font optimization via CDN delegation
+922 11:12p ✅ Configuring font CDN loading instead of local bundling
+924 " 🔵 Vite project uses @fontsource for local font bundling
+923 " ✅ Migrated Inter font from local bundling to Google Fonts CDN
+925 " ✅ Font CDN migration successful - no font files in build output
 
-Access 4170k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 4151k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

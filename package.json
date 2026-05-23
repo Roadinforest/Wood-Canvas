@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
-    "@fontsource-variable/geist": "^5.2.8",
-    "@fontsource/inter": "^5.2.8",
     "@types/p5": "^1.7.7",
     "@uiw/react-md-editor": "^4.1.0",
     "@use-gesture/react": "^10.3.1",
