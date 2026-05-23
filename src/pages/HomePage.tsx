@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ArrowRight,
@@ -20,6 +21,7 @@ import {
   thought,
   toolLinks,
 } from '@/data/siteContent'
+import { P5ScrollBackdrop } from '@/components/home/P5ScrollBackdrop'
 
 const sectionLabels = ['01', '02', '03', '04']
 
@@ -31,11 +33,19 @@ const shapePalette = [
 ]
 
 export function HomePage() {
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null)
   const primaryProject = projects[0]
+  const backgroundOnlyPreview = false
 
   return (
-    <div className="h-screen overflow-y-auto overflow-x-hidden bg-[#f4f0e8] text-stone-950">
-      <main className="mx-auto flex w-full max-w-7xl flex-col gap-12 px-5 py-6 sm:px-8 lg:px-12 lg:py-10">
+    <div ref={setScrollElement} className="relative h-screen overflow-y-auto overflow-x-hidden bg-[#f4f0e8] text-stone-950">
+      <P5ScrollBackdrop scrollElement={scrollElement} />
+      {backgroundOnlyPreview && <div className="h-[300vh]" aria-hidden="true" />}
+      <main
+        className={`relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12 px-5 py-6 sm:px-8 lg:px-12 lg:py-10 ${
+          backgroundOnlyPreview ? 'invisible pointer-events-none select-none' : ''
+        }`}
+      >
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
           <div className="grid min-h-[34rem] grid-rows-[auto_1fr_auto] border-2 border-stone-950 bg-[#f8f5ee]">
             <div className="flex items-center justify-between border-b-2 border-stone-950 px-5 py-4 sm:px-7">

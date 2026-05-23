@@ -1,21 +1,16 @@
 <claude-mem-context>
 # Memory Context
 
-# [my-canvas] recent context, 2026-05-23 9:40pm GMT+8
+# [my-canvas] recent context, 2026-05-23 10:00pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (11,051t read) | 4,474,328t work | 100% savings
+Stats: 50 obs (11,084t read) | 4,169,543t work | 100% savings
 
 ### May 16, 2026
-738 11:22a 🔵 FilmsDrawer.tsx current film data structure
-739 " ✅ FilmsDrawer.tsx filmsList updated with 10 new curated movies
-740 11:27a 🔴 Films drawer overflow clipping on hover scale animation
-741 " ✅ FilmsDrawer overflow-y experiment with clip mode
-742 11:32a 🔴 FilmsDrawer hover scale with proper z-index layering
-743 " 🔄 FilmsDrawer simplified grid container
+743 11:32a 🔄 FilmsDrawer simplified grid container
 745 " 🔄 FilmsDrawer simplified grid - scrollRef removed, zIndex on hover
 744 11:33a 🔄 FilmsDrawer final overflow fix - scrollRef restored with z-index
 746 11:34a 🔴 FilmsDrawer overflow fix with nested scroll container
@@ -46,7 +41,6 @@ Stats: 50 obs (11,051t read) | 4,474,328t work | 100% savings
 772 7:57p ✅ Light mode dot color darkened slightly for better contrast
 773 7:59p ✅ ReactFlow watermark hidden on canvas
 774 " ✅ ReactFlow watermark hidden via CSS instead of prop
-S748 Dark mode theme toggle for BentoNode canvas — tailwind CSS variable integration (May 16, 8:12 PM)
 S750 Dark mode theme toggle for BentoNode canvas — Tailwind dark: variant approach (May 16, 8:13 PM)
 S751 Dark mode theme toggle for BentoNode canvas — all card text colors updated (May 16, 8:13 PM)
 S749 Dark mode theme toggle for BentoNode canvas — Tailwind text-muted token regression (May 16, 8:13 PM)
@@ -55,9 +49,9 @@ S753 Dark mode theme toggle for BentoNode canvas with glassmorphism cards (May 1
 S752 Dark mode theme toggle for BentoNode canvas — final token simplification (May 16, 8:14 PM)
 S755 Dark mode theme toggle for BentoNode canvas with glassmorphism cards — implementation complete (May 16, 8:15 PM)
 S756 Dark mode text color coverage for all BentoCard components (May 16, 8:16 PM)
+S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16, 8:17 PM)
 775 8:19p ✅ Swap EditMode and Theme button positions
 776 " ✅ Swapped EditMode and Theme button positions in Canvas
-S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16, 8:30 PM)
 ### May 23, 2026
 897 9:18p 🟣 Split Canvas and Homepage into Separate Routes
 898 " 🔵 Project Structure Mapped for Routing Refactor
@@ -71,6 +65,12 @@ S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16
 907 9:23p 🟣 Bauhaus风格首页重设计
 906 9:30p 🔄 HomePage重建为包豪斯风格
 908 9:32p 🟣 Bauhaus风格首页重构完成
+909 9:34p 🟣 Scroll-driven flower doodle animation
+910 9:44p 🟣 Implemented scroll-driven flower doodle animation
+911 9:55p 🔴 TypeScript errors in P5ScrollBackdrop flower doodle
+912 9:57p 🔴 Fixed p5.js TypeScript errors - bezierVertex replaced with ellipse
+S863 Scroll-driven flower doodle animation - 2D flowers extending from screen edges as page scrolls down (May 23, 9:58 PM)
+913 9:59p 🟣 Added background-only preview mode for P5ScrollBackdrop testing
 
-Access 4474k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 4170k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
