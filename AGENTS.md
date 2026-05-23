@@ -1,7 +1,7 @@
 <claude-mem-context>
 # Memory Context
 
-# [my-canvas] recent context, 2026-05-23 11:27pm GMT+8
+# [my-canvas] recent context, 2026-05-23 11:29pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
@@ -25,7 +25,6 @@ Stats: 50 obs (11,140t read) | 4,136,566t work | 100% savings
 772 7:57p ✅ Light mode dot color darkened slightly for better contrast
 773 7:59p ✅ ReactFlow watermark hidden on canvas
 774 " ✅ ReactFlow watermark hidden via CSS instead of prop
-S750 Dark mode theme toggle for BentoNode canvas — Tailwind dark: variant approach (May 16, 8:13 PM)
 S751 Dark mode theme toggle for BentoNode canvas — all card text colors updated (May 16, 8:13 PM)
 S749 Dark mode theme toggle for BentoNode canvas — Tailwind text-muted token regression (May 16, 8:13 PM)
 S754 Dark mode theme toggle for BentoNode canvas — final token state confirmed (May 16, 8:14 PM)
@@ -36,6 +35,7 @@ S756 Dark mode text color coverage for all BentoCard components (May 16, 8:16 PM
 S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16, 8:17 PM)
 775 8:19p ✅ Swap EditMode and Theme button positions
 776 " ✅ Swapped EditMode and Theme button positions in Canvas
+S863 Scroll-driven flower doodle animation - 2D flowers extending from screen edges as page scrolls down (May 16, 8:30 PM)
 ### May 23, 2026
 897 9:18p 🟣 Split Canvas and Homepage into Separate Routes
 898 " 🔵 Project Structure Mapped for Routing Refactor
@@ -53,7 +53,6 @@ S757 Dark mode text coverage fix and EditMode/Theme button position swap (May 16
 910 9:44p 🟣 Implemented scroll-driven flower doodle animation
 911 9:55p 🔴 TypeScript errors in P5ScrollBackdrop flower doodle
 912 9:57p 🔴 Fixed p5.js TypeScript errors - bezierVertex replaced with ellipse
-S863 Scroll-driven flower doodle animation - 2D flowers extending from screen edges as page scrolls down (May 23, 9:58 PM)
 913 9:59p 🟣 Added background-only preview mode for P5ScrollBackdrop testing
 914 " 🔄 Changed scroll ref from useRef to useState for React 18 StrictMode compatibility
 915 10:01p 🟣 User approved next animation enhancement steps
@@ -70,6 +69,7 @@ S863 Scroll-driven flower doodle animation - 2D flowers extending from screen ed
 925 " ✅ Font CDN migration successful - no font files in build output
 926 11:13p ✅ Font migration completed - all @fontsource references removed
 927 11:15p ✅ Added JetBrains Mono and Noto Serif fonts to CDN load
+S864 Add "Visit website" link to Capcut ByteDance internship card with URL https://www.capcut.com/ai-creator/studio (May 23, 11:16 PM)
 930 11:24p ✅ Uninstalled @fontsource packages from npm dependencies
 
 Access 4137k tokens of past work via get_observations([IDs]) or mem-search skill.

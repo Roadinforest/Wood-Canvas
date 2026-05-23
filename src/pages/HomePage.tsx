@@ -4,6 +4,7 @@ import {
   ArrowRight,
   Blocks,
   Briefcase,
+  Globe,
   Github,
   Mail,
   Phone,
@@ -174,6 +175,21 @@ export function HomePage() {
                 )
               })}
             </div>
+
+            <a
+              href="https://vks-feng.github.io/guanshengju/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="grid grid-cols-[3.5rem_1fr] border-t-2 border-stone-950 transition-colors hover:bg-stone-100"
+            >
+              <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#F4C430]">
+                <Globe className="h-4 w-4 text-stone-950" />
+              </div>
+              <div className="space-y-1 px-4 py-3">
+                <div className="text-xs uppercase tracking-[0.18em] text-stone-500">Friend Link</div>
+                <div className="truncate text-sm text-stone-800">观生居 / Guan Sheng Ju</div>
+              </div>
+            </a>
 
             <div className="grid grid-cols-[1fr_5rem] border-t-2 border-stone-950">
               <div className="p-5">
