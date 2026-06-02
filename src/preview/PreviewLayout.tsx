@@ -3,13 +3,14 @@ import { ArrowLeft } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 interface PreviewLayoutProps {
+  actions?: ReactNode
   children: ReactNode
   title: string
 }
 
-export function PreviewLayout({ children, title }: PreviewLayoutProps) {
+export function PreviewLayout({ actions, children, title }: PreviewLayoutProps) {
   return (
-    <div className="w-screen h-screen overflow-hidden relative" style={{ backgroundColor: 'var(--bg-color)' }}>
+    <div className="relative flex h-screen w-screen flex-col overflow-hidden" style={{ backgroundColor: 'var(--bg-color)' }}>
       {/* Dot pattern background */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -21,21 +22,24 @@ export function PreviewLayout({ children, title }: PreviewLayoutProps) {
 
       {/* Header */}
       <header className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-zinc-200/50 px-6 py-4">
-        <div className="flex items-center gap-4">
-          <Link
-            to="/"
-            className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors"
-          >
-            <ArrowLeft size={20} />
-            <span className="text-sm font-medium">Back to Canvas</span>
-          </Link>
-          <div className="h-4 w-px bg-zinc-300" />
-          <h1 className="text-lg font-semibold text-zinc-900">{title}</h1>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Link
+              to="/"
+              className="flex items-center gap-2 text-zinc-600 hover:text-zinc-900 transition-colors"
+            >
+              <ArrowLeft size={20} />
+              <span className="text-sm font-medium">Back to Canvas</span>
+            </Link>
+            <div className="h-4 w-px bg-zinc-300" />
+            <h1 className="text-lg font-semibold text-zinc-900">{title}</h1>
+          </div>
+          {actions ? <div className="flex items-center gap-2">{actions}</div> : null}
         </div>
       </header>
 
       {/* Content */}
-      <main className="relative z-10 h-[calc(100vh-73px)] overflow-auto">
+      <main className="relative z-10 min-h-0 flex-1 overflow-auto">
         {children}
       </main>
     </div>
