@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import {
+  ChevronDown,
+  ChevronRight,
   Download,
   FileJson,
   FileUp,
@@ -15,21 +17,132 @@ import { parsePdfOutline, type ParsedPdfDocument, type PdfOutlineNode } from './
 
 type OutlinePreset = 'detected' | 'embedded' | 'merged'
 
+interface OutlineTreeItem {
+  children: OutlineTreeItem[]
+  index: number
+  node: PdfOutlineNode
+}
+
+interface OutlineTreeBranchProps {
+  collapsedNodeIds: Set<string>
+  items: OutlineTreeItem[]
+  onAddChild: (index: number) => void
+  onAddSibling: (index: number) => void
+  onChangeLevel: (index: number, nextLevel: number) => void
+  onMoveDown: (index: number) => void
+  onMoveUp: (index: number) => void
+  onRemove: (index: number) => void
+  onToggleCollapse: (id: string) => void
+  onUpdatePage: (index: number, pageNumber: number) => void
+  onUpdateTitle: (index: number, title: string) => void
+  pageCount: number
+}
+
 const defaultExportEndpoint = '/api/pdf-outline/export'
+const levelOptions = [1, 2, 3, 4]
 
 function cloneNodes(nodes: PdfOutlineNode[]) {
   return nodes.map((node) => ({ ...node }))
 }
 
-function createManualNode(pageCount: number): PdfOutlineNode {
+function createManualNode(pageCount: number, level = 1): PdfOutlineNode {
   return {
     confidence: 1,
     id: `manual-${Math.random().toString(36).slice(2, 10)}`,
-    level: 1,
+    level,
     pageNumber: Math.max(1, pageCount > 0 ? 1 : 0),
     source: 'manual',
     title: 'New section',
   }
+}
+
+function normalizeEditedSource(source: PdfOutlineNode['source']) {
+  return source === 'embedded' ? 'manual' : source
+}
+
+function clampLevel(level: number) {
+  return Math.max(1, Math.min(4, level))
+}
+
+function getSubtreeEnd(nodes: PdfOutlineNode[], startIndex: number) {
+  const current = nodes[startIndex]
+
+  if (!current) {
+    return startIndex
+  }
+
+  let endIndex = startIndex + 1
+
+  while (endIndex < nodes.length && nodes[endIndex].level > current.level) {
+    endIndex += 1
+  }
+
+  return endIndex
+}
+
+function findPreviousSiblingIndex(nodes: PdfOutlineNode[], startIndex: number) {
+  const current = nodes[startIndex]
+
+  if (!current) {
+    return null
+  }
+
+  for (let index = startIndex - 1; index >= 0; index -= 1) {
+    if (nodes[index].level < current.level) {
+      break
+    }
+
+    if (nodes[index].level === current.level) {
+      return index
+    }
+  }
+
+  return null
+}
+
+function findNextSiblingIndex(nodes: PdfOutlineNode[], startIndex: number) {
+  const current = nodes[startIndex]
+
+  if (!current) {
+    return null
+  }
+
+  const subtreeEnd = getSubtreeEnd(nodes, startIndex)
+
+  for (let index = subtreeEnd; index < nodes.length; index += 1) {
+    if (nodes[index].level < current.level) {
+      break
+    }
+
+    if (nodes[index].level === current.level) {
+      return index
+    }
+  }
+
+  return null
+}
+
+function moveBlock(nodes: PdfOutlineNode[], startIndex: number, targetIndex: number) {
+  const subtreeEnd = getSubtreeEnd(nodes, startIndex)
+  const block = nodes.slice(startIndex, subtreeEnd)
+
+  if (targetIndex < startIndex) {
+    return [
+      ...nodes.slice(0, targetIndex),
+      ...block,
+      ...nodes.slice(targetIndex, startIndex),
+      ...nodes.slice(subtreeEnd),
+    ]
+  }
+
+  const targetEnd = getSubtreeEnd(nodes, targetIndex)
+
+  return [
+    ...nodes.slice(0, startIndex),
+    ...nodes.slice(subtreeEnd, targetEnd),
+    ...block,
+    ...nodes.slice(targetEnd),
+  ]
 }
 
 function mergeNodes(embedded: PdfOutlineNode[], detected: PdfOutlineNode[]) {
@@ -58,6 +171,33 @@ function mergeNodes(embedded: PdfOutlineNode[], detected: PdfOutlineNode[]) {
 
     return left.title.localeCompare(right.title)
   })
+}
+
+function buildTree(nodes: PdfOutlineNode[]) {
+  const roots: OutlineTreeItem[] = []
+  const stack: OutlineTreeItem[] = []
+
+  nodes.forEach((node, index) => {
+    const item: OutlineTreeItem = {
+      children: [],
+      index,
+      node,
+    }
+
+    while (stack.length > 0 && stack[stack.length - 1].node.level >= node.level) {
+      stack.pop()
+    }
+
+    if (stack.length === 0) {
+      roots.push(item)
+    } else {
+      stack[stack.length - 1].children.push(item)
+    }
+
+    stack.push(item)
+  })
+
+  return roots
 }
 
 function formatBytes(value: number) {
@@ -150,12 +290,157 @@ function SummaryCard({
   )
 }
 
+function OutlineTreeBranch({
+  collapsedNodeIds,
+  items,
+  onAddChild,
+  onAddSibling,
+  onChangeLevel,
+  onMoveDown,
+  onMoveUp,
+  onRemove,
+  onToggleCollapse,
+  onUpdatePage,
+  onUpdateTitle,
+  pageCount,
+}: OutlineTreeBranchProps) {
+  return (
+    <div className="space-y-3">
+      {items.map((item) => {
+        const isCollapsed = collapsedNodeIds.has(item.node.id)
+        const hasChildren = item.children.length > 0
+
+        return (
+          <div key={item.node.id}>
+            <div className="rounded-3xl border border-zinc-200 bg-white px-4 py-4 shadow-sm">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div className="flex min-w-0 flex-1 items-start gap-3">
+                  <button
+                    type="button"
+                    onClick={() => hasChildren ? onToggleCollapse(item.node.id) : null}
+                    className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 text-zinc-600 transition hover:bg-zinc-100 disabled:cursor-default disabled:opacity-40"
+                    disabled={!hasChildren}
+                    aria-label={hasChildren ? (isCollapsed ? 'Expand section' : 'Collapse section') : 'No child sections'}
+                  >
+                    {hasChildren ? (
+                      isCollapsed ? <ChevronRight size={16} /> : <ChevronDown size={16} />
+                    ) : (
+                      <span className="text-[10px]">•</span>
+                    )}
+                  </button>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-zinc-500">
+                      <span>#{item.index + 1}</span>
+                      <span>H{item.node.level}</span>
+                      <span>P{item.node.pageNumber}</span>
+                      <span>{item.node.source}</span>
+                      <span>{Math.round(item.node.confidence * 100)}%</span>
+                    </div>
+                    <p className="mt-2 break-words text-sm font-medium leading-6 text-zinc-900">
+                      {item.node.title || 'Untitled section'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="outline" size="xs" onClick={() => onMoveUp(item.index)}>
+                    Up
+                  </Button>
+                  <Button variant="outline" size="xs" onClick={() => onMoveDown(item.index)}>
+                    Down
+                  </Button>
+                  <Button variant="outline" size="xs" onClick={() => onChangeLevel(item.index, item.node.level - 1)}>
+                    Outdent
+                  </Button>
+                  <Button variant="outline" size="xs" onClick={() => onChangeLevel(item.index, item.node.level + 1)}>
+                    Indent
+                  </Button>
+                  <Button variant="outline" size="xs" onClick={() => onAddChild(item.index)}>
+                    Child
+                  </Button>
+                  <Button variant="outline" size="xs" onClick={() => onAddSibling(item.index)}>
+                    After
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    onClick={() => onRemove(item.index)}
+                    aria-label={`Remove ${item.node.title}`}
+                  >
+                    <Trash2 />
+                  </Button>
+                </div>
+              </div>
+
+              <div className="mt-4 grid gap-3 md:grid-cols-[120px,120px,1fr]">
+                <label className="flex flex-col gap-2 text-sm text-zinc-600">
+                  Level
+                  <select
+                    value={item.node.level}
+                    onChange={(event) => onChangeLevel(item.index, Number(event.target.value))}
+                    className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
+                  >
+                    {levelOptions.map((level) => (
+                      <option key={level} value={level}>
+                        H{level}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex flex-col gap-2 text-sm text-zinc-600">
+                  Page
+                  <input
+                    type="number"
+                    min={1}
+                    max={pageCount}
+                    value={item.node.pageNumber}
+                    onChange={(event) => onUpdatePage(item.index, Number(event.target.value))}
+                    className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
+                  />
+                </label>
+                <label className="flex flex-col gap-2 text-sm text-zinc-600">
+                  Title
+                  <input
+                    type="text"
+                    value={item.node.title}
+                    onChange={(event) => onUpdateTitle(item.index, event.target.value)}
+                    className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
+                  />
+                </label>
+              </div>
+            </div>
+
+            {!isCollapsed && hasChildren ? (
+              <div className="ml-4 mt-3 border-l border-dashed border-zinc-200 pl-4">
+                <OutlineTreeBranch
+                  collapsedNodeIds={collapsedNodeIds}
+                  items={item.children}
+                  onAddChild={onAddChild}
+                  onAddSibling={onAddSibling}
+                  onChangeLevel={onChangeLevel}
+                  onMoveDown={onMoveDown}
+                  onMoveUp={onMoveUp}
+                  onRemove={onRemove}
+                  onToggleCollapse={onToggleCollapse}
+                  onUpdatePage={onUpdatePage}
+                  onUpdateTitle={onUpdateTitle}
+                  pageCount={pageCount}
+                />
+              </div>
+            ) : null}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function PdfOutlinePreviewPage() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [documentUrl, setDocumentUrl] = useState('')
   const [parsedDocument, setParsedDocument] = useState<ParsedPdfDocument | null>(null)
   const [outlineNodes, setOutlineNodes] = useState<PdfOutlineNode[]>([])
+  const [collapsedNodeIds, setCollapsedNodeIds] = useState<string[]>([])
   const [activePreset, setActivePreset] = useState<OutlinePreset>('detected')
   const [isParsing, setIsParsing] = useState(false)
   const [parseError, setParseError] = useState('')
@@ -172,6 +457,15 @@ export function PdfOutlinePreviewPage() {
     }
   }, [documentUrl])
 
+  const collapsedNodeSet = useMemo(() => new Set(collapsedNodeIds), [collapsedNodeIds])
+  const outlineTree = useMemo(() => buildTree(outlineNodes), [outlineNodes])
+  const mergedOutlineCount = useMemo(() => {
+    if (!parsedDocument) {
+      return 0
+    }
+
+    return mergeNodes(parsedDocument.embeddedOutline, parsedDocument.suggestedOutline).length
+  }, [parsedDocument])
   const exportPayload = useMemo(() => {
     if (!parsedDocument) {
       return null
@@ -179,6 +473,10 @@ export function PdfOutlinePreviewPage() {
 
     return buildExportPayload(parsedDocument, outlineNodes)
   }, [outlineNodes, parsedDocument])
+
+  function resetCollapsedNodes() {
+    setCollapsedNodeIds([])
+  }
 
   async function loadFile(file: File) {
     setIsParsing(true)
@@ -198,6 +496,7 @@ export function PdfOutlinePreviewPage() {
       })
       setSelectedFile(file)
       setParsedDocument(parsed)
+      resetCollapsedNodes()
 
       if (parsed.embeddedOutline.length > 0) {
         setActivePreset('embedded')
@@ -210,6 +509,7 @@ export function PdfOutlinePreviewPage() {
       setParseError(error instanceof Error ? error.message : 'Failed to parse the PDF file.')
       setParsedDocument(null)
       setOutlineNodes([])
+      resetCollapsedNodes()
     } finally {
       setIsParsing(false)
     }
@@ -221,6 +521,7 @@ export function PdfOutlinePreviewPage() {
     }
 
     setActivePreset(preset)
+    resetCollapsedNodes()
 
     if (preset === 'embedded') {
       setOutlineNodes(cloneNodes(parsedDocument.embeddedOutline))
@@ -246,18 +547,149 @@ export function PdfOutlinePreviewPage() {
     event.target.value = ''
   }
 
-  function updateNode(id: string, patch: Partial<PdfOutlineNode>) {
+  function updateNodeAtIndex(index: number, patch: Partial<PdfOutlineNode>) {
     setOutlineNodes((nodes) =>
-      nodes.map((node) => (node.id === id ? { ...node, ...patch } : node)),
+      nodes.map((node, nodeIndex) => {
+        if (nodeIndex !== index) {
+          return node
+        }
+
+        return { ...node, ...patch }
+      }),
     )
   }
 
-  function removeNode(id: string) {
-    setOutlineNodes((nodes) => nodes.filter((node) => node.id !== id))
+  function updateNodeTitle(index: number, title: string) {
+    updateNodeAtIndex(index, {
+      source: normalizeEditedSource(outlineNodes[index]?.source ?? 'manual'),
+      title,
+    })
   }
 
-  function addNode() {
-    setOutlineNodes((nodes) => [...nodes, createManualNode(parsedDocument?.pageCount ?? 1)])
+  function updateNodePage(index: number, pageNumber: number) {
+    if (!parsedDocument) {
+      return
+    }
+
+    updateNodeAtIndex(index, {
+      pageNumber: Math.max(1, Math.min(parsedDocument.pageCount, Number.isFinite(pageNumber) ? pageNumber : 1)),
+      source: normalizeEditedSource(outlineNodes[index]?.source ?? 'manual'),
+    })
+  }
+
+  function changeNodeLevel(index: number, nextLevel: number) {
+    setOutlineNodes((nodes) => {
+      const current = nodes[index]
+
+      if (!current) {
+        return nodes
+      }
+
+      const targetLevel = clampLevel(nextLevel)
+      const levelDelta = targetLevel - current.level
+
+      if (levelDelta === 0) {
+        return nodes
+      }
+
+      const subtreeEnd = getSubtreeEnd(nodes, index)
+
+      return nodes.map((node, nodeIndex) => {
+        if (nodeIndex < index || nodeIndex >= subtreeEnd) {
+          return node
+        }
+
+        return {
+          ...node,
+          level: clampLevel(node.level + levelDelta),
+          source: normalizeEditedSource(node.source),
+        }
+      })
+    })
+  }
+
+  function moveNodeUp(index: number) {
+    setOutlineNodes((nodes) => {
+      const previousSiblingIndex = findPreviousSiblingIndex(nodes, index)
+
+      if (previousSiblingIndex === null) {
+        return nodes
+      }
+
+      return moveBlock(nodes, index, previousSiblingIndex)
+    })
+  }
+
+  function moveNodeDown(index: number) {
+    setOutlineNodes((nodes) => {
+      const nextSiblingIndex = findNextSiblingIndex(nodes, index)
+
+      if (nextSiblingIndex === null) {
+        return nodes
+      }
+
+      return moveBlock(nodes, index, nextSiblingIndex)
+    })
+  }
+
+  function removeNode(index: number) {
+    setOutlineNodes((nodes) => {
+      const subtreeEnd = getSubtreeEnd(nodes, index)
+      const removedIds = new Set(nodes.slice(index, subtreeEnd).map((node) => node.id))
+
+      setCollapsedNodeIds((currentIds) => currentIds.filter((id) => !removedIds.has(id)))
+
+      return [...nodes.slice(0, index), ...nodes.slice(subtreeEnd)]
+    })
+  }
+
+  function addRootNode() {
+    setOutlineNodes((nodes) => [...nodes, createManualNode(parsedDocument?.pageCount ?? 1, 1)])
+  }
+
+  function addSiblingNode(index: number) {
+    const current = outlineNodes[index]
+
+    if (!current) {
+      return
+    }
+
+    setOutlineNodes((nodes) => {
+      const insertIndex = getSubtreeEnd(nodes, index)
+      const nextNode = createManualNode(parsedDocument?.pageCount ?? 1, current.level)
+      return [...nodes.slice(0, insertIndex), nextNode, ...nodes.slice(insertIndex)]
+    })
+  }
+
+  function addChildNode(index: number) {
+    const current = outlineNodes[index]
+
+    if (!current) {
+      return
+    }
+
+    setOutlineNodes((nodes) => {
+      const insertIndex = getSubtreeEnd(nodes, index)
+      const nextNode = createManualNode(parsedDocument?.pageCount ?? 1, clampLevel(current.level + 1))
+      return [...nodes.slice(0, insertIndex), nextNode, ...nodes.slice(insertIndex)]
+    })
+    setCollapsedNodeIds((currentIds) => currentIds.filter((id) => id !== current.id))
+  }
+
+  function toggleCollapse(id: string) {
+    setCollapsedNodeIds((currentIds) =>
+      currentIds.includes(id)
+        ? currentIds.filter((currentId) => currentId !== id)
+        : [...currentIds, id],
+    )
+  }
+
+  function collapseAllNodes() {
+    setCollapsedNodeIds(outlineNodes.map((node) => node.id))
+  }
+
+  function expandAllNodes() {
+    resetCollapsedNodes()
   }
 
   function handleDownloadPayload() {
@@ -355,11 +787,7 @@ export function PdfOutlinePreviewPage() {
             <FileUp />
             Upload PDF
           </Button>
-          <Button
-            variant="outline"
-            onClick={handleDownloadPayload}
-            disabled={!exportPayload}
-          >
+          <Button variant="outline" onClick={handleDownloadPayload} disabled={!exportPayload}>
             <FileJson />
             Download Payload
           </Button>
@@ -389,11 +817,7 @@ export function PdfOutlinePreviewPage() {
                   Choose a PDF
                 </Button>
                 {selectedFile ? (
-                  <Button
-                    variant="outline"
-                    onClick={() => void loadFile(selectedFile)}
-                    disabled={isParsing}
-                  >
+                  <Button variant="outline" onClick={() => void loadFile(selectedFile)} disabled={isParsing}>
                     <RefreshCw className={isParsing ? 'animate-spin' : undefined} />
                     Re-run detection
                   </Button>
@@ -444,11 +868,7 @@ export function PdfOutlinePreviewPage() {
                     </p>
                   </div>
                   {documentUrl ? (
-                    <iframe
-                      title="PDF preview"
-                      src={documentUrl}
-                      className="h-[680px] w-full bg-zinc-100"
-                    />
+                    <iframe title="PDF preview" src={documentUrl} className="h-[680px] w-full bg-zinc-100" />
                   ) : (
                     <div className="flex h-[680px] items-center justify-center text-sm text-zinc-500">
                       No preview available.
@@ -460,14 +880,14 @@ export function PdfOutlinePreviewPage() {
                   <div className="border-b border-zinc-200/70 px-5 py-4">
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
-                        <h3 className="text-lg font-semibold text-zinc-950">Outline editor</h3>
+                        <h3 className="text-lg font-semibold text-zinc-950">Outline tree editor</h3>
                         <p className="mt-1 text-sm text-zinc-600">
-                          Keep the existing bookmarks, switch to detected headings, or merge both before export.
+                          Edit the hierarchy directly as a tree. Reordering keeps whole branches together.
                         </p>
                       </div>
-                      <Button variant="outline" onClick={addNode}>
+                      <Button variant="outline" onClick={addRootNode}>
                         <Plus />
-                        Add node
+                        Add root
                       </Button>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -492,7 +912,15 @@ export function PdfOutlinePreviewPage() {
                         size="sm"
                         onClick={() => applyPreset('merged')}
                       >
-                        Merged ({mergeNodes(parsedDocument.embeddedOutline, parsedDocument.suggestedOutline).length})
+                        Merged ({mergedOutlineCount})
+                      </Button>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Button variant="outline" size="sm" onClick={expandAllNodes}>
+                        Expand all
+                      </Button>
+                      <Button variant="outline" size="sm" onClick={collapseAllNodes}>
+                        Collapse all
                       </Button>
                     </div>
                   </div>
@@ -507,87 +935,30 @@ export function PdfOutlinePreviewPage() {
                     </div>
                   ) : null}
 
+                  <div className="border-b border-zinc-200/70 bg-zinc-50/80 px-5 py-3 text-sm text-zinc-600">
+                    Order still follows the export sequence, but you now edit it as nested branches instead of one long flat list.
+                  </div>
+
                   <div className="flex-1 overflow-auto px-5 py-4">
                     {outlineNodes.length === 0 ? (
                       <div className="rounded-3xl border border-dashed border-zinc-300 bg-zinc-50 px-5 py-6 text-sm text-zinc-600">
-                        No outline nodes yet. Try the detected preset or add manual sections.
+                        No outline nodes yet. Try the detected preset or add a root section.
                       </div>
                     ) : (
-                      <div className="space-y-3">
-                        {outlineNodes.map((node, index) => (
-                          <div
-                            key={node.id}
-                            className="rounded-3xl border border-zinc-200 bg-white px-4 py-4 shadow-sm"
-                          >
-                            <div className="flex flex-wrap items-center justify-between gap-3">
-                              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-zinc-500">
-                                <span>#{index + 1}</span>
-                                <span>{node.source}</span>
-                                <span>{Math.round(node.confidence * 100)}%</span>
-                              </div>
-                              <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                onClick={() => removeNode(node.id)}
-                                aria-label={`Remove ${node.title}`}
-                              >
-                                <Trash2 />
-                              </Button>
-                            </div>
-                            <div className="mt-3 grid gap-3 md:grid-cols-[100px,100px,1fr]">
-                              <label className="flex flex-col gap-2 text-sm text-zinc-600">
-                                Level
-                                <select
-                                  value={node.level}
-                                  onChange={(event) =>
-                                    updateNode(node.id, {
-                                      level: Number(event.target.value),
-                                      source: node.source === 'embedded' ? 'manual' : node.source,
-                                    })
-                                  }
-                                  className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
-                                >
-                                  {[1, 2, 3, 4].map((level) => (
-                                    <option key={level} value={level}>
-                                      H{level}
-                                    </option>
-                                  ))}
-                                </select>
-                              </label>
-                              <label className="flex flex-col gap-2 text-sm text-zinc-600">
-                                Page
-                                <input
-                                  type="number"
-                                  min={1}
-                                  max={parsedDocument.pageCount}
-                                  value={node.pageNumber}
-                                  onChange={(event) =>
-                                    updateNode(node.id, {
-                                      pageNumber: Number(event.target.value),
-                                      source: node.source === 'embedded' ? 'manual' : node.source,
-                                    })
-                                  }
-                                  className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
-                                />
-                              </label>
-                              <label className="flex flex-col gap-2 text-sm text-zinc-600">
-                                Title
-                                <input
-                                  type="text"
-                                  value={node.title}
-                                  onChange={(event) =>
-                                    updateNode(node.id, {
-                                      title: event.target.value,
-                                      source: node.source === 'embedded' ? 'manual' : node.source,
-                                    })
-                                  }
-                                  className="h-10 rounded-2xl border border-zinc-200 bg-white px-3 text-sm text-zinc-800 outline-none transition focus:border-zinc-400"
-                                />
-                              </label>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                      <OutlineTreeBranch
+                        collapsedNodeIds={collapsedNodeSet}
+                        items={outlineTree}
+                        onAddChild={addChildNode}
+                        onAddSibling={addSiblingNode}
+                        onChangeLevel={changeNodeLevel}
+                        onMoveDown={moveNodeDown}
+                        onMoveUp={moveNodeUp}
+                        onRemove={removeNode}
+                        onToggleCollapse={toggleCollapse}
+                        onUpdatePage={updateNodePage}
+                        onUpdateTitle={updateNodeTitle}
+                        pageCount={parsedDocument.pageCount}
+                      />
                     )}
                   </div>
                 </div>
