@@ -346,6 +346,26 @@ export function HomePage() {
                     </div>
                     <ArrowRight className="h-4 w-4" />
                   </a>
+                ) : tool.kind === 'external' ? (
+                  <a
+                    key={tool.url}
+                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
+                      index < toolLinks.length - 1 ? 'border-b-2 border-stone-950' : ''
+                    }`}
+                    href={tool.url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span>{tool.label}</span>
+                      {tool.status === 'in-progress' ? (
+                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
+                          in-progress
+                        </span>
+                      ) : null}
+                    </div>
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
                 ) : (
                   <Link
                     key={tool.url}

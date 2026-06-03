@@ -2,9 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import fs from 'fs'
-import { handlePdfOutlineApi, matchesPdfOutlineApi } from './server/pdfOutlineApi.mjs'
-
-const buildId = process.env.BUILD_ID || Date.now().toString(36)
 
 interface PositionUpdate {
   id: string
@@ -81,27 +78,8 @@ function positionWriterPlugin() {
   }
 }
 
-function pdfOutlineExportPlugin() {
-  return {
-    name: 'pdf-outline-export',
-    configureServer(server: any) {
-      server.middlewares.use(async (req: any, res: any, next: any) => {
-        if (!matchesPdfOutlineApi(req.url || '')) {
-          next()
-          return
-        }
-
-        await handlePdfOutlineApi(req, res)
-      })
-    },
-  }
-}
-
 export default defineConfig({
-  define: {
-    __APP_BUILD_ID__: JSON.stringify(buildId),
-  },
-  plugins: [react(), positionWriterPlugin(), pdfOutlineExportPlugin()],
+  plugins: [react(), positionWriterPlugin()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

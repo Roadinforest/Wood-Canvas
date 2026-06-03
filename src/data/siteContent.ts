@@ -157,5 +157,5 @@ export const creationIdeas: CreationIdea[] = [
 export const toolLinks: ToolLink[] = [
   { label: 'Markdown Previewer', url: '/preview/md', kind: 'internal', status: 'ready' },
   { label: 'Mermaid Previewer', url: '/preview/mermaid', kind: 'internal', status: 'ready' },
-  { label: 'PDF Headings Builder', url: '/preview/pdf-outline', kind: 'internal', status: 'in-progress' },
+  { label: 'PDF Headings Builder', url: 'https://pdf-outline-builder-web.vercel.app/', kind: 'external', status: 'in-progress' },
 ]

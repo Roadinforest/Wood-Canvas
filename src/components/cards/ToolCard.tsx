@@ -16,6 +16,15 @@ export function ToolCard() {
               >
                 → {link.label}
               </a>
+            ) : link.kind === 'external' ? (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noreferrer"
+                className="block text-[13px] text-gray-300 hover:text-white transition-colors"
+              >
+                → {link.label}
+              </a>
             ) : (
               <Link
                 to={link.url}
