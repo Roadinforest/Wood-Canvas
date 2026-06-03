@@ -363,7 +363,7 @@ export function HomePage() {
               </div>
               <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
                 <Wrench className="h-5 w-5" />
-                <h2 className="text-2xl font-semibold">Small Tools</h2>
+                <h2 className="text-2xl font-semibold">My Tools</h2>
               </div>
             </div>
             <div>
