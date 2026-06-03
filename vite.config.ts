@@ -4,6 +4,8 @@ import path from 'path'
 import fs from 'fs'
 import { handlePdfOutlineApi, matchesPdfOutlineApi } from './server/pdfOutlineApi.mjs'
 
+const buildId = process.env.BUILD_ID || Date.now().toString(36)
+
 interface PositionUpdate {
   id: string
   x: number
@@ -96,6 +98,9 @@ function pdfOutlineExportPlugin() {
 }
 
 export default defineConfig({
+  define: {
+    __APP_BUILD_ID__: JSON.stringify(buildId),
+  },
   plugins: [react(), positionWriterPlugin(), pdfOutlineExportPlugin()],
   resolve: {
     alias: {

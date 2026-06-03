@@ -1,10 +1,12 @@
 import { GlobalWorkerOptions, getDocument, type PDFDocumentProxy } from 'pdfjs-dist'
 import type { TextItem } from 'pdfjs-dist/types/src/display/api'
 
-GlobalWorkerOptions.workerSrc = new URL(
+const workerUrl = new URL(
   'pdfjs-dist/build/pdf.worker.min.mjs',
   import.meta.url,
 ).toString()
+
+GlobalWorkerOptions.workerSrc = `${workerUrl}?v=${__APP_BUILD_ID__}`
 
 export type OutlineSource = 'embedded' | 'detected' | 'manual'
 
