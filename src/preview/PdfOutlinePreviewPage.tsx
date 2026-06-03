@@ -358,7 +358,7 @@ function OutlineTreeBranch({
                 </div>
                 {!isExpanded ? (
                   <Button
-                    variant="ghost"
+                    variant="destructive"
                     size="icon-sm"
                     onClick={() => onRemove(item.index)}
                     aria-label={`Remove ${item.node.title}`}
@@ -399,7 +399,7 @@ function OutlineTreeBranch({
                         After
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="destructive"
                         size="icon-sm"
                         onClick={() => onRemove(item.index)}
                         aria-label={`Remove ${item.node.title}`}

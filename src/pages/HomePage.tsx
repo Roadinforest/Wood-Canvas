@@ -315,51 +315,11 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="border-2 border-stone-950 bg-[#f8f5ee]">
-          <div className="grid border-b-2 border-stone-950 lg:grid-cols-[4.5rem_1fr_10rem]">
-            <div className="flex items-center justify-center border-b-2 border-stone-950 bg-[#F4C430] text-sm font-medium lg:border-b-0 lg:border-r-2">
-              {sectionLabels[2]}
-            </div>
-            <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-              <Blocks className="h-5 w-5" />
-              <h2 className="text-2xl font-semibold">Skill Map</h2>
-            </div>
-            <div className="hidden border-l-2 border-stone-950 bg-[#E63946] lg:block" />
-          </div>
-
-          <div className="grid gap-0 md:grid-cols-2">
-            {skillGroups.map((group, index) => (
-              <article
-                key={group.title}
-                className={`grid min-h-[18rem] grid-rows-[auto_1fr] ${
-                  index % 2 === 0 ? 'md:border-r-2' : ''
-                } ${index < 2 ? 'border-b-2' : ''} border-stone-950`}
-              >
-                <div className="grid grid-cols-[1fr_5rem] border-b-2 border-stone-950">
-                  <div className="px-5 py-4 sm:px-6">
-                    <h3 className="text-xl font-semibold">{group.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-stone-600">{group.description}</p>
-                  </div>
-                  <div className={`${shapePalette[index % shapePalette.length]} border-l-2 border-stone-950`} />
-                </div>
-                <div className="flex flex-wrap content-start gap-2 p-5 sm:p-6">
-                  {group.skills.map((skill) => (
-                    <div key={skill.name} className="flex items-center gap-2 border-2 border-stone-950 bg-white px-3 py-2 text-sm">
-                      <img src={`/skills/${skill.svg}.svg`} alt={skill.name} className="h-4 w-4 object-contain" />
-                      <span>{skill.name}</span>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <article className="border-2 border-stone-950 bg-[#f8f5ee]">
             <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-stone-950">
               <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#457B9D] text-sm font-medium text-white">
-                {sectionLabels[3]}
+                {sectionLabels[2]}
               </div>
               <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
                 <Wrench className="h-5 w-5" />
@@ -368,18 +328,43 @@ export function HomePage() {
             </div>
             <div>
               {toolLinks.map((tool, index) => (
-                <a
-                  key={tool.url}
-                  href={tool.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
-                    index < toolLinks.length - 1 ? 'border-b-2 border-stone-950' : ''
-                  }`}
-                >
-                  <span>{tool.label}</span>
-                  <ArrowRight className="h-4 w-4" />
-                </a>
+                tool.kind === 'anchor' ? (
+                  <a
+                    key={tool.url}
+                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
+                      index < toolLinks.length - 1 ? 'border-b-2 border-stone-950' : ''
+                    }`}
+                    href={tool.url}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span>{tool.label}</span>
+                      {tool.status === 'in-progress' ? (
+                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
+                          in-progress
+                        </span>
+                      ) : null}
+                    </div>
+                    <ArrowRight className="h-4 w-4" />
+                  </a>
+                ) : (
+                  <Link
+                    key={tool.url}
+                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
+                      index < toolLinks.length - 1 ? 'border-b-2 border-stone-950' : ''
+                    }`}
+                    to={tool.url}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span>{tool.label}</span>
+                      {tool.status === 'in-progress' ? (
+                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
+                          in-progress
+                        </span>
+                      ) : null}
+                    </div>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                )
               ))}
             </div>
           </article>
@@ -416,6 +401,46 @@ export function HomePage() {
               ))}
             </div>
           </article>
+        </section>
+
+        <section id="skill-map" className="border-2 border-stone-950 bg-[#f8f5ee]">
+          <div className="grid border-b-2 border-stone-950 lg:grid-cols-[4.5rem_1fr_10rem]">
+            <div className="flex items-center justify-center border-b-2 border-stone-950 bg-[#F4C430] text-sm font-medium lg:border-b-0 lg:border-r-2">
+              {sectionLabels[3]}
+            </div>
+            <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
+              <Blocks className="h-5 w-5" />
+              <h2 className="text-2xl font-semibold">Skill Map</h2>
+            </div>
+            <div className="hidden border-l-2 border-stone-950 bg-[#E63946] lg:block" />
+          </div>
+
+          <div className="grid gap-0 md:grid-cols-2">
+            {skillGroups.map((group, index) => (
+              <article
+                key={group.title}
+                className={`grid min-h-[18rem] grid-rows-[auto_1fr] ${
+                  index % 2 === 0 ? 'md:border-r-2' : ''
+                } ${index < 2 ? 'border-b-2' : ''} border-stone-950`}
+              >
+                <div className="grid grid-cols-[1fr_5rem] border-b-2 border-stone-950">
+                  <div className="px-5 py-4 sm:px-6">
+                    <h3 className="text-xl font-semibold">{group.title}</h3>
+                    <p className="mt-2 text-sm leading-6 text-stone-600">{group.description}</p>
+                  </div>
+                  <div className={`${shapePalette[index % shapePalette.length]} border-l-2 border-stone-950`} />
+                </div>
+                <div className="flex flex-wrap content-start gap-2 p-5 sm:p-6">
+                  {group.skills.map((skill) => (
+                    <div key={skill.name} className="flex items-center gap-2 border-2 border-stone-950 bg-white px-3 py-2 text-sm">
+                      <img src={`/skills/${skill.svg}.svg`} alt={skill.name} className="h-4 w-4 object-contain" />
+                      <span>{skill.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
       </main>
     </div>

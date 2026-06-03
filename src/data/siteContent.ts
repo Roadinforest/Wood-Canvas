@@ -46,6 +46,8 @@ export interface CreationIdea {
 export interface ToolLink {
   label: string
   url: string
+  kind?: 'internal' | 'external' | 'anchor'
+  status?: 'in-progress' | 'ready'
 }
 
 export const profile = {
@@ -153,6 +155,7 @@ export const creationIdeas: CreationIdea[] = [
 ]
 
 export const toolLinks: ToolLink[] = [
-  { label: 'Markdown Previewer', url: '/preview/md' },
-  { label: 'Mermaid Previewer', url: '/preview/mermaid' },
+  { label: 'Markdown Previewer', url: '/preview/md', kind: 'internal', status: 'ready' },
+  { label: 'Mermaid Previewer', url: '/preview/mermaid', kind: 'internal', status: 'ready' },
+  { label: 'PDF Headings Builder', url: '/preview/pdf-outline', kind: 'internal', status: 'in-progress' },
 ]
