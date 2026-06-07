@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import FlipCard from "@/components/ui/flip-card";
 import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function FilmsCard() {
+  const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
   const isOpen = useFilmsDrawerStore((s) => s.isOpen);
   const isHovered = useFilmsDrawerStore((s) => s.isHovered);
@@ -86,7 +88,7 @@ export default function FilmsCard() {
         }
       >
         <div className="bg-white/30 backdrop-blur-sm p-5 h-full flex flex-col items-center justify-center">
-          <h3 className="text-base font-semibold text-zinc-800">Films</h3>
+          <h3 className="text-base font-semibold text-zinc-800">{t.cards.films.title}</h3>
         </div>
       </FlipCard>
     </div>

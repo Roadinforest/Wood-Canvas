@@ -1,14 +1,17 @@
 import { BentoCard } from '../BentoCard'
+import { useTranslation } from '@/hooks/useTranslation'
 
+// Keep these as proper nouns / brand names — not localized.
 const links = [
   { label: 'Capcut Visual Studio', url: 'https://www.capcut.com/ai-creator/start' },
   { label: 'Mini Store (Vercel)', url: 'https://mini-store-ten-hazel.vercel.app/' },
 ]
 
 export function SecretCard() {
+  const { t } = useTranslation()
   return (
     <BentoCard size="sm" rowSpan={1} className="bg-black text-white">
-      <h2 className="text-[20px] font-medium mb-3">Secret</h2>
+      <h2 className="text-[20px] font-medium mb-3">{t.cards.secret.title}</h2>
       <div className="space-y-2">
         {links.map((link) => (
           <a

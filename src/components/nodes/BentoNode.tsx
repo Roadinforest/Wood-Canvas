@@ -15,7 +15,6 @@ import { UISkillCard } from '@/components/cards/UISkillCard'
 import { LogicSkillCard } from '@/components/cards/LogicSkillCard'
 import { AISkillCard } from '@/components/cards/AISkillCard'
 import { InfraSkillCard } from '@/components/cards/InfraSkillCard'
-import { internships } from '@/data/siteContent'
 
 export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
   const modifyMode = useCanvasStore((s) => s.modifyMode)
@@ -31,8 +30,7 @@ export function BentoNode({ data, id }: NodeProps<BentoNodeData>) {
         return <SecretCard />
       case 'Internship':
         const index = id === 'internship-1' ? 0 : 1
-        const internship = internships[index]
-        return <InternshipCard {...internship} />
+        return <InternshipCard index={index} />
       case 'Skills':
         return <SkillsCard />
       case 'Tool':

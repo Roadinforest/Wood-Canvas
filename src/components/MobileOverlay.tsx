@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { isMobile } from 'react-device-detect';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export function MobileOverlay() {
+  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const dismissedRef = useRef(false);
@@ -57,7 +59,7 @@ export function MobileOverlay() {
               />
             </svg>
             <p className="text-xl font-medium text-zinc-600">
-              Please view on PC for better experience
+              {t.mobile.pleaseUsePc}
             </p>
           </div>
         </motion.div>

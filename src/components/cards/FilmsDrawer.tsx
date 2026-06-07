@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useFilmsDrawerStore } from "@/store/filmsDrawerStore";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useState, useEffect, useRef } from "react";
 
 interface MediaItem {
@@ -8,6 +9,7 @@ interface MediaItem {
   image: string;
 }
 
+// Film titles are proper nouns; they stay in the original (mostly English).
 const filmsList: MediaItem[] = [
   {
     id: "castle-in-the-sky",
@@ -62,6 +64,7 @@ const filmsList: MediaItem[] = [
 ];
 
 export default function FilmsDrawer() {
+  const { t } = useTranslation();
   const isOpen = useFilmsDrawerStore((s) => s.isOpen);
   const isHovered = useFilmsDrawerStore((s) => s.isHovered);
   const closeDrawer = useFilmsDrawerStore((s) => s.closeDrawer);
@@ -103,7 +106,7 @@ export default function FilmsDrawer() {
           >
             <div className="bg-white/80 backdrop-blur-md rounded-t-3xl border-2 border-dashed border-zinc-300 p-5 shadow-2xl">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-semibold text-zinc-800">Films</h3>
+                <h3 className="text-lg font-semibold text-zinc-800">{t.cards.films.title}</h3>
                 <button
                   onClick={closeDrawer}
                   className="p-2 hover:bg-zinc-100 transition-colors"
@@ -147,7 +150,7 @@ export default function FilmsDrawer() {
                 </div>
               )}
               {peek && (
-                <p className="text-center text-sm text-zinc-400 py-2">scroll up to open</p>
+                <p className="text-center text-sm text-zinc-400 py-2">{t.films.scrollHint}</p>
               )}
             </div>
           </motion.div>

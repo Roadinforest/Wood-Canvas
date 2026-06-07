@@ -1,6 +1,7 @@
 import { ListCard } from '../ListCard'
 import checkedIcon from '@/assets/checkbox.svg'
-import { creationIdeas } from '@/data/siteContent'
+import { creationIdeaMetas } from '@/data/siteContent'
+import { useTranslation } from '@/hooks/useTranslation'
 
 function CreationItem({ text, description, done }: { text: string; description?: string; done?: boolean }) {
   return (
@@ -21,16 +22,17 @@ function CreationItem({ text, description, done }: { text: string; description?:
 }
 
 export function CreationCard() {
-  const items = creationIdeas.map(idea => ({
-    id: idea.id,
-    text: idea.name,
-    description: idea.description,
-    done: idea.done,
+  const { t } = useTranslation()
+  const items = creationIdeaMetas.map((meta) => ({
+    id: meta.id,
+    text: t.creationIdeas[Number(meta.id) - 1]?.name ?? '',
+    description: t.creationIdeas[Number(meta.id) - 1]?.description ?? '',
+    done: meta.done,
   }))
 
   return (
     <ListCard
-      title="Creation Ideas"
+      title={t.cards.creation.title}
       icon={
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9a9 9 0 0 0 0-18Z" />

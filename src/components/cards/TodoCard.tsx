@@ -1,14 +1,6 @@
 import { ListCard } from '../ListCard'
 import checkedIcon from '@/assets/checkbox.svg'
-
-const todos = [
-  { id: '1', text: 'Pick up a strangely shaped stone on a riverside walk', done: false },
-  { id: '2', text: 'Learn to cook a new home-style dish you\'ve never tried', done: false },
-  { id: '3', text: 'Explore an unfamiliar coffee shop on a weekend afternoon', done: false },
-  { id: '4', text: 'Stroll in the rain with an umbrella, going nowhere specific', done: false },
-  { id: '6', text: 'Write a "Stop Doing" list — things you\'re done tolerating', done: false },
-  { id: '7', text: 'Learn to make homemade soda — lemon + mint flavor', done: false },
-]
+import { useTranslation } from '@/hooks/useTranslation'
 
 function TodoItem({ text, done }: { text: string; done?: boolean }) {
   return (
@@ -24,9 +16,12 @@ function TodoItem({ text, done }: { text: string; done?: boolean }) {
 }
 
 export function TodoCard() {
+  const { t } = useTranslation()
+  const todos = t.todos.map((text, index) => ({ id: String(index + 1), text, done: false }))
+
   return (
     <ListCard
-      title="Todo"
+      title={t.cards.todo.title}
       icon={
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 3a9 9 0 1 0 9 9" />
@@ -35,7 +30,7 @@ export function TodoCard() {
         </svg>
       }
       items={todos}
-      renderItem={(item) => <TodoItem key={item.id} {...item} />}
+      renderItem={(item) => <TodoItem key={item.id} text={item.text} done={item.done} />}
     />
   )
 }
