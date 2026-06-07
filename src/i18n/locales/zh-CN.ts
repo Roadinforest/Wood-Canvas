@@ -23,7 +23,7 @@ export const zhCN: TranslationDictionary = {
     welcomeLine1: '欢迎',
     welcomeLine2: '这里是Rif',
     profileSubtitle: '写软件、做智能体、折腾各种小想法。',
-    sideTagline: '极客开源\n海报式秩序\n实验气味',
+    sideTagline: '极客开源\n海报式秩序\n实验室风格',
     thoughtLabel: '想法',
     section1Title: '正在构建',
     section1Badge: '01',

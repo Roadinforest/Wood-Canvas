@@ -202,7 +202,7 @@ export function HomePage() {
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <article className="border-2 border-stone-950 bg-[#f8f5ee]">
+          <article className="flex flex-col border-2 border-stone-950 bg-[#f8f5ee]">
             <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-stone-950">
               <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#F4C430] text-sm font-medium">
                 {t.homepage.section1Badge}
@@ -213,7 +213,7 @@ export function HomePage() {
               </div>
             </div>
 
-            <div className="grid gap-0 lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="grid flex-1 gap-0 lg:grid-cols-[1.15fr_0.85fr]">
               <div className="border-b-2 border-stone-950 p-5 lg:border-b-0 lg:border-r-2 sm:p-6">
                 {primaryProject && (
                   <div className="flex flex-wrap items-start justify-between gap-4">
@@ -240,12 +240,12 @@ export function HomePage() {
                 </ul>
               </div>
 
-              <div className="grid grid-rows-[auto_1fr_auto]">
+              <div className="flex flex-col">
                 <div className="border-b-2 border-stone-950 bg-[#457B9D] p-6 text-[#f8f5ee]">
                   <div className="text-xs uppercase tracking-[0.18em] text-white/70">{t.common.techStack}</div>
                   <p className="mt-3 text-sm leading-7">{primaryProject?.techStack}</p>
                 </div>
-                <div className="grid grid-cols-2">
+                <div className="grid flex-1 grid-cols-2">
                   <div className="border-r-2 border-stone-950 bg-[#E63946]" />
                   <div className="bg-[#f8f5ee]" />
                 </div>
