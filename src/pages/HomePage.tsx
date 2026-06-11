@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowRight,
   Blocks,
@@ -11,6 +12,7 @@ import {
   Globe,
   Mail,
   Phone,
+  Play,
   Sparkles,
   Wrench,
 } from 'lucide-react'
@@ -23,27 +25,15 @@ import {
   creationIdeaMetas,
 } from '@/data/siteContent'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
+import { PresentationDeck } from '@/components/home/PresentationDeck'
+import { SectionTitle, SoftCard, fadeUp, sectionViewport, stagger } from '@/components/home/HomePagePrimitives'
+import { createPresentationSlides } from '@/components/home/createPresentationSlides'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const projectUrl = 'https://mini-store-ten-hazel.vercel.app/'
 const blogUrl = 'https://www.cnblogs.com/Roadinforest'
 const friendBlogUrl = 'https://vks-feng.github.io/guanshengju/'
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
-  visible: { opacity: 1, y: 0 },
-}
-
-const stagger = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-}
-
-const sectionViewport = { once: true, amount: 0.22 }
+const presentationStorageKey = 'rif-homepage-presentation-seen'
 
 function getSocialIcon(id: string) {
   if (id === 'github') return Github
@@ -55,45 +45,6 @@ function getSocialHref(id: string, link?: string, value?: string) {
   if (link) return link
   if (id === 'email') return `mailto:${value}`
   return `tel:${value}`
-}
-
-function SectionTitle({
-  title,
-  icon: Icon,
-}: {
-  title: string
-  icon: typeof Sparkles
-}) {
-  return (
-    <div className="mb-6 flex items-end justify-between gap-4">
-      <div>
-        <h2 className="flex items-center gap-3 text-2xl font-semibold tracking-[-0.03em] text-slate-950 sm:text-3xl">
-          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
-            <Icon className="h-5 w-5" />
-          </span>
-          {title}
-        </h2>
-      </div>
-    </div>
-  )
-}
-
-function SoftCard({
-  children,
-  className = '',
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
-  return (
-    <motion.div
-      variants={fadeUp}
-      whileHover={{ y: -4, transition: { duration: 0.18 } }}
-      className={`rounded-[2rem] border border-white/70 bg-white/72 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl ${className}`}
-    >
-      {children}
-    </motion.div>
-  )
 }
 
 function ToolLink({
@@ -127,9 +78,35 @@ function ToolLink({
 export function HomePage() {
   const { t } = useTranslation()
   const primaryProject = t.projects[0]
+  const [isPresentationMode, setIsPresentationMode] = useState(() => {
+    if (typeof window === 'undefined') return false
+    return window.localStorage.getItem(presentationStorageKey) !== 'true'
+  })
+
+  const presentationSlides = createPresentationSlides(t, primaryProject)
+
+  const finishPresentation = () => {
+    window.localStorage.setItem(presentationStorageKey, 'true')
+    setIsPresentationMode(false)
+  }
+
+  const replayPresentation = () => {
+    setIsPresentationMode(true)
+  }
 
   return (
     <div className="relative h-screen overflow-y-auto overflow-x-hidden bg-[#f5f7fb] text-slate-950">
+      <AnimatePresence>
+        {isPresentationMode && (
+          <PresentationDeck
+            slides={presentationSlides}
+            continueHint={t.homepage.presentationContinueHint}
+            enterHint={t.homepage.presentationEnterHint}
+            onFinish={finishPresentation}
+          />
+        )}
+      </AnimatePresence>
+
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <motion.div
           aria-hidden="true"
@@ -176,6 +153,15 @@ export function HomePage() {
             >
               {t.homepage.timelineTitle}
             </a>
+            <button
+              type="button"
+              onClick={replayPresentation}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/72 text-slate-500 shadow-sm backdrop-blur-xl transition hover:bg-white hover:text-slate-950"
+              aria-label={t.homepage.presentationReplayLabel}
+              title={t.homepage.presentationReplayLabel}
+            >
+              <Play className="h-4 w-4" />
+            </button>
             <LanguageSwitcher variant="inline" />
           </div>
         </motion.header>

@@ -36,6 +36,9 @@ export interface TranslationDictionary {
     section4Badge: string
     timelineTitle: string
     timelineBadge: string
+    presentationReplayLabel: string
+    presentationContinueHint: string
+    presentationEnterHint: string
     nowBuilding: string
     experience: string
     blogLabel: string
