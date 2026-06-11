@@ -17,11 +17,13 @@ export function LanguageSwitcher({ className, variant = 'pill' }: LanguageSwitch
     return (
       <div
         className={cn(
-          'inline-flex items-center gap-1 border-2 border-stone-950 bg-[#f8f5ee] px-2 py-1 text-xs uppercase tracking-[0.16em]',
+          'inline-flex items-center gap-1 rounded-full border border-white/70 bg-white/72 p-1 text-xs shadow-sm backdrop-blur-xl',
           className,
         )}
       >
-        <Languages className="h-3.5 w-3.5 mr-1" />
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500">
+          <Languages className="h-3.5 w-3.5" />
+        </span>
         {SUPPORTED_LOCALES.map((locale: Locale) => {
           const active = language === locale
           return (
@@ -29,10 +31,13 @@ export function LanguageSwitcher({ className, variant = 'pill' }: LanguageSwitch
               key={locale}
               onClick={() => setLanguage(locale)}
               className={cn(
-                'px-2 py-1 transition-colors',
-                active ? 'bg-stone-950 text-[#f8f5ee]' : 'text-stone-700 hover:bg-stone-200',
+                'rounded-full px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.14em] transition-all',
+                active
+                  ? 'bg-slate-950 text-white shadow-[0_10px_24px_rgba(15,23,42,0.18)]'
+                  : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900',
               )}
               aria-pressed={active}
+              aria-label={`Switch language to ${LOCALE_LABELS[locale]}`}
             >
               {LOCALE_LABELS[locale]}
             </button>

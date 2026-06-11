@@ -34,10 +34,26 @@ export interface TranslationDictionary {
     section3Badge: string
     section4Title: string
     section4Badge: string
+    timelineTitle: string
+    timelineBadge: string
     nowBuilding: string
     experience: string
+    blogLabel: string
+    blogName: string
     friendLinkLabel: string
     friendLinkName: string
+    aboutNowTitle: string
+    aboutNowBadge: string
+    aboutNowLead: string
+    aboutNowParagraphs: string[]
+    aboutNowFocus: string[]
+    aboutNowCta: string
+    timelineItems: Array<{
+      year: string
+      title: string
+      points: string[]
+      keywords: string[]
+    }>
   }
   cards: {
     about: {

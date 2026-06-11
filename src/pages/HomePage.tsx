@@ -1,15 +1,17 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import {
   ArrowRight,
   Blocks,
   Briefcase,
-  Globe,
+  CalendarDays,
+  CheckCircle2,
+  ExternalLink,
   Github,
+  Globe,
   Mail,
   Phone,
   Sparkles,
-  SquareTerminal,
   Wrench,
 } from 'lucide-react'
 import {
@@ -20,460 +22,601 @@ import {
   toolLinkMetas,
   creationIdeaMetas,
 } from '@/data/siteContent'
-import { P5ScrollBackdrop } from '@/components/home/P5ScrollBackdrop'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
 import { useTranslation } from '@/hooks/useTranslation'
 
-const shapePalette = [
-  'bg-[#E63946]',
-  'bg-[#F4C430]',
-  'bg-[#457B9D]',
-  'bg-stone-950',
-]
+const projectUrl = 'https://mini-store-ten-hazel.vercel.app/'
+const blogUrl = 'https://www.cnblogs.com/Roadinforest'
+const friendBlogUrl = 'https://vks-feng.github.io/guanshengju/'
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  visible: { opacity: 1, y: 0 },
+}
+
+const stagger = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const sectionViewport = { once: true, amount: 0.22 }
+
+function getSocialIcon(id: string) {
+  if (id === 'github') return Github
+  if (id === 'email') return Mail
+  return Phone
+}
+
+function getSocialHref(id: string, link?: string, value?: string) {
+  if (link) return link
+  if (id === 'email') return `mailto:${value}`
+  return `tel:${value}`
+}
+
+function SectionTitle({
+  title,
+  icon: Icon,
+}: {
+  title: string
+  icon: typeof Sparkles
+}) {
+  return (
+    <div className="mb-6 flex items-end justify-between gap-4">
+      <div>
+        <h2 className="flex items-center gap-3 text-2xl font-semibold tracking-[-0.03em] text-slate-950 sm:text-3xl">
+          <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-white/80 text-slate-700 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
+            <Icon className="h-5 w-5" />
+          </span>
+          {title}
+        </h2>
+      </div>
+    </div>
+  )
+}
+
+function SoftCard({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      whileHover={{ y: -4, transition: { duration: 0.18 } }}
+      className={`rounded-[2rem] border border-white/70 bg-white/72 shadow-[0_24px_80px_rgba(15,23,42,0.08)] backdrop-blur-2xl ${className}`}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function ToolLink({
+  children,
+  className,
+  href,
+  to,
+  external,
+}: {
+  children: React.ReactNode
+  className: string
+  href?: string
+  to?: string
+  external?: boolean
+}) {
+  if (to) {
+    return (
+      <Link to={to} className={className}>
+        {children}
+      </Link>
+    )
+  }
+
+  return (
+    <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noreferrer' : undefined} className={className}>
+      {children}
+    </a>
+  )
+}
 
 export function HomePage() {
   const { t } = useTranslation()
-  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null)
   const primaryProject = t.projects[0]
-  const backgroundOnlyPreview = false
 
   return (
-    <div ref={setScrollElement} className="relative h-screen overflow-y-auto overflow-x-hidden bg-[#f4f0e8] text-stone-950">
-      <P5ScrollBackdrop scrollElement={scrollElement} />
-      {backgroundOnlyPreview && <div className="h-[300vh]" aria-hidden="true" />}
-      <main
-        className={`relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-12 px-5 py-6 sm:px-8 lg:px-12 lg:py-10 ${
-          backgroundOnlyPreview ? 'invisible pointer-events-none select-none' : ''
-        }`}
-      >
-        <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]">
-          <div className="grid min-h-[34rem] grid-rows-[auto_1fr_auto] border-2 border-stone-950 bg-[#f8f5ee]">
-            <div className="flex items-center justify-between border-b-2 border-stone-950 px-5 py-4 sm:px-7">
-              <div className="flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-stone-700">
-                <SquareTerminal className="h-4 w-4" />
-                <span>{t.homepage.headerLabel}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="h-4 w-4 rounded-full bg-[#E63946]" />
-                <span className="h-4 w-4 bg-[#F4C430]" />
-                <span className="h-4 w-4 bg-[#457B9D]" />
-              </div>
+    <div className="relative h-screen overflow-y-auto overflow-x-hidden bg-[#f5f7fb] text-slate-950">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <motion.div
+          aria-hidden="true"
+          animate={{ x: [0, 28, -18, 0], y: [0, -22, 18, 0], scale: [1, 1.06, 0.98, 1] }}
+          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -left-28 top-[-12rem] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(120,165,255,0.28),rgba(120,165,255,0)_68%)] blur-3xl"
+        />
+        <motion.div
+          aria-hidden="true"
+          animate={{ x: [0, -24, 22, 0], y: [0, 26, -16, 0], scale: [1, 0.96, 1.08, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute right-[-12rem] top-40 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(188,226,255,0.34),rgba(188,226,255,0)_70%)] blur-3xl"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(246,248,252,0.76)_40%,rgba(232,240,251,0.72))]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.95),rgba(255,255,255,0)_35%)]" />
+      </div>
+
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-10 px-5 py-5 sm:px-8 lg:px-12 lg:py-8">
+        <motion.header
+          initial={{ opacity: 0, y: -18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="sticky top-4 z-30 flex items-center justify-between gap-4 rounded-full border border-white/70 bg-white/68 px-4 py-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-2xl sm:px-5"
+        >
+          <a href="#top" className="flex items-center gap-3">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+              R
+            </span>
+            <span className="hidden text-sm font-medium tracking-[-0.01em] text-slate-600 sm:inline">
+              {t.homepage.headerLabel}
+            </span>
+          </a>
+
+          <div className="flex items-center gap-2">
+            <a
+              href="#skill-map"
+              className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-950/5 hover:text-slate-950 sm:inline-flex"
+            >
+              {t.homepage.section4Title}
+            </a>
+            <a
+              href="#timeline"
+              className="hidden rounded-full px-4 py-2 text-sm font-medium text-slate-500 transition hover:bg-slate-950/5 hover:text-slate-950 md:inline-flex"
+            >
+              {t.homepage.timelineTitle}
+            </a>
+            <LanguageSwitcher variant="inline" />
+          </div>
+        </motion.header>
+
+        <motion.section
+          id="top"
+          variants={stagger}
+          initial="hidden"
+          animate="visible"
+          className="grid min-h-[calc(100vh-7rem)] items-center gap-8 pt-10 lg:grid-cols-[minmax(0,1.08fr)_26rem]"
+        >
+          <motion.div variants={fadeUp} className="space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-xl">
+              <span className="h-2 w-2 rounded-full bg-[#57c7ff] shadow-[0_0_22px_rgba(87,199,255,0.9)]" />
+              {t.homepage.introBadge}
             </div>
 
-            <div className="grid gap-6 p-5 xl:grid-cols-[minmax(0,1fr)_24rem] sm:p-7">
-              <div className="flex flex-col justify-between gap-8">
-                <div className="space-y-5">
-                  <div className="inline-flex w-fit border-2 border-stone-950 px-3 py-1 text-xs uppercase tracking-[0.2em] text-stone-700">
-                    {t.homepage.introBadge}
-                  </div>
-                  <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                    {t.homepage.welcomeLine1}
-                    <br />
-                    {t.homepage.welcomeLine2}
-                  </h1>
-                  <p className="max-w-xl text-base leading-7 text-stone-700 sm:text-lg">
-                    {t.profile.intro}
-                  </p>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-3">
-                  <Link
-                    to="/canvas"
-                    className="inline-flex items-center gap-2 border-2 border-stone-950 bg-stone-950 px-4 py-3 text-sm font-medium text-[#f8f5ee] transition-transform hover:-translate-y-0.5"
-                  >
-                    {t.common.enterCanvas}
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
-                  <a
-                    href={primaryProject ? 'https://mini-store-ten-hazel.vercel.app/' : '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 border-2 border-stone-950 bg-[#f8f5ee] px-4 py-3 text-sm font-medium text-stone-950 transition-transform hover:-translate-y-0.5"
-                  >
-                    {t.common.visitProject}
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                  <LanguageSwitcher variant="inline" />
-                </div>
-              </div>
-
-              <div className="grid min-h-[18rem] grid-rows-[12rem_auto] border-2 border-stone-950 xl:grid-cols-[4.75rem_minmax(0,1fr)] xl:grid-rows-[13rem_auto]">
-                <div className="bg-[#457B9D] xl:row-span-2" />
-                <div className="grid grid-cols-[1fr_8.5rem] border-b-2 border-stone-950 xl:border-l-2 xl:border-stone-950">
-                  <div className="bg-[#f8f5ee]" />
-                  <div className="flex items-center justify-center border-l-2 border-stone-950 bg-[#f8f5ee] p-4">
-                    <img
-                      src={profileMeta.avatar}
-                      alt={profileMeta.name}
-                      className="h-24 w-24 rounded-full border-2 border-stone-950 object-cover"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-[minmax(0,1fr)_5.75rem] xl:grid-cols-[minmax(0,1fr)_6.5rem] xl:border-l-2 xl:border-stone-950">
-                  <div className="flex items-end bg-[#f8f5ee] p-5 xl:min-h-[15rem] xl:p-6">
-                    <div className="min-w-0">
-                      <div className="text-xs uppercase tracking-[0.2em] text-stone-500">Profile</div>
-                      <div className="mt-2 text-[clamp(2.6rem,3.6vw,4.4rem)] font-semibold leading-[0.95]">
-                        {profileMeta.name}
-                      </div>
-                      <div className="mt-3 max-w-[16rem] text-sm leading-6 text-stone-700">
-                        {t.homepage.profileSubtitle}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative overflow-hidden border-l-2 border-stone-950 bg-[#F4C430]">
-                    <div className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-stone-950 bg-[#E63946] sm:h-24 sm:w-24" />
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-5">
+              <h1 className="max-w-4xl text-[clamp(3.5rem,9vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.08em] text-slate-950">
+                {t.homepage.welcomeLine1}
+                <br />
+                <span className="bg-gradient-to-r from-slate-950 via-slate-700 to-sky-500 bg-clip-text text-transparent">
+                  {t.homepage.welcomeLine2}
+                </span>
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
+                {t.profile.intro}
+              </p>
             </div>
 
-            <div className="grid gap-0 border-t-2 border-stone-950 sm:grid-cols-3">
-              {t.profile.roles.map((role, index) => (
-                <div
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                to="/canvas"
+                className="group inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_44px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:bg-slate-800"
+              >
+                {t.common.enterCanvas}
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </Link>
+              <a
+                href={primaryProject ? projectUrl : '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
+              >
+                {t.common.visitProject}
+                <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </a>
+              <a
+                href={blogUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
+              >
+                {t.homepage.blogLabel}
+                <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5" />
+              </a>
+            </div>
+
+            <motion.div variants={stagger} className="grid gap-3 sm:grid-cols-3">
+              {t.profile.roles.map((role) => (
+                <motion.div
                   key={role}
-                  className={`px-5 py-4 text-sm text-stone-800 sm:px-6 ${index < t.profile.roles.length - 1 ? 'border-b-2 border-stone-950 sm:border-b-0 sm:border-r-2' : ''}`}
+                  variants={fadeUp}
+                  className="rounded-3xl border border-white/70 bg-white/58 px-4 py-4 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-xl"
                 >
                   {role}
-                </div>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <aside className="grid w-full gap-0 self-start border-2 border-stone-950 bg-[#f8f5ee] xl:w-[22rem]">
-            <div className="grid grid-cols-[0.7fr_1.3fr] border-b-2 border-stone-950">
-              <div className="min-h-[8rem] border-r-2 border-stone-950 bg-[#E63946]" />
-              <div className="flex items-end p-5">
-                <p className="max-w-[14rem] text-sm leading-6 text-stone-700 whitespace-pre-line">
-                  {t.homepage.sideTagline}
-                </p>
-              </div>
-            </div>
-
-            <div className="grid gap-0">
-              {socials.map((social, index) => {
-                const Icon = social.id === 'github' ? Github : social.id === 'email' ? Mail : Phone
-                const href = social.link ?? (social.id === 'email' ? `mailto:${social.value}` : `tel:${social.value}`)
-                const content = social.link ?? social.value
-
-                return (
-                  <a
-                    key={social.id}
-                    href={href}
-                    target={social.link ? '_blank' : undefined}
-                    rel={social.link ? 'noopener noreferrer' : undefined}
-                    className={`grid grid-cols-[3.5rem_1fr] transition-colors hover:bg-stone-100 ${index < socials.length - 1 ? 'border-b-2 border-stone-950' : ''}`}
-                  >
-                    <div className={`flex items-center justify-center border-r-2 border-stone-950 ${shapePalette[index % shapePalette.length]}`}>
-                      <Icon className={`h-4 w-4 ${index === 1 ? 'text-stone-950' : 'text-white'}`} />
-                    </div>
-                    <div className="space-y-1 px-4 py-3">
-                      <div className="text-xs uppercase tracking-[0.18em] text-stone-500">{social.id}</div>
-                      <div className="truncate text-sm text-stone-800">{content}</div>
-                    </div>
-                  </a>
-                )
-              })}
-            </div>
-
-            <a
-              href="https://vks-feng.github.io/guanshengju/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="grid grid-cols-[3.5rem_1fr] border-t-2 border-stone-950 transition-colors hover:bg-stone-100"
+          <motion.aside variants={fadeUp} className="relative">
+            <motion.div
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              className="relative overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/72 p-5 shadow-[0_40px_100px_rgba(15,23,42,0.14)] backdrop-blur-2xl"
             >
-              <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#F4C430]">
-                <Globe className="h-4 w-4 text-stone-950" />
-              </div>
-              <div className="space-y-1 px-4 py-3">
-                <div className="text-xs uppercase tracking-[0.18em] text-stone-500">{t.homepage.friendLinkLabel}</div>
-                <div className="truncate text-sm text-stone-800">{t.homepage.friendLinkName}</div>
-              </div>
-            </a>
-
-            <div className="grid grid-cols-[1fr_5rem] border-t-2 border-stone-950">
-              <div className="p-5">
-                <div className="text-xs uppercase tracking-[0.2em] text-stone-500">{t.homepage.thoughtLabel}</div>
-                <blockquote className="mt-3 text-lg leading-8">{t.thought}</blockquote>
-              </div>
-              <div className="border-l-2 border-stone-950 bg-[#457B9D]" />
-            </div>
-          </aside>
-        </section>
-
-        <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <article className="flex flex-col border-2 border-stone-950 bg-[#f8f5ee]">
-            <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-stone-950">
-              <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#F4C430] text-sm font-medium">
-                {t.homepage.section1Badge}
-              </div>
-              <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-                <Briefcase className="h-5 w-5" />
-                <h2 className="text-2xl font-semibold">{t.homepage.section1Title}</h2>
-              </div>
-            </div>
-
-            <div className="grid flex-1 gap-0 lg:grid-cols-[1.15fr_0.85fr]">
-              <div className="border-b-2 border-stone-950 p-5 lg:border-b-0 lg:border-r-2 sm:p-6">
-                {primaryProject && (
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-3xl font-semibold">{primaryProject.name}</h3>
-                      <p className="mt-3 max-w-xl text-sm leading-6 text-stone-700">{primaryProject.description}</p>
-                    </div>
-                    <div className="text-sm leading-6 text-stone-500">
-                      <div>{primaryProject.role}</div>
-                      <div>{primaryProject.period}</div>
-                    </div>
+              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
+              <div className="rounded-[2rem] bg-gradient-to-br from-slate-50 via-white to-sky-50 p-5">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">Profile</div>
+                    <div className="mt-2 text-5xl font-semibold tracking-[-0.07em] text-slate-950">{profileMeta.name}</div>
                   </div>
-                )}
+                  <img
+                    src={profileMeta.avatar}
+                    alt={profileMeta.name}
+                    className="h-20 w-20 rounded-[1.7rem] object-cover shadow-[0_16px_40px_rgba(15,23,42,0.16)] ring-1 ring-white/80"
+                  />
+                </div>
+                <p className="mt-8 text-base leading-7 text-slate-600">{t.homepage.profileSubtitle}</p>
+                <div className="mt-8 grid grid-cols-3 gap-2">
+                  {socials.map((social) => {
+                    const Icon = getSocialIcon(social.id)
+                    const content = social.link ?? social.value
 
-                <ul className="mt-8 space-y-4">
-                  {primaryProject?.highlights.map((highlight, index) => (
-                    <li key={highlight} className="grid grid-cols-[2rem_1fr] gap-3">
-                      <span className="flex h-8 w-8 items-center justify-center border-2 border-stone-950 text-xs">
-                        {index + 1}
-                      </span>
-                      <p className="pt-1 text-sm leading-6 text-stone-800">{highlight}</p>
-                    </li>
-                  ))}
-                </ul>
+                    return (
+                      <a
+                        key={social.id}
+                        href={getSocialHref(social.id, social.link, social.value)}
+                        target={social.link ? '_blank' : undefined}
+                        rel={social.link ? 'noopener noreferrer' : undefined}
+                        aria-label={content}
+                        className="group flex h-14 items-center justify-center rounded-2xl border border-slate-200/70 bg-white/75 text-slate-500 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-950"
+                      >
+                        <Icon className="h-5 w-5 transition group-hover:scale-110" />
+                      </a>
+                    )
+                  })}
+                </div>
               </div>
 
-              <div className="flex flex-col">
-                <div className="border-b-2 border-stone-950 bg-[#457B9D] p-6 text-[#f8f5ee]">
-                  <div className="text-xs uppercase tracking-[0.18em] text-white/70">{t.common.techStack}</div>
-                  <p className="mt-3 text-sm leading-7">{primaryProject?.techStack}</p>
-                </div>
-                <div className="grid flex-1 grid-cols-2">
-                  <div className="border-r-2 border-stone-950 bg-[#E63946]" />
-                  <div className="bg-[#f8f5ee]" />
-                </div>
+              <div className="mt-4 grid gap-3">
                 <a
-                  href={primaryProject ? 'https://mini-store-ten-hazel.vercel.app/' : '#'}
+                  href={blogUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-between border-t-2 border-stone-950 px-5 py-4 text-sm font-medium transition-colors hover:bg-stone-100"
+                  className="group rounded-3xl border border-slate-200/70 bg-white/64 px-5 py-4 text-sm text-slate-600 transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-950"
                 >
-                  {t.common.visitProject}
-                  <ArrowRight className="h-4 w-4" />
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Globe className="h-4 w-4 shrink-0" />
+                      <span className="truncate font-semibold text-slate-900">{t.homepage.blogName}</span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5" />
+                  </div>
+                  <div className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+                    {t.homepage.blogLabel}
+                  </div>
                 </a>
+                <a
+                  href={friendBlogUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group rounded-3xl border border-slate-200/70 bg-white/64 px-5 py-4 text-sm text-slate-600 transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-950"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Globe className="h-4 w-4 shrink-0" />
+                      <span className="truncate">{t.homepage.friendLinkName}</span>
+                    </span>
+                    <ArrowRight className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5" />
+                  </div>
+                  <div className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+                    {t.homepage.friendLinkLabel}
+                  </div>
+                </a>
+                <div className="rounded-3xl bg-slate-950 px-5 py-5 text-white">
+                  <div className="text-xs uppercase tracking-[0.2em] text-white/45">{t.homepage.thoughtLabel}</div>
+                  <blockquote className="mt-3 text-lg leading-8 tracking-[-0.02em] text-white/90">{t.thought}</blockquote>
+                </div>
               </div>
-            </div>
-          </article>
+            </motion.div>
+          </motion.aside>
+        </motion.section>
+
+        <motion.section
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={sectionViewport}
+          className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]"
+        >
+          <SoftCard className="p-6 sm:p-8">
+            <SectionTitle title={t.homepage.section1Title} icon={Briefcase} />
+            {primaryProject && (
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
+                <div>
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-4xl font-semibold tracking-[-0.05em] text-slate-950">{primaryProject.name}</h3>
+                      <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">{primaryProject.description}</p>
+                    </div>
+                    <div className="rounded-full bg-slate-950/5 px-4 py-2 text-sm font-medium text-slate-500">
+                      {primaryProject.period}
+                    </div>
+                  </div>
+
+                  <ul className="mt-8 grid gap-3">
+                    {primaryProject.highlights.map((highlight) => (
+                      <li key={highlight} className="flex gap-3 rounded-3xl bg-white/62 p-4 text-sm leading-6 text-slate-600 ring-1 ring-slate-200/60">
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-sky-500" />
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="flex flex-col justify-between rounded-[1.75rem] bg-gradient-to-br from-slate-950 to-slate-800 p-6 text-white">
+                  <div>
+                    <div className="text-xs uppercase tracking-[0.22em] text-white/40">{t.common.techStack}</div>
+                    <p className="mt-4 text-sm leading-7 text-white/76">{primaryProject.techStack}</p>
+                  </div>
+                  <a
+                    href={projectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-8 inline-flex items-center justify-between rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-50"
+                  >
+                    {t.common.visitProject}
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                  </a>
+                </div>
+              </div>
+            )}
+          </SoftCard>
 
           <div className="grid gap-6">
-            <article className="border-2 border-stone-950 bg-stone-950 text-[#f8f5ee]">
-              <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-[#f8f5ee]">
-                <div className="flex items-center justify-center border-r-2 border-[#f8f5ee] bg-[#E63946] text-sm font-medium text-white">
-                  {t.homepage.section2Badge}
+            <SoftCard className="p-6 sm:p-8">
+              <SectionTitle title={t.homepage.aboutNowTitle} icon={Sparkles} />
+              <div className="space-y-6">
+                <div className="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                  {t.homepage.aboutNowBadge}
                 </div>
-                <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-                  <Sparkles className="h-5 w-5" />
-                  <h2 className="text-2xl font-semibold">{t.homepage.section2Title}</h2>
+                <p className="max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.04em] text-slate-950 sm:text-3xl">
+                  {t.homepage.aboutNowLead}
+                </p>
+                <div className="space-y-4">
+                  {t.homepage.aboutNowParagraphs.map((paragraph) => (
+                    <p key={paragraph} className="text-sm leading-7 text-slate-600 sm:text-[15px]">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {t.homepage.aboutNowFocus.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full border border-slate-200/70 bg-white/85 px-3 py-2 text-xs font-semibold tracking-[0.14em] text-slate-600 shadow-sm"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+                <div className="rounded-[1.75rem] bg-slate-950 px-5 py-5 text-sm leading-7 text-white">
+                  {t.homepage.aboutNowCta}
                 </div>
               </div>
-              <blockquote className="p-6 text-xl leading-9 sm:p-8">
-                {t.thought}
-              </blockquote>
-            </article>
+            </SoftCard>
 
-            <article className="border-2 border-stone-950 bg-[#f8f5ee]">
-              <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-stone-950">
-                <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#457B9D] text-sm font-medium text-white">
-                  Exp
-                </div>
-                <div className="px-5 py-4 text-xl font-semibold sm:px-6">{t.homepage.experience}</div>
-              </div>
-              <div>
+            <SoftCard className="p-6 sm:p-8">
+              <SectionTitle title={t.homepage.experience} icon={Briefcase} />
+              <div className="grid gap-4">
                 {internshipMetas.map((internship, index) => {
                   const localized = t.internships[index]
+
                   return (
-                    <div
-                      key={`${internship.company}-${index}`}
-                      className={`${index < internshipMetas.length - 1 ? 'border-b-2 border-stone-950' : ''}`}
-                    >
-                      <div className="grid gap-4 p-5 sm:grid-cols-[1fr_auto] sm:p-6">
+                    <div key={`${internship.company}-${index}`} className="rounded-3xl bg-white/62 p-5 ring-1 ring-slate-200/60">
+                      <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
-                          <div className="text-lg font-semibold">{internship.company}</div>
-                          <div className="mt-1 text-sm text-stone-500">{localized?.role}</div>
-                          <p className="mt-3 text-sm leading-6 text-stone-700">{localized?.description}</p>
-                          {internship.company === 'Capcut ByteDance' && (
-                            <a
-                              href="https://www.capcut.com/ai-creator/studio"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="mt-4 inline-flex items-center gap-2 border-2 border-stone-950 bg-[#f8f5ee] px-3 py-2 text-sm font-medium text-stone-950 transition-transform hover:-translate-y-0.5"
-                            >
-                              {t.common.visitWebsite}
-                              <ArrowRight className="h-4 w-4" />
-                            </a>
-                          )}
+                          <h3 className="text-lg font-semibold tracking-[-0.02em]">{internship.company}</h3>
+                          <div className="mt-1 text-sm font-medium text-slate-500">{localized?.role}</div>
                         </div>
-                        <div className="text-sm text-stone-500">{internship.period}</div>
+                        <span className="rounded-full bg-slate-950/5 px-3 py-1.5 text-xs font-medium text-slate-500">
+                          {internship.period}
+                        </span>
                       </div>
+                      <p className="mt-4 text-sm leading-6 text-slate-600">{localized?.description}</p>
+                      {internship.company === 'Capcut ByteDance' && (
+                        <a
+                          href="https://www.capcut.com/ai-creator/studio"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
+                        >
+                          {t.common.visitWebsite}
+                          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                        </a>
+                      )}
                     </div>
                   )
                 })}
               </div>
-            </article>
+            </SoftCard>
           </div>
-        </section>
+        </motion.section>
 
-        <section className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <article className="border-2 border-stone-950 bg-[#f8f5ee]">
-            <div className="grid grid-cols-[4.5rem_1fr] border-b-2 border-stone-950">
-              <div className="flex items-center justify-center border-r-2 border-stone-950 bg-[#457B9D] text-sm font-medium text-white">
-                {t.homepage.section3Badge}
-              </div>
-              <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-                <Wrench className="h-5 w-5" />
-                <h2 className="text-2xl font-semibold">{t.homepage.section3Title}</h2>
-              </div>
-            </div>
-            <div>
+        <motion.section
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={sectionViewport}
+          className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]"
+        >
+          <SoftCard className="p-6 sm:p-8">
+            <SectionTitle title={t.homepage.section3Title} icon={Wrench} />
+            <div className="grid gap-3">
               {toolLinkMetas.map((tool, index) => {
                 const label = t.toolLinks[index]?.label ?? ''
-                return tool.kind === 'anchor' ? (
-                  <a
+                const content = (
+                  <>
+                    <span className="flex items-center gap-3">
+                      <span>{label}</span>
+                      {tool.status === 'in-progress' ? (
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-600">
+                          {t.common.inProgress}
+                        </span>
+                      ) : null}
+                    </span>
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                  </>
+                )
+
+                return (
+                  <ToolLink
                     key={tool.url}
-                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
-                      index < toolLinkMetas.length - 1 ? 'border-b-2 border-stone-950' : ''
-                    }`}
+                    className="group flex items-center justify-between rounded-3xl bg-white/62 px-5 py-4 text-sm font-semibold text-slate-700 ring-1 ring-slate-200/60 transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-950"
                     href={tool.url}
+                    to={tool.kind === 'internal' ? tool.url : undefined}
+                    external={tool.kind === 'external'}
                   >
-                    <div className="flex items-center gap-3">
-                      <span>{label}</span>
-                      {tool.status === 'in-progress' ? (
-                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
-                          {t.common.inProgress}
-                        </span>
-                      ) : null}
-                    </div>
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                ) : tool.kind === 'external' ? (
-                  <a
-                    key={tool.url}
-                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
-                      index < toolLinkMetas.length - 1 ? 'border-b-2 border-stone-950' : ''
-                    }`}
-                    href={tool.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span>{label}</span>
-                      {tool.status === 'in-progress' ? (
-                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
-                          {t.common.inProgress}
-                        </span>
-                      ) : null}
-                    </div>
-                    <ArrowRight className="h-4 w-4" />
-                  </a>
-                ) : (
-                  <Link
-                    key={tool.url}
-                    className={`flex items-center justify-between px-5 py-4 text-sm transition-colors hover:bg-stone-100 sm:px-6 ${
-                      index < toolLinkMetas.length - 1 ? 'border-b-2 border-stone-950' : ''
-                    }`}
-                    to={tool.url}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span>{label}</span>
-                      {tool.status === 'in-progress' ? (
-                        <span className="border-2 border-[#2A9D8F] bg-[#D9F7E8] px-2 py-1 text-[10px] uppercase tracking-[0.16em] text-[#1D6B5F]">
-                          {t.common.inProgress}
-                        </span>
-                      ) : null}
-                    </div>
-                    <ArrowRight className="h-4 w-4" />
-                  </Link>
+                    {content}
+                  </ToolLink>
                 )
               })}
             </div>
-          </article>
+          </SoftCard>
 
-          <article className="border-2 border-stone-950 bg-[#f8f5ee]">
-            <div className="grid border-b-2 border-stone-950 sm:grid-cols-[1fr_6rem]">
-              <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-                <Sparkles className="h-5 w-5" />
-                <h2 className="text-2xl font-semibold">{t.cards.creation.title}</h2>
-              </div>
-              <div className="border-l-2 border-stone-950 bg-[#F4C430]" />
-            </div>
-            <div className="grid gap-0">
+          <SoftCard className="p-6 sm:p-8">
+            <SectionTitle title={t.cards.creation.title} icon={Sparkles} />
+            <div className="grid gap-4">
               {creationIdeaMetas.map((idea, index) => {
                 const localized = t.creationIdeas[index]
+
                 return (
-                  <div
-                    key={idea.id}
-                    className={`grid gap-0 sm:grid-cols-[4.5rem_1fr_auto] ${
-                      index < creationIdeaMetas.length - 1 ? 'border-b-2 border-stone-950' : ''
-                    }`}
-                  >
-                    <div className="flex items-center justify-center border-b-2 border-stone-950 bg-stone-950 px-4 py-3 text-xs uppercase tracking-[0.18em] text-[#f8f5ee] sm:border-b-0 sm:border-r-2">
+                  <div key={idea.id} className="grid gap-4 rounded-3xl bg-white/62 p-5 ring-1 ring-slate-200/60 sm:grid-cols-[auto_1fr_auto]">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-950 text-sm font-semibold text-white">
                       {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <div>
+                      <h3 className="text-lg font-semibold tracking-[-0.02em]">{localized?.name}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{localized?.description}</p>
                     </div>
-                    <div className="px-5 py-4 sm:px-6">
-                      <h3 className="text-base font-semibold">{localized?.name}</h3>
-                      <p className="mt-2 text-sm leading-6 text-stone-600">{localized?.description}</p>
-                    </div>
-                    <div className="flex items-start px-5 py-4 sm:justify-end sm:px-6">
-                      <span className="border-2 border-stone-950 px-2 py-1 text-xs uppercase tracking-[0.16em]">
-                        {idea.done ? t.common.done : t.common.idea}
-                      </span>
-                    </div>
+                    <span className="h-fit rounded-full bg-slate-950/5 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+                      {idea.done ? t.common.done : t.common.idea}
+                    </span>
                   </div>
                 )
               })}
             </div>
-          </article>
-        </section>
+          </SoftCard>
+        </motion.section>
 
-        <section id="skill-map" className="border-2 border-stone-950 bg-[#f8f5ee]">
-          <div className="grid border-b-2 border-stone-950 lg:grid-cols-[4.5rem_1fr_10rem]">
-            <div className="flex items-center justify-center border-b-2 border-stone-950 bg-[#F4C430] text-sm font-medium lg:border-b-0 lg:border-r-2">
-              {t.homepage.section4Badge}
-            </div>
-            <div className="flex items-center gap-3 px-5 py-4 sm:px-6">
-              <Blocks className="h-5 w-5" />
-              <h2 className="text-2xl font-semibold">{t.homepage.section4Title}</h2>
-            </div>
-            <div className="hidden border-l-2 border-stone-950 bg-[#E63946] lg:block" />
-          </div>
-
-          <div className="grid gap-0 md:grid-cols-2">
+        <motion.section
+          id="skill-map"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={sectionViewport}
+          className="scroll-mt-28"
+        >
+          <SectionTitle title={t.homepage.section4Title} icon={Blocks} />
+          <motion.div variants={stagger} className="grid gap-5 md:grid-cols-2">
             {skillGroupMetas.map((group, index) => {
               const localized = t.skillGroups[index]
+
               return (
-                <article
-                  key={group.borderColor}
-                  className={`grid min-h-[18rem] grid-rows-[auto_1fr] ${
-                    index % 2 === 0 ? 'md:border-r-2' : ''
-                  } ${index < 2 ? 'border-b-2' : ''} border-stone-950`}
-                >
-                  <div className="grid grid-cols-[1fr_5rem] border-b-2 border-stone-950">
-                    <div className="px-5 py-4 sm:px-6">
-                      <h3 className="text-xl font-semibold">{localized?.title}</h3>
-                      <p className="mt-2 text-sm leading-6 text-stone-600">{localized?.description}</p>
+                <SoftCard key={group.borderColor} className="p-6 sm:p-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-semibold tracking-[-0.03em]">{localized?.title}</h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{localized?.description}</p>
                     </div>
-                    <div className={`${shapePalette[index % shapePalette.length]} border-l-2 border-stone-950`} />
+                    <span
+                      className="h-3 w-3 rounded-full shadow-[0_0_26px_currentColor]"
+                      style={{ backgroundColor: group.borderColor, color: group.borderColor }}
+                    />
                   </div>
-                  <div className="flex flex-wrap content-start gap-2 p-5 sm:p-6">
+                  <div className="mt-6 flex flex-wrap gap-2">
                     {group.skills.map((skill) => (
-                      <div key={skill.name} className="flex items-center gap-2 border-2 border-stone-950 bg-white px-3 py-2 text-sm">
+                      <div
+                        key={skill.name}
+                        className="flex items-center gap-2 rounded-full border border-slate-200/70 bg-white/76 px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-white"
+                      >
                         <img src={`/skills/${skill.svg}.svg`} alt={skill.name} className="h-4 w-4 object-contain" />
                         <span>{skill.name}</span>
                       </div>
                     ))}
                   </div>
-                </article>
+                </SoftCard>
               )
             })}
+          </motion.div>
+        </motion.section>
+
+        <motion.section
+          id="timeline"
+          variants={stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={sectionViewport}
+          className="scroll-mt-28 pb-12"
+        >
+          <SectionTitle title={t.homepage.timelineTitle} icon={CalendarDays} />
+          <div className="relative grid gap-5">
+            <div className="absolute bottom-8 left-5 top-8 hidden w-px bg-gradient-to-b from-slate-200 via-slate-300 to-transparent md:block" />
+            {t.homepage.timelineItems.map((item, index) => (
+              <motion.article key={item.year} variants={fadeUp} className="relative grid gap-4 md:grid-cols-[7rem_minmax(0,1fr)] md:gap-8">
+                <div className="flex items-center gap-3 md:block">
+                  <div className="relative z-10 flex h-11 w-11 items-center justify-center rounded-full bg-slate-950 text-xs font-semibold text-white shadow-[0_12px_28px_rgba(15,23,42,0.18)] md:mx-auto">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
+                  <div className="text-3xl font-semibold text-slate-950 md:mt-3 md:text-center">
+                    {item.year}
+                  </div>
+                </div>
+
+                <SoftCard className="p-6 sm:p-7">
+                  <div className="flex flex-wrap items-start justify-between gap-4">
+                    <h3 className="max-w-2xl text-2xl font-semibold text-slate-950">
+                      {item.title}
+                    </h3>
+                    <span className="rounded-full bg-slate-950/5 px-3 py-1.5 text-xs font-semibold text-slate-500">
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <ul className="mt-5 grid gap-3">
+                    {item.points.map((point) => (
+                      <li key={point} className="flex gap-3 text-sm leading-6 text-slate-600">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-sky-500" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {item.keywords.map((keyword) => (
+                      <span
+                        key={keyword}
+                        className="rounded-full border border-slate-200/70 bg-white/85 px-3 py-1.5 text-xs font-semibold text-slate-600 shadow-sm"
+                      >
+                        {keyword}
+                      </span>
+                    ))}
+                  </div>
+                </SoftCard>
+              </motion.article>
+            ))}
           </div>
-        </section>
+        </motion.section>
       </main>
     </div>
   )
