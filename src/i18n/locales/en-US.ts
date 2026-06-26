@@ -222,11 +222,11 @@ export const enUS: TranslationDictionary = {
     },
   ],
   toolLinks: [
-    { label: 'Markdown Previewer' },
-    { label: 'Mermaid Previewer' },
-    { label: 'PDF Headings Builder' },
-    { label: 'Mini Store Go' },
     { label: 'Rhymer' },
+    { label: 'Mini Store Go' },
+    { label: 'PDF Headings Builder' },
+    { label: 'Mermaid Previewer' },
+    { label: 'Markdown Previewer' },
   ],
   todos: [
     'Pick up a strangely shaped stone on a riverside walk',

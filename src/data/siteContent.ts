@@ -125,9 +125,9 @@ export const creationIdeaMetas: CreationIdeaMeta[] = [
 ]
 
 export const toolLinkMetas: ToolLinkMeta[] = [
-  { url: '/preview/md', kind: 'internal', status: 'ready' },
-  { url: '/preview/mermaid', kind: 'internal', status: 'ready' },
-  { url: 'https://pdf-outline-builder-web.vercel.app/', kind: 'external', status: 'ready' },
-  { url: 'https://mini-store-go-web.vercel.app/', kind: 'external', status: 'ready' },
   { url: 'https://rhymer-navy.vercel.app/', kind: 'external', status: 'ready' },
+  { url: 'https://mini-store-go-web.vercel.app/', kind: 'external', status: 'ready' },
+  { url: 'https://pdf-outline-builder-web.vercel.app/', kind: 'external', status: 'ready' },
+  { url: '/preview/mermaid', kind: 'internal', status: 'ready' },
+  { url: '/preview/md', kind: 'internal', status: 'ready' },
 ]

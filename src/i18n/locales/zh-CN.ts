@@ -221,11 +221,11 @@ export const zhCN: TranslationDictionary = {
     },
   ],
   toolLinks: [
-    { label: 'Markdown 预览器' },
-    { label: 'Mermaid 预览器' },
-    { label: 'PDF 标题生成器' },
-    { label: 'Mini Store Go' },
     { label: 'Rhymer' },
+    { label: 'Mini Store Go' },
+    { label: 'PDF 标题生成器' },
+    { label: 'Mermaid 预览器' },
+    { label: 'Markdown 预览器' },
   ],
   todos: [
     '在河边散步时捡一块形状奇特的石头',
