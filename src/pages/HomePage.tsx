@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
   ArrowRight,
   Blocks,
@@ -11,7 +10,6 @@ import {
   Globe,
   Mail,
   Phone,
-  Play,
   Sparkles,
   Wrench,
 } from 'lucide-react'
@@ -24,14 +22,11 @@ import {
   creationIdeaMetas,
 } from '@/data/siteContent'
 import { LanguageSwitcher } from '@/components/LanguageSwitcher'
-import { PresentationDeck } from '@/components/home/PresentationDeck'
 import { SectionTitle, SoftCard, fadeUp, sectionViewport, stagger } from '@/components/home/HomePagePrimitives'
-import { createPresentationSlides } from '@/components/home/createPresentationSlides'
 import { useTranslation } from '@/hooks/useTranslation'
 
 const blogUrl = 'https://www.cnblogs.com/Roadinforest'
 const friendBlogUrl = 'https://vks-feng.github.io/guanshengju/'
-const presentationStorageKey = 'rif-homepage-presentation-seen'
 
 function getSocialIcon(id: string) {
   if (id === 'github') return Github
@@ -73,55 +68,66 @@ function ToolLink({
   )
 }
 
-export function HomePage() {
-  const { t } = useTranslation()
-  const [isPresentationMode, setIsPresentationMode] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.localStorage.getItem(presentationStorageKey) !== 'true'
-  })
+function FloatingLinkBubble({
+  children,
+  className,
+  bubbleClassName,
+  href,
+  to,
+  external,
+  icon,
+  delay = 0,
+}: {
+  children: React.ReactNode
+  className?: string
+  bubbleClassName?: string
+  href?: string
+  to?: string
+  external?: boolean
+  icon: React.ReactNode
+  delay?: number
+}) {
+  const linkClassName = [
+    'group inline-flex h-11 min-w-[10.25rem] items-center gap-2.5 rounded-full border border-slate-200/70 bg-white/94 px-4 text-[15px] font-semibold tracking-[-0.02em] text-slate-700 shadow-[0_8px_22px_rgba(15,23,42,0.07)] backdrop-blur-xl transition hover:border-sky-200 hover:text-slate-950',
+    bubbleClassName,
+  ]
+    .filter(Boolean)
+    .join(' ')
 
-  const presentationSlides = createPresentationSlides(t)
-
-  const finishPresentation = () => {
-    window.localStorage.setItem(presentationStorageKey, 'true')
-    setIsPresentationMode(false)
-  }
-
-  const replayPresentation = () => {
-    setIsPresentationMode(true)
-  }
+  const content = (
+    <>
+      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sky-50 text-slate-700 ring-1 ring-sky-100 transition group-hover:bg-sky-100">
+        {icon}
+      </span>
+      <span className="truncate">{children}</span>
+    </>
+  )
 
   return (
-    <div className="relative h-screen overflow-y-auto overflow-x-hidden bg-[#f5f7fb] text-slate-950">
-      <AnimatePresence>
-        {isPresentationMode && (
-          <PresentationDeck
-            slides={presentationSlides}
-            continueHint={t.homepage.presentationContinueHint}
-            enterHint={t.homepage.presentationEnterHint}
-            onFinish={finishPresentation}
-          />
-        )}
-      </AnimatePresence>
+    <motion.div
+      animate={{ y: [0, -3, 0] }}
+      transition={{ duration: 4.6, delay, repeat: Infinity, ease: 'easeInOut' }}
+      className={['flex justify-center lg:absolute', className].filter(Boolean).join(' ')}
+    >
+      {to ? (
+        <Link to={to} className={linkClassName}>
+          {content}
+        </Link>
+      ) : (
+        <a href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} className={linkClassName}>
+          {content}
+        </a>
+      )}
+    </motion.div>
+  )
+}
 
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <motion.div
-          aria-hidden="true"
-          animate={{ x: [0, 28, -18, 0], y: [0, -22, 18, 0], scale: [1, 1.06, 0.98, 1] }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -left-28 top-[-12rem] h-[34rem] w-[34rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(120,165,255,0.28),rgba(120,165,255,0)_68%)] blur-3xl"
-        />
-        <motion.div
-          aria-hidden="true"
-          animate={{ x: [0, -24, 22, 0], y: [0, 26, -16, 0], scale: [1, 0.96, 1.08, 1] }}
-          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute right-[-12rem] top-40 h-[38rem] w-[38rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(188,226,255,0.34),rgba(188,226,255,0)_70%)] blur-3xl"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.92),rgba(246,248,252,0.76)_40%,rgba(232,240,251,0.72))]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.95),rgba(255,255,255,0)_35%)]" />
-      </div>
+export function HomePage() {
+  const { t } = useTranslation()
 
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-10 px-5 py-5 sm:px-8 lg:px-12 lg:py-8">
+  return (
+    <div className="relative h-screen overflow-y-auto overflow-x-hidden bg-white text-slate-950">
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-5 sm:px-8 lg:gap-5 lg:px-12 lg:py-8">
         <motion.header
           initial={{ opacity: 0, y: -18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -150,160 +156,71 @@ export function HomePage() {
             >
               {t.homepage.timelineTitle}
             </a>
-            <button
-              type="button"
-              onClick={replayPresentation}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/70 bg-white/72 text-slate-500 shadow-sm backdrop-blur-xl transition hover:bg-white hover:text-slate-950"
-              aria-label={t.homepage.presentationReplayLabel}
-              title={t.homepage.presentationReplayLabel}
-            >
-              <Play className="h-4 w-4" />
-            </button>
             <LanguageSwitcher variant="inline" />
           </div>
         </motion.header>
 
         <motion.section
           id="top"
-          variants={stagger}
-          initial="hidden"
-          animate="visible"
-          className="grid min-h-[calc(100vh-7rem)] items-center gap-8 pt-10 lg:grid-cols-[minmax(0,1.08fr)_26rem]"
+          initial={false}
+          className="flex py-2 lg:min-h-[14rem] lg:items-center lg:py-1"
         >
-          <motion.div variants={fadeUp} className="space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/70 px-4 py-2 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-xl">
-              <span className="h-2 w-2 rounded-full bg-[#57c7ff] shadow-[0_0_22px_rgba(87,199,255,0.9)]" />
-              {t.homepage.introBadge}
+          <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center gap-3 py-2 lg:h-[12.5rem] lg:justify-center">
+            <div className="relative z-10 flex aspect-square w-[min(64vw,12.5rem)] items-center justify-center rounded-full">
+              <motion.span
+                aria-hidden="true"
+                animate={{ scale: [1, 1.06, 1], opacity: [0.62, 0.92, 0.62] }}
+                transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-[-0.3rem] rounded-full border border-sky-200 shadow-[0_0_28px_rgba(14,165,233,0.22)]"
+              />
+              <motion.span
+                aria-hidden="true"
+                animate={{ scale: [1.04, 1.12, 1.04], opacity: [0.18, 0.34, 0.18] }}
+                transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute inset-[-0.75rem] rounded-full bg-sky-100/70 blur-lg"
+              />
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-sky-200 bg-white shadow-[0_12px_32px_rgba(14,165,233,0.14)] ring-2 ring-sky-50">
+                <img src={profileMeta.avatar} alt={profileMeta.name} className="h-full w-full object-cover" />
+              </div>
             </div>
 
-            <div className="space-y-5">
-              <h1 className="max-w-4xl text-[clamp(3.5rem,9vw,8.5rem)] font-semibold leading-[0.92] tracking-[-0.08em] text-slate-950">
-                {t.homepage.welcomeLine1}
-                <br />
-                <span className="bg-gradient-to-r from-slate-950 via-slate-700 to-sky-500 bg-clip-text text-transparent">
-                  {t.homepage.welcomeLine2}
-                </span>
-              </h1>
-              <p className="max-w-2xl text-lg leading-8 text-slate-600 sm:text-xl">
-                {t.profile.intro}
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3">
-              <Link
-                to="/canvas"
-                className="group inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_44px_rgba(15,23,42,0.22)] transition hover:-translate-y-0.5 hover:bg-slate-800"
-              >
-                {t.common.enterCanvas}
-                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </Link>
-              <a
-                href={blogUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
-              >
-                {t.homepage.blogLabel}
-                <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </a>
-            </div>
-
-            <motion.div variants={stagger} className="grid gap-3 sm:grid-cols-3">
-              {t.profile.roles.map((role) => (
-                <motion.div
-                  key={role}
-                  variants={fadeUp}
-                  className="rounded-3xl border border-white/70 bg-white/58 px-4 py-4 text-sm font-medium text-slate-600 shadow-sm backdrop-blur-xl"
-                >
-                  {role}
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          <motion.aside variants={fadeUp} className="relative">
-            <motion.div
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative overflow-hidden rounded-[2.5rem] border border-white/80 bg-white/72 p-5 shadow-[0_40px_100px_rgba(15,23,42,0.14)] backdrop-blur-2xl"
+            <FloatingLinkBubble
+              to="/canvas"
+              icon={<ArrowRight className="h-4 w-4" />}
+              className="lg:right-[calc(50%+6.5rem)] lg:top-[2rem]"
             >
-              <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent" />
-              <div className="rounded-[2rem] bg-gradient-to-br from-slate-50 via-white to-sky-50 p-5">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-xs font-medium uppercase tracking-[0.2em] text-slate-400">Profile</div>
-                    <div className="mt-2 text-5xl font-semibold tracking-[-0.07em] text-slate-950">{profileMeta.name}</div>
-                  </div>
-                  <img
-                    src={profileMeta.avatar}
-                    alt={profileMeta.name}
-                    className="h-20 w-20 rounded-[1.7rem] object-cover shadow-[0_16px_40px_rgba(15,23,42,0.16)] ring-1 ring-white/80"
-                  />
-                </div>
-                <p className="mt-8 text-base leading-7 text-slate-600">{t.homepage.profileSubtitle}</p>
-                <div className="mt-8 grid grid-cols-3 gap-2">
-                  {socials.map((social) => {
-                    const Icon = getSocialIcon(social.id)
-                    const content = social.link ?? social.value
-
-                    return (
-                      <a
-                        key={social.id}
-                        href={getSocialHref(social.id, social.link, social.value)}
-                        target={social.link ? '_blank' : undefined}
-                        rel={social.link ? 'noopener noreferrer' : undefined}
-                        aria-label={content}
-                        className="group flex h-14 items-center justify-center rounded-2xl border border-slate-200/70 bg-white/75 text-slate-500 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-950"
-                      >
-                        <Icon className="h-5 w-5 transition group-hover:scale-110" />
-                      </a>
-                    )
-                  })}
-                </div>
-              </div>
-
-              <div className="mt-4 grid gap-3">
-                <a
-                  href={blogUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group rounded-3xl border border-slate-200/70 bg-white/64 px-5 py-4 text-sm text-slate-600 transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-950"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="flex min-w-0 items-center gap-3">
-                      <Globe className="h-4 w-4 shrink-0" />
-                      <span className="truncate font-semibold text-slate-900">{t.homepage.blogName}</span>
-                    </span>
-                    <ArrowRight className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5" />
-                  </div>
-                  <div className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                    {t.homepage.blogLabel}
-                  </div>
-                </a>
-                <a
-                  href={friendBlogUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group rounded-3xl border border-slate-200/70 bg-white/64 px-5 py-4 text-sm text-slate-600 transition hover:-translate-y-0.5 hover:bg-white hover:text-slate-950"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="flex min-w-0 items-center gap-3">
-                      <Globe className="h-4 w-4 shrink-0" />
-                      <span className="truncate">{t.homepage.friendLinkName}</span>
-                    </span>
-                    <ArrowRight className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5" />
-                  </div>
-                  <div className="mt-2 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
-                    {t.homepage.friendLinkLabel}
-                  </div>
-                </a>
-                <div className="rounded-3xl bg-slate-950 px-5 py-5 text-white">
-                  <div className="text-xs uppercase tracking-[0.2em] text-white/45">{t.homepage.thoughtLabel}</div>
-                  <blockquote className="mt-3 text-lg leading-8 tracking-[-0.02em] text-white/90">{t.thought}</blockquote>
-                </div>
-              </div>
-            </motion.div>
-          </motion.aside>
+              {t.common.enterCanvas}
+            </FloatingLinkBubble>
+            <FloatingLinkBubble
+              href={blogUrl}
+              external
+              icon={<ExternalLink className="h-4 w-4" />}
+              delay={0.35}
+              className="lg:right-[calc(50%+6.5rem)] lg:top-[5.5rem]"
+            >
+              {t.homepage.blogLabel}
+            </FloatingLinkBubble>
+            <FloatingLinkBubble
+              href={blogUrl}
+              external
+              icon={<Globe className="h-4 w-4" />}
+              delay={0.18}
+              className="lg:left-[calc(50%+6.5rem)] lg:top-[2rem]"
+              bubbleClassName="lg:min-w-[16.25rem]"
+            >
+              {t.homepage.blogName}
+            </FloatingLinkBubble>
+            <FloatingLinkBubble
+              href={friendBlogUrl}
+              external
+              icon={<Globe className="h-4 w-4" />}
+              delay={0.52}
+              className="lg:left-[calc(50%+6.5rem)] lg:top-[5.5rem]"
+              bubbleClassName="lg:min-w-[16.25rem]"
+            >
+              {t.homepage.friendLinkName}
+            </FloatingLinkBubble>
+          </div>
         </motion.section>
 
         <motion.section
@@ -341,6 +258,25 @@ export function HomePage() {
               </div>
               <div className="rounded-[1.75rem] bg-slate-950 px-5 py-5 text-sm leading-7 text-white">
                 {t.homepage.aboutNowCta}
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {socials.map((social) => {
+                  const Icon = getSocialIcon(social.id)
+                  const content = social.link ?? social.value
+
+                  return (
+                    <a
+                      key={social.id}
+                      href={getSocialHref(social.id, social.link, social.value)}
+                      target={social.link ? '_blank' : undefined}
+                      rel={social.link ? 'noopener noreferrer' : undefined}
+                      aria-label={content}
+                      className="group flex h-14 items-center justify-center rounded-2xl border border-slate-200/70 bg-white/82 text-slate-500 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white hover:text-slate-950"
+                    >
+                      <Icon className="h-5 w-5 transition group-hover:scale-110" />
+                    </a>
+                  )
+                })}
               </div>
             </div>
           </SoftCard>
