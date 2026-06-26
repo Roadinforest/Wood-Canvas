@@ -88,7 +88,7 @@ function FloatingLinkBubble({
   delay?: number
 }) {
   const linkClassName = [
-    'group inline-flex h-11 min-w-[10.25rem] items-center gap-2.5 rounded-full border border-slate-200/70 bg-white/94 px-4 text-[15px] font-semibold tracking-[-0.02em] text-slate-700 shadow-[0_8px_22px_rgba(15,23,42,0.07)] backdrop-blur-xl transition hover:border-sky-200 hover:text-slate-950',
+    'group inline-flex h-14 min-w-[12.75rem] items-center gap-3 rounded-full border border-slate-200/70 bg-white/94 px-5 text-lg font-semibold tracking-[-0.02em] text-slate-700 shadow-[0_10px_28px_rgba(15,23,42,0.08)] backdrop-blur-xl transition hover:border-sky-200 hover:text-slate-950',
     bubbleClassName,
   ]
     .filter(Boolean)
@@ -96,7 +96,7 @@ function FloatingLinkBubble({
 
   const content = (
     <>
-      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sky-50 text-slate-700 ring-1 ring-sky-100 transition group-hover:bg-sky-100">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sky-50 text-slate-700 ring-1 ring-sky-100 transition group-hover:bg-sky-100">
         {icon}
       </span>
       <span className="truncate">{children}</span>
@@ -105,7 +105,7 @@ function FloatingLinkBubble({
 
   return (
     <motion.div
-      animate={{ y: [0, -3, 0] }}
+      animate={{ y: [0, -4, 0] }}
       transition={{ duration: 4.6, delay, repeat: Infinity, ease: 'easeInOut' }}
       className={['flex justify-center lg:absolute', className].filter(Boolean).join(' ')}
     >
@@ -127,13 +127,13 @@ export function HomePage() {
 
   return (
     <div className="relative h-screen overflow-y-auto overflow-x-hidden bg-white text-slate-950">
-      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-5 sm:px-8 lg:gap-5 lg:px-12 lg:py-8">
-        <motion.header
-          initial={{ opacity: 0, y: -18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="sticky top-4 z-30 flex items-center justify-between gap-4 rounded-full border border-white/70 bg-white/68 px-4 py-3 shadow-[0_18px_60px_rgba(15,23,42,0.08)] backdrop-blur-2xl sm:px-5"
-        >
+      <motion.header
+        initial={{ opacity: 0, y: -18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="sticky top-0 z-30 w-full border-b border-slate-200/70 bg-white shadow-[0_6px_20px_rgba(15,23,42,0.04)]"
+      >
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-5 py-3 sm:px-8 lg:px-12">
           <a href="#top" className="flex items-center gap-3">
             <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
               R
@@ -158,65 +158,67 @@ export function HomePage() {
             </a>
             <LanguageSwitcher variant="inline" />
           </div>
-        </motion.header>
+        </div>
+      </motion.header>
 
+      <main className="relative z-10 mx-auto flex w-full max-w-7xl flex-col gap-4 px-5 py-0 sm:px-8 lg:gap-5 lg:px-12">
         <motion.section
           id="top"
           initial={false}
-          className="flex py-2 lg:min-h-[14rem] lg:items-center lg:py-1"
+          className="flex py-3 lg:min-h-[17.5rem] lg:items-center lg:py-2"
         >
-          <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center gap-3 py-2 lg:h-[12.5rem] lg:justify-center">
-            <div className="relative z-10 flex aspect-square w-[min(64vw,12.5rem)] items-center justify-center rounded-full">
+          <div className="relative mx-auto flex w-full max-w-5xl flex-col items-center gap-3 py-2 lg:h-[15.75rem] lg:justify-center">
+            <div className="relative z-10 flex aspect-square w-[min(68vw,15.625rem)] items-center justify-center rounded-full">
               <motion.span
                 aria-hidden="true"
                 animate={{ scale: [1, 1.06, 1], opacity: [0.62, 0.92, 0.62] }}
                 transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-[-0.3rem] rounded-full border border-sky-200 shadow-[0_0_28px_rgba(14,165,233,0.22)]"
+                className="absolute inset-[-0.4rem] rounded-full border border-sky-200 shadow-[0_0_34px_rgba(14,165,233,0.22)]"
               />
               <motion.span
                 aria-hidden="true"
                 animate={{ scale: [1.04, 1.12, 1.04], opacity: [0.18, 0.34, 0.18] }}
                 transition={{ duration: 5.8, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute inset-[-0.75rem] rounded-full bg-sky-100/70 blur-lg"
+                className="absolute inset-[-0.95rem] rounded-full bg-sky-100/70 blur-xl"
               />
-              <div className="relative h-full w-full overflow-hidden rounded-full border border-sky-200 bg-white shadow-[0_12px_32px_rgba(14,165,233,0.14)] ring-2 ring-sky-50">
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-sky-200 bg-white shadow-[0_14px_38px_rgba(14,165,233,0.15)] ring-2 ring-sky-50">
                 <img src={profileMeta.avatar} alt={profileMeta.name} className="h-full w-full object-cover" />
               </div>
             </div>
 
             <FloatingLinkBubble
               to="/canvas"
-              icon={<ArrowRight className="h-4 w-4" />}
-              className="lg:right-[calc(50%+6.5rem)] lg:top-[2rem]"
+              icon={<ArrowRight className="h-5 w-5" />}
+              className="lg:right-[calc(50%+8.125rem)] lg:top-[2.5rem]"
             >
               {t.common.enterCanvas}
             </FloatingLinkBubble>
             <FloatingLinkBubble
               href={blogUrl}
               external
-              icon={<ExternalLink className="h-4 w-4" />}
+              icon={<ExternalLink className="h-5 w-5" />}
               delay={0.35}
-              className="lg:right-[calc(50%+6.5rem)] lg:top-[5.5rem]"
+              className="lg:right-[calc(50%+8.125rem)] lg:top-[6.875rem]"
             >
               {t.homepage.blogLabel}
             </FloatingLinkBubble>
             <FloatingLinkBubble
               href={blogUrl}
               external
-              icon={<Globe className="h-4 w-4" />}
+              icon={<Globe className="h-5 w-5" />}
               delay={0.18}
-              className="lg:left-[calc(50%+6.5rem)] lg:top-[2rem]"
-              bubbleClassName="lg:min-w-[16.25rem]"
+              className="lg:left-[calc(50%+8.125rem)] lg:top-[2.5rem]"
+              bubbleClassName="lg:min-w-[20.25rem]"
             >
               {t.homepage.blogName}
             </FloatingLinkBubble>
             <FloatingLinkBubble
               href={friendBlogUrl}
               external
-              icon={<Globe className="h-4 w-4" />}
+              icon={<Globe className="h-5 w-5" />}
               delay={0.52}
-              className="lg:left-[calc(50%+6.5rem)] lg:top-[5.5rem]"
-              bubbleClassName="lg:min-w-[16.25rem]"
+              className="lg:left-[calc(50%+8.125rem)] lg:top-[6.875rem]"
+              bubbleClassName="lg:min-w-[20.25rem]"
             >
               {t.homepage.friendLinkName}
             </FloatingLinkBubble>
