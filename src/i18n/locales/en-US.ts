@@ -156,6 +156,32 @@ export const enUS: TranslationDictionary = {
         'Built an intent router and tool-calling backend that can switch between chat, order lookup, and product search flows.',
       ],
     },
+    {
+      name: 'Mini Store Go',
+      description: 'A full-stack storefront with product browsing, cart, checkout, and admin workflows',
+      role: 'Full Stack Development',
+      period: '2026.06',
+      techStack: 'React, TypeScript, Go, Vercel, RESTful API, Auth, E-commerce',
+      highlights: [
+        'Built product search, category filters, product details, cart, and checkout flows to cover the full shopping journey.',
+        'Added account flows for sign-in, sign-up, shipping address, payment method, order details, and user orders.',
+        'Created admin entry points for products, users, orders, and overview pages to support store operations.',
+        'Organized the app as a front-end/back-end commerce system connecting products, orders, reviews, and user state.',
+      ],
+    },
+    {
+      name: 'Rhymer',
+      description: 'A BPM timing trainer for rhythm practice',
+      role: 'Frontend Development',
+      period: '2026.06',
+      techStack: 'TypeScript, Web Audio API, Vercel, i18n, Responsive UI',
+      highlights: [
+        'Implemented adjustable BPM, meter, session duration, calibration, and click sound controls for rhythm practice.',
+        'Recorded keyboard or touch hits and gave real-time early, late, and hit-quality feedback.',
+        'Calculated accuracy, average offset, and consistency to help users review each training round.',
+        'Added English and Chinese language switching with a session summary modal after each round.',
+      ],
+    },
   ],
   internships: [
     {
@@ -199,6 +225,8 @@ export const enUS: TranslationDictionary = {
     { label: 'Markdown Previewer' },
     { label: 'Mermaid Previewer' },
     { label: 'PDF Headings Builder' },
+    { label: 'Mini Store Go' },
+    { label: 'Rhymer' },
   ],
   todos: [
     'Pick up a strangely shaped stone on a riverside walk',

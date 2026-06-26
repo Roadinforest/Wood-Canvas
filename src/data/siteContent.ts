@@ -37,6 +37,10 @@ export interface CreationIdeaMeta {
   done: boolean
 }
 
+export interface ProjectMeta {
+  url: string
+}
+
 // Stable, language-independent profile fields (avatar + name don't translate).
 export const profileMeta = {
   name: 'Rif',
@@ -47,6 +51,13 @@ export const socials: SocialLink[] = [
   { id: 'github', icon: '/GitHub.svg', link: 'https://github.com/Roadinforest' },
   { id: 'email', icon: '/email.svg', value: 'whuforest@outlook.com' },
   { id: 'phone', icon: '/phone.svg', value: '15019734683' },
+]
+
+// Project metadata — order matches t.projects in the active locale.
+export const projectMetas: ProjectMeta[] = [
+  { url: 'https://mini-store-ten-hazel.vercel.app/' },
+  { url: 'https://mini-store-go-web.vercel.app/' },
+  { url: 'https://rhymer-navy.vercel.app/' },
 ]
 
 // Internship metadata — order matches t.internships in the active locale.
@@ -116,5 +127,7 @@ export const creationIdeaMetas: CreationIdeaMeta[] = [
 export const toolLinkMetas: ToolLinkMeta[] = [
   { url: '/preview/md', kind: 'internal', status: 'ready' },
   { url: '/preview/mermaid', kind: 'internal', status: 'ready' },
-  { url: 'https://pdf-outline-builder-web.vercel.app/', kind: 'external', status: 'in-progress' },
+  { url: 'https://pdf-outline-builder-web.vercel.app/', kind: 'external', status: 'ready' },
+  { url: 'https://mini-store-go-web.vercel.app/', kind: 'external', status: 'ready' },
+  { url: 'https://rhymer-navy.vercel.app/', kind: 'external', status: 'ready' },
 ]

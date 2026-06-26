@@ -6,7 +6,6 @@ import {
   Blocks,
   Briefcase,
   CalendarDays,
-  CheckCircle2,
   ExternalLink,
   Github,
   Globe,
@@ -30,7 +29,6 @@ import { SectionTitle, SoftCard, fadeUp, sectionViewport, stagger } from '@/comp
 import { createPresentationSlides } from '@/components/home/createPresentationSlides'
 import { useTranslation } from '@/hooks/useTranslation'
 
-const projectUrl = 'https://mini-store-ten-hazel.vercel.app/'
 const blogUrl = 'https://www.cnblogs.com/Roadinforest'
 const friendBlogUrl = 'https://vks-feng.github.io/guanshengju/'
 const presentationStorageKey = 'rif-homepage-presentation-seen'
@@ -77,13 +75,12 @@ function ToolLink({
 
 export function HomePage() {
   const { t } = useTranslation()
-  const primaryProject = t.projects[0]
   const [isPresentationMode, setIsPresentationMode] = useState(() => {
     if (typeof window === 'undefined') return false
     return window.localStorage.getItem(presentationStorageKey) !== 'true'
   })
 
-  const presentationSlides = createPresentationSlides(t, primaryProject)
+  const presentationSlides = createPresentationSlides(t)
 
   const finishPresentation = () => {
     window.localStorage.setItem(presentationStorageKey, 'true')
@@ -201,15 +198,6 @@ export function HomePage() {
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
               </Link>
               <a
-                href={primaryProject ? projectUrl : '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-full border border-slate-200/80 bg-white/70 px-5 py-3 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-slate-300 hover:bg-white"
-              >
-                {t.common.visitProject}
-                <ExternalLink className="h-4 w-4 transition group-hover:translate-x-0.5" />
-              </a>
-              <a
                 href={blogUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -323,120 +311,74 @@ export function HomePage() {
           initial="hidden"
           whileInView="visible"
           viewport={sectionViewport}
-          className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]"
+          className="grid gap-6 lg:grid-cols-2"
         >
           <SoftCard className="p-6 sm:p-8">
-            <SectionTitle title={t.homepage.section1Title} icon={Briefcase} />
-            {primaryProject && (
-              <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem]">
-                <div>
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-4xl font-semibold tracking-[-0.05em] text-slate-950">{primaryProject.name}</h3>
-                      <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">{primaryProject.description}</p>
-                    </div>
-                    <div className="rounded-full bg-slate-950/5 px-4 py-2 text-sm font-medium text-slate-500">
-                      {primaryProject.period}
-                    </div>
-                  </div>
-
-                  <ul className="mt-8 grid gap-3">
-                    {primaryProject.highlights.map((highlight) => (
-                      <li key={highlight} className="flex gap-3 rounded-3xl bg-white/62 p-4 text-sm leading-6 text-slate-600 ring-1 ring-slate-200/60">
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-sky-500" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex flex-col justify-between rounded-[1.75rem] bg-gradient-to-br from-slate-950 to-slate-800 p-6 text-white">
-                  <div>
-                    <div className="text-xs uppercase tracking-[0.22em] text-white/40">{t.common.techStack}</div>
-                    <p className="mt-4 text-sm leading-7 text-white/76">{primaryProject.techStack}</p>
-                  </div>
-                  <a
-                    href={projectUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group mt-8 inline-flex items-center justify-between rounded-full bg-white px-4 py-3 text-sm font-semibold text-slate-950 transition hover:bg-sky-50"
-                  >
-                    {t.common.visitProject}
-                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                  </a>
-                </div>
+            <SectionTitle title={t.homepage.aboutNowTitle} icon={Sparkles} />
+            <div className="space-y-6">
+              <div className="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
+                {t.homepage.aboutNowBadge}
               </div>
-            )}
+              <p className="max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.04em] text-slate-950 sm:text-3xl">
+                {t.homepage.aboutNowLead}
+              </p>
+              <div className="space-y-4">
+                {t.homepage.aboutNowParagraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-sm leading-7 text-slate-600 sm:text-[15px]">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {t.homepage.aboutNowFocus.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-slate-200/70 bg-white/85 px-3 py-2 text-xs font-semibold tracking-[0.14em] text-slate-600 shadow-sm"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+              <div className="rounded-[1.75rem] bg-slate-950 px-5 py-5 text-sm leading-7 text-white">
+                {t.homepage.aboutNowCta}
+              </div>
+            </div>
           </SoftCard>
 
-          <div className="grid gap-6">
-            <SoftCard className="p-6 sm:p-8">
-              <SectionTitle title={t.homepage.aboutNowTitle} icon={Sparkles} />
-              <div className="space-y-6">
-                <div className="inline-flex rounded-full bg-sky-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-700">
-                  {t.homepage.aboutNowBadge}
-                </div>
-                <p className="max-w-2xl text-2xl font-semibold leading-tight tracking-[-0.04em] text-slate-950 sm:text-3xl">
-                  {t.homepage.aboutNowLead}
-                </p>
-                <div className="space-y-4">
-                  {t.homepage.aboutNowParagraphs.map((paragraph) => (
-                    <p key={paragraph} className="text-sm leading-7 text-slate-600 sm:text-[15px]">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {t.homepage.aboutNowFocus.map((item) => (
-                    <span
-                      key={item}
-                      className="rounded-full border border-slate-200/70 bg-white/85 px-3 py-2 text-xs font-semibold tracking-[0.14em] text-slate-600 shadow-sm"
-                    >
-                      {item}
-                    </span>
-                  ))}
-                </div>
-                <div className="rounded-[1.75rem] bg-slate-950 px-5 py-5 text-sm leading-7 text-white">
-                  {t.homepage.aboutNowCta}
-                </div>
-              </div>
-            </SoftCard>
+          <SoftCard className="p-6 sm:p-8">
+            <SectionTitle title={t.homepage.experience} icon={Briefcase} />
+            <div className="grid gap-4">
+              {internshipMetas.map((internship, index) => {
+                const localized = t.internships[index]
 
-            <SoftCard className="p-6 sm:p-8">
-              <SectionTitle title={t.homepage.experience} icon={Briefcase} />
-              <div className="grid gap-4">
-                {internshipMetas.map((internship, index) => {
-                  const localized = t.internships[index]
-
-                  return (
-                    <div key={`${internship.company}-${index}`} className="rounded-3xl bg-white/62 p-5 ring-1 ring-slate-200/60">
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div>
-                          <h3 className="text-lg font-semibold tracking-[-0.02em]">{internship.company}</h3>
-                          <div className="mt-1 text-sm font-medium text-slate-500">{localized?.role}</div>
-                        </div>
-                        <span className="rounded-full bg-slate-950/5 px-3 py-1.5 text-xs font-medium text-slate-500">
-                          {internship.period}
-                        </span>
+                return (
+                  <div key={`${internship.company}-${index}`} className="rounded-3xl bg-white/62 p-5 ring-1 ring-slate-200/60">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <h3 className="text-lg font-semibold tracking-[-0.02em]">{internship.company}</h3>
+                        <div className="mt-1 text-sm font-medium text-slate-500">{localized?.role}</div>
                       </div>
-                      <p className="mt-4 text-sm leading-6 text-slate-600">{localized?.description}</p>
-                      {internship.company === 'Capcut ByteDance' && (
-                        <a
-                          href="https://www.capcut.com/ai-creator/studio"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
-                        >
-                          {t.common.visitWebsite}
-                          <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
-                        </a>
-                      )}
+                      <span className="rounded-full bg-slate-950/5 px-3 py-1.5 text-xs font-medium text-slate-500">
+                        {internship.period}
+                      </span>
                     </div>
-                  )
-                })}
-              </div>
-            </SoftCard>
-          </div>
+                    <p className="mt-4 text-sm leading-6 text-slate-600">{localized?.description}</p>
+                    {internship.company === 'Capcut ByteDance' && (
+                      <a
+                        href="https://www.capcut.com/ai-creator/studio"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group mt-4 inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
+                      >
+                        {t.common.visitWebsite}
+                        <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
+                      </a>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </SoftCard>
         </motion.section>
 
         <motion.section

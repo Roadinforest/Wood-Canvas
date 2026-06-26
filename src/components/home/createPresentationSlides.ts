@@ -2,12 +2,7 @@ import type { TranslationDictionary } from '@/i18n/types'
 import { internshipMetas, skillGroupMetas } from '@/data/siteContent'
 import type { PresentationSlide } from './PresentationDeck'
 
-type Project = TranslationDictionary['projects'][number]
-
-export function createPresentationSlides(
-  t: TranslationDictionary,
-  primaryProject?: Project,
-): PresentationSlide[] {
+export function createPresentationSlides(t: TranslationDictionary): PresentationSlide[] {
   return [
     {
       id: 'intro',
@@ -16,14 +11,6 @@ export function createPresentationSlides(
       summary: t.profile.intro,
       points: t.profile.roles,
       keywords: [t.homepage.introBadge, t.homepage.blogLabel, t.common.enterCanvas],
-    },
-    {
-      id: 'project',
-      label: t.homepage.section1Title,
-      title: primaryProject?.name ?? t.homepage.section1Title,
-      summary: primaryProject?.description ?? t.homepage.nowBuilding,
-      points: primaryProject?.highlights.slice(0, 3) ?? [],
-      keywords: primaryProject?.techStack.split(',').map((item) => item.trim()).slice(0, 6) ?? [],
     },
     {
       id: 'about-now',

@@ -1,6 +1,7 @@
 import { BentoCard } from '../BentoCard'
 import { useModalStore } from '@/store/modalStore'
 import { useTranslation } from '@/hooks/useTranslation'
+import { projectMetas } from '@/data/siteContent'
 
 export function ProjectsCard() {
   const { t } = useTranslation()
@@ -10,11 +11,18 @@ export function ProjectsCard() {
     <BentoCard
       size="lg" rowSpan={2}
       onClick={() => {
-        const projectList = t.projects.map((p) =>
-          `${p.name}\n${p.role}\n${p.period}\n\n${p.description}\n\n${t.common.techStack}: ${p.techStack}\n\n${t.common.keyContributions}:\n${p.highlights.map((h) => `• ${h}`).join('\n\n')}`
+        const projectList = t.projects.map((p, index) =>
+          `${p.name}\n${p.role}\n${p.period}\n${projectMetas[index]?.url ?? ''}\n\n${p.description}\n\n${t.common.techStack}: ${p.techStack}\n\n${t.common.keyContributions}:\n${p.highlights.map((h) => `• ${h}`).join('\n\n')}`
         ).join('\n\n---\n\n')
-        const firstProject = t.projects[0]
-        openModal({ title: t.cards.projects.title, content: projectList, type: 'projects', link: 'https://mini-store-ten-hazel.vercel.app/', linkLabel: `Visit ${firstProject.name} →` })
+        openModal({
+          title: t.cards.projects.title,
+          content: projectList,
+          type: 'projects',
+          links: t.projects.map((project, index) => ({
+            href: projectMetas[index]?.url ?? '#',
+            label: `Visit ${project.name} ->`,
+          })).filter((link) => link.href !== '#'),
+        })
       }}
     >
       <h2 className="text-[20px] font-medium mb-4">{t.cards.projects.title}</h2>

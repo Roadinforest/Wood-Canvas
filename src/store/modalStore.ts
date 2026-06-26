@@ -7,6 +7,10 @@ interface ModalData {
   type: string
   link?: string
   linkLabel?: string
+  links?: Array<{
+    href: string
+    label: string
+  }>
 }
 
 interface CanvasPosition {

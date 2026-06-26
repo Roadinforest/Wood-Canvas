@@ -48,6 +48,21 @@ export function Modal() {
             <div className="p-10 overflow-y-auto flex-1">
               <h2 className="text-[26px] font-semibold text-neutral-900 mb-4">{data.title}</h2>
               <p className="text-[16px] text-neutral-600 leading-relaxed whitespace-pre-wrap">{data.content}</p>
+              {data.links && data.links.length > 0 && (
+                <div className="mt-5 flex flex-wrap gap-3">
+                  {data.links.map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-neutral-900 px-4 py-2 text-[14px] font-medium text-white transition hover:bg-neutral-700"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              )}
               {data.link && (
                 <a
                   href={data.link}
